@@ -1,5 +1,6 @@
 # vino
-Projet en cours de développement par les étudiants des groupes de Projet Web 2. 
+Projet en cours de développement par les étudiants des groupes de Projet Web 2.
+ 
 Démo : https://jmartel.webdev.cmaisonneuve.qc.ca/n61/vino/
 ## Fonctionnalités
 Dans l'état de chose, 3 pages sont disponibles.
