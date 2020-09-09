@@ -1,6 +1,6 @@
 /**
  * @file Script contenant les fonctions de base
- * @author Karima Harabidi (e1995654@cmaisonneuve.qc.ca)
+ * @author Jonathan Martel (jmartel@cmaisonneuve.qc.ca)
  * @version 0.1
  * @update 2019-01-21
  * @license Creative Commons BY-NC 3.0 (Licence Creative Commons Attribution - Pas d’utilisation commerciale 3.0 non transposé)
@@ -8,7 +8,7 @@
  *
  */
 
-//const BaseURL = "https://jmartel.webdev.cmaisonneuve.qc.ca/n61/vino/";
+//const BaseURL = "https://e1995654.webdev.cmaisonneuve.qc.ca/vino_etu/";
 const BaseURL = document.baseURI;
 console.log(BaseURL);
 window.addEventListener('load', function() {

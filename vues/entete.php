@@ -19,14 +19,20 @@
 		<script src="./js/main.js"></script>
 	</head>
 	<body >
-		<header>
-			<h1>Un petit verre de vino ?</h1>
-			<nav>
-				<ul>
+		
+		
+	<header><h1>Un petit verre de vino ?</h1></header>
+	<nav class="col-1">
+		<ul>
 					<li><a href="?requete=accueil">Mon cellier</a></li>
 					<li><a href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></li>
-				</ul>
-			</nav>
-		</header>
-		<main>
-			
+		</ul>
+	</nav>
+	<div class="col-2">
+		
+		<main class="content">
+		<article><!--Article</article>
+		</main>
+		
+	</div>
+-->
