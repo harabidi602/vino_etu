@@ -29,6 +29,22 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
+                requete = new Request(BaseURL+"index.php?requete=consulterQuantiteBouteilleCellier&id="+id, {method: 'GET'}); 
+                fetch(requete)
+                .then(response => {
+                    if (response.status === 200) {
+                      return response.json();
+                    } else {
+                      throw new Error('Erreur');
+                    }
+                  })
+                  .then(response => {
+                    console.debug(response);
+                    let quantiteBoite = evt.target.parentElement.parentElement.getElementsByClassName('quantite')[0];
+                    quantiteBoite.innerHTML = 'Quantité: ' + response.quantite; 
+                  }).catch(error => {
+                    console.error(error);
+                  });   
               }).catch(error => {
                 console.error(error);
               });
@@ -52,12 +68,29 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
+                requete = new Request(BaseURL+"index.php?requete=consulterQuantiteBouteilleCellier&id="+id, {method: 'GET'}); 
+                fetch(requete)
+                .then(response => {
+                    if (response.status === 200) {
+                      return response.json();
+                    } else {
+                      throw new Error('Erreur');
+                    }
+                  })
+                  .then(response => {
+                    console.debug(response);
+                    let quantiteBoite = evt.target.parentElement.parentElement.getElementsByClassName('quantite')[0];
+                    quantiteBoite.innerHTML = 'Quantité: ' + response.quantite; 
+                  }).catch(error => {
+                    console.error(error);
+                  });
               }).catch(error => {
                 console.error(error);
               });
         })
-
     });
+
+        
    
     let inputNomBouteille = document.querySelector("[name='nom_bouteille']");
     console.log(inputNomBouteille);

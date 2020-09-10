@@ -168,6 +168,14 @@ class Bouteille extends Modele {
         
 		return $res;
 	}
+
+	//Fonction pour consulter la quantite des bouteilles by id 	
+	public function getQuantiteById($id) {
+		$requete = "SELECT quantite FROM vino__cellier WHERE id = ". $id; 
+		$res = $this->_db->query($requete);
+		$row = $res->fetch_assoc();
+		return $row;
+	}
 }
 
 

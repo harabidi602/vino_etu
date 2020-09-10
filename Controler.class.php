@@ -37,6 +37,9 @@ class Controler
 				case 'boireBouteilleCellier':
 					$this->boireBouteilleCellier();
 					break;
+				case 'consulterQuantiteBouteilleCellier':
+					$this->consulterQuantiteBouteilleCellier($_GET['id']);
+					break;	
 				default:
 					$this->accueil();
 					break;
@@ -112,7 +115,12 @@ class Controler
 			$resultat = $bte->modifierQuantiteBouteilleCellier($body->id, 1);
 			echo json_encode($resultat);
 		}
-		
+
+		private function consulterQuantiteBouteilleCellier($id) {
+			$bte = new Bouteille();
+			$resultat = $bte->getQuantiteById($id);
+			echo json_encode($resultat);
+		}
 }
 ?>
 
