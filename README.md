@@ -22,4 +22,4 @@ Script PHP qui permet d'aller récupérer des données du site de la SAQ (pour d
 
 Bingo.
 
-Tester Clone Mar
+Tester Clone Margaritar
