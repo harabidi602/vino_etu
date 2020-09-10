@@ -154,7 +154,7 @@ class Bouteille extends Modele {
 
 	//Fonction pour consulter la quantite des bouteilles by id 	
 	public function getQuantiteById($id) {
-		$requete = "SELECT quantite FROM vino__cellier WHERE id = ". $id; 
+		$requete = "SELECT quantite FROM vino__cellier_bouteille WHERE id_bouteille = ". $id; 
 		$res = $this->_db->query($requete);
 		$row = $res->fetch_assoc();
 		return $row;
