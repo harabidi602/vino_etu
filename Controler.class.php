@@ -38,7 +38,9 @@ class Controler
 					$this->boireBouteilleCellier();
 					break;
 				case 'consulterQuantiteBouteilleCellier':
+
 					$this->consulterQuantiteBouteilleCellier($_GET['id_bouteille'], $_GET['id_cellier']);
+
 					break;	
 				default:
 					$this->accueil();

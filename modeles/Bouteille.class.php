@@ -147,6 +147,7 @@ class Bouteille extends Modele {
 		//TODO : Valider les données.
 			
 			
+
 		$requete = "UPDATE vino__cellier_bouteille SET quantite = GREATEST(quantite + ". $nombre. ", 0) WHERE id_bouteille = ". $id_bouteille. " AND id_cellier = ".$id_cellier;
 		//echo $requete;
         $res = $this->_db->query($requete);
@@ -155,6 +156,7 @@ class Bouteille extends Modele {
 	}
 
 	//Fonction pour consulter la quantite des bouteilles by id 	
+
 	public function getQuantiteById($id_bouteille, $id_cellier) {
 		$requete = "SELECT quantite FROM vino__cellier_bouteille WHERE id_bouteille = ". $id_bouteille." AND id_cellier = ".$id_cellier; 
 		$res = $this->_db->query($requete);
