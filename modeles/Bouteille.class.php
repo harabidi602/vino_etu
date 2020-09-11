@@ -33,13 +33,11 @@ class Bouteille extends Modele {
 	{
 		
 		$rows = Array();
-		$requete =' 
-		
-		SELECT * FROM vino__cellier_bouteille AS v_c_b 
-		inner join vino__cellier v_c ON v_c.id = v_c_b.id_cellier 
-		INNER JOIN vino__bouteille v_b ON v_b.id = v_c_b.id_bouteille 
-		INNER JOIN vino__bouteille_type v_b_t ON v_b_t.id = v_b.id_type
-						'; 
+		$requete ='SELECT * FROM vino__cellier_bouteille AS v_c_b 
+        INNER JOIN vino__cellier v_c ON v_c.id = v_c_b.id_cellier 
+        INNER JOIN vino__bouteille v_b ON v_b.id = v_c_b.id_bouteille 
+        INNER JOIN vino__bouteille_type v_b_t ON v_b_t.id = v_b.id_type'; 
+        
 		if(($res = $this->_db->query($requete)) ==	 true)
 		{
 			if($res->num_rows)
@@ -58,7 +56,7 @@ class Bouteille extends Modele {
 		}
 		
 		
-		//var_dump($rows);
+		
 		return $rows;
 	}
 	
@@ -117,16 +115,18 @@ class Bouteille extends Modele {
 	public function ajouterBouteilleCellier($data)
 	{
 		//TODO : Valider les données.
-		//var_dump($data);	
+		var_dump($data);	
 		
-		$requete = "INSERT INTO vino__cellier(id_bouteille,date_achat,garde_jusqua,notes,prix,quantite,millesime) VALUES (".
-		"'".$data->id_bouteille."',".
-		"'".$data->date_achat."',".
-		"'".$data->garde_jusqua."',".
-		"'".$data->notes."',".
-		"'".$data->prix."',".
-		"'".$data->quantite."',".
-		"'".$data->millesime."')";
+		$requete = "INSERT INTO vino__cellier_bouteille(id_cellier,id_bouteille,date_achat,garde_jusqua,notes,prix,quantite,millesime) 
+		VALUES ("."'".$data->id_cellier."'
+		,"."'".$data->id_bouteille."'
+		,"."'".$data->date_achat."'
+		,"."'".$data->garde_jusqua."'
+		,"."'".$data->notes."'
+		,"."'".$data->prix."'
+		,"."'".$data->quantite."'
+		,"."'".$data->millesime."'
+		)";
 
         $res = $this->_db->query($requete);
         
@@ -142,27 +142,25 @@ class Bouteille extends Modele {
 	 * 
 	 * @return Boolean Succès ou échec de l'ajout.
 	 */
-	public function modifierQuantiteBouteilleCellier($id, $nombre)
+	public function modifierQuantiteBouteilleCellier($id_bouteille, $nombre, $id_cellier)
 	{
 		//TODO : Valider les données.
 			
 			
-		//$requete = "UPDATE vino__cellier SET quantite = GREATEST(quantite + ". $nombre. ", 0) WHERE id = ". $id;
-		$requete= "UPDATE vino__cellier_bouteille SET quantite = GREATEST(quantite + ". $nombre. ", 0) WHERE id_bouteille = ". $id;
-
+		$requete = "UPDATE vino__cellier_bouteille SET quantite = GREATEST(quantite + ". $nombre. ", 0) WHERE id_bouteille = ". $id_bouteille. " AND id_cellier = ".$id_cellier;
 		//echo $requete;
         $res = $this->_db->query($requete);
         
 		return $res;
 	}
-	 //Fonction pour consulter la quantite des bouteilles by id  
-	 public function getQuantiteById($id) {
-        $requete = "SELECT quantite FROM vino__cellier__bouteille WHERE id_bouteille = ". $id; 
-        $res = $this->_db->query($requete);
-        $row = $res->fetch_assoc();
-        return $row;
-    }
 
+	//Fonction pour consulter la quantite des bouteilles by id 	
+	public function getQuantiteById($id_bouteille, $id_cellier) {
+		$requete = "SELECT quantite FROM vino__cellier_bouteille WHERE id_bouteille = ". $id_bouteille." AND id_cellier = ".$id_cellier; 
+		$res = $this->_db->query($requete);
+		$row = $res->fetch_assoc();
+		return $row;
+	}
 }
 
 

@@ -10,7 +10,7 @@ html,
 body {
     height: 100%;
     margin: 0;
-    background-color: #ffffff;
+    background-color: #E5E5E5;
     font-family: 'Roboto', 'RobotoDraft', sans-serif;
     font-size: 95%;
     display: flex;
@@ -19,35 +19,12 @@ body {
     margin: 0;
 }
 
-header,
-footer {
-    background: #2C0000;
-    opacity: 80%;
-    height: 5vh;
-}
-
 header {
     display: flex;
     left: 0%;
     right: 0%;
     top: 0.05%;
     bottom: 90%;
-}
-
-header>div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-end;
-    flex-grow: 3;
-}
-
-.logo img {
-    align-items: flex-end;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    margin: 5px 5px 5px 5px;
 }
 
 .liste {

@@ -21,12 +21,7 @@
 	<body >
 		
 		
-	<header>
-		<div class="logo">
-			<a href="#"><img src="img/profile.png" alt=""></a>
-		</div>
-		
-	</header>
+	<header><h1>Un petit verre de vino ?</h1></header>
 	<nav class="col-1">
 		<ul>
 					<li><a href="?requete=accueil">Mon cellier</a></li>
