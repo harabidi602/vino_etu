@@ -10,14 +10,16 @@
 
 //const BaseURL = "https://e1995654.webdev.cmaisonneuve.qc.ca/vino_etu/";
 const BaseURL = document.baseURI;
-console.log(BaseURL);
+//console.log(BaseURL);
 window.addEventListener('load', function() {
     console.log("load");
     document.querySelectorAll(".btnBoire").forEach(function(element) {
-        console.log(element);
+        //console.log(element);
         element.addEventListener("click", function(evt) {
-            let id = evt.target.parentElement.dataset.id;
-            let requete = new Request(BaseURL + "index.php?requete=boireBouteilleCellier", { method: 'POST', body: '{"id": ' + id + '}' });
+            let id_bouteille = evt.target.parentElement.dataset.id_bouteille;
+			let id_cellier = evt.target.parentElement.dataset.id_cellier;
+            let requete = new Request(BaseURL + "index.php?requete=boireBouteilleCellier", { method: 'POST', body: '{"id_bouteille": ' + id_bouteille + ', "id_cellier": ' + id_cellier + ' }' });
+			console.log(requete);
 
             fetch(requete)
             .then(response => {
@@ -29,7 +31,8 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
-                requete = new Request(BaseURL+"index.php?requete=consulterQuantiteBouteilleCellier&id="+id, {method: 'GET'}); 
+                requete = new Request(BaseURL+"index.php?requete=consulterQuantiteBouteilleCellier&id_bouteille="+id_bouteille+"&id_cellier="+id_cellier, {method: 'GET'}); 
+				console.log(requete);
                 fetch(requete)
                 .then(response => {
                     if (response.status === 200) {
@@ -53,10 +56,11 @@ window.addEventListener('load', function() {
     });
 
     document.querySelectorAll(".btnAjouter").forEach(function(element) {
-        console.log(element);
+        //console.log(element);
         element.addEventListener("click", function(evt) {
-            let id = evt.target.parentElement.dataset.id;
-            let requete = new Request(BaseURL + "index.php?requete=ajouterBouteilleCellier", { method: 'POST', body: '{"id": ' + id + '}' });
+            let id_bouteille = evt.target.parentElement.dataset.id_bouteille;
+			let id_cellier = evt.target.parentElement.dataset.id_cellier;
+            let requete = new Request(BaseURL + "index.php?requete=ajouterBouteilleCellier", { method: 'POST', body: '{"id_bouteille": ' + id_bouteille + ', "id_cellier": ' + id_cellier + ' }' });
 
             fetch(requete)
             .then(response => {
@@ -68,7 +72,7 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
-                requete = new Request(BaseURL+"index.php?requete=consulterQuantiteBouteilleCellier&id="+id, {method: 'GET'}); 
+                requete = new Request(BaseURL+"index.php?requete=consulterQuantiteBouteilleCellier&id_bouteille="+id_bouteille+"&id_cellier="+id_cellier, {method: 'GET'});
                 fetch(requete)
                 .then(response => {
                     if (response.status === 200) {
