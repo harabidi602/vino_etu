@@ -22,7 +22,8 @@ class SAQ extends Modele {
 
 	public function __construct() {
 		parent::__construct();
-		if (!($this -> stmt = $this -> _db -> prepare("INSERT INTO vino__bouteille(nom, type, image, code_saq, pays, description, prix_saq, url_saq, url_img, format) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"))) {
+		if (!($this -> stmt = $this -> _db -> prepare("INSERT INTO vino__bouteille(nom, id_type, image, code_saq, pays, description, prix_saq, url_saq, url_img, format) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"))) {
+			//var_dump($this -> stmt);
 			echo "Echec de la préparation : (" . $mysqli -> errno . ") " . $mysqli -> error;
 		}
 	}
@@ -64,7 +65,7 @@ class SAQ extends Modele {
 				echo "<br>Code de retour : " . $retour -> raison . "<br>";
 				if ($retour -> succes == false) {
 					echo "<pre>";
-					var_dump($info);
+					//var_dump($info);
 					echo "</pre>";
 					echo "<br>";
 				} else {
@@ -136,7 +137,7 @@ class SAQ extends Modele {
 		$aElements = $noeud -> getElementsByTagName("span");
 		foreach ($aElements as $node) {
 			if ($node -> getAttribute('class') == 'price') {
-				$info -> prix = trim($node -> textContent);
+				$info -> prix = trim($node -> textContent);				
 			}
 		}
 		//var_dump($info);
@@ -150,19 +151,24 @@ class SAQ extends Modele {
 
 		//var_dump($bte);
 		// Récupère le type
-		$rows = $this -> _db -> query("select id from vino__type where type = '" . $bte -> desc -> type . "'");
-		
+		$rows = $this -> _db -> query("select id from vino__bouteille_type where type = '" . $bte -> desc -> type . "'");
+	
 		if ($rows -> num_rows == 1) {
 			$type = $rows -> fetch_assoc();
 			//var_dump($type);
 			$type = $type['id'];
+			//var_dump($type);
 
 			$rows = $this -> _db -> query("select id from vino__bouteille where code_saq = '" . $bte -> desc -> code_SAQ . "'");
+			$prix_mod = substr(($bte -> prix), 0,5);
+			$prix_mod = str_replace(',', '.', $prix_mod);
+			$prix_mod = (float)$prix_mod;
+			
 			if ($rows -> num_rows < 1) {
-				$this -> stmt -> bind_param("sissssisss", $bte -> nom, $type, $bte -> img, $bte -> desc -> code_SAQ, $bte -> desc -> pays, $bte -> desc -> texte, $bte -> prix, $bte -> url, $bte -> img, $bte -> desc -> format);
+				$this -> stmt -> bind_param("sissssdsss", $bte -> nom, $type, $bte -> img, $bte -> desc -> code_SAQ, $bte -> desc -> pays, $bte -> desc -> texte, $prix_mod, $bte -> url, $bte -> img, $bte -> desc -> format);
 				$retour -> succes = $this -> stmt -> execute();
 				$retour -> raison = self::INSERE;
-				//var_dump($this->stmt);
+				var_dump($this->stmt);
 			} else {
 				$retour -> succes = false;
 				$retour -> raison = self::DUPLICATION;
