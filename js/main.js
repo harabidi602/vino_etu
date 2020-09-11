@@ -10,83 +10,87 @@
 
 //const BaseURL = "https://e1995654.webdev.cmaisonneuve.qc.ca/vino_etu/";
 const BaseURL = document.baseURI;
-console.log(BaseURL);
+//console.log(BaseURL);
 window.addEventListener('load', function() {
     console.log("load");
     document.querySelectorAll(".btnBoire").forEach(function(element) {
-        console.log(element);
+        //console.log(element);
         element.addEventListener("click", function(evt) {
-            let id = evt.target.parentElement.dataset.id;
-            let requete = new Request(BaseURL + "index.php?requete=boireBouteilleCellier", { method: 'POST', body: '{"id": ' + id + '}' });
+            let id_bouteille = evt.target.parentElement.dataset.id_bouteille;
+            let id_cellier = evt.target.parentElement.dataset.id_cellier;
+            let requete = new Request(BaseURL + "index.php?requete=boireBouteilleCellier", { method: 'POST', body: '{"id_bouteille": ' + id_bouteille + ', "id_cellier": ' + id_cellier + ' }' });
+            console.log(requete);
 
             fetch(requete)
-            .then(response => {
-                if (response.status === 200) {
-                  return response.json();
-                } else {
-                  throw new Error('Erreur');
-                }
-              })
-              .then(response => {
-                console.debug(response);
-                requete = new Request(BaseURL+"index.php?requete=consulterQuantiteBouteilleCellier&id="+id, {method: 'GET'}); 
-                fetch(requete)
                 .then(response => {
                     if (response.status === 200) {
-                      return response.json();
+                        return response.json();
                     } else {
-                      throw new Error('Erreur');
+                        throw new Error('Erreur');
                     }
-                  })
-                  .then(response => {
+                })
+                .then(response => {
                     console.debug(response);
-                    let quantiteBoite = evt.target.parentElement.parentElement.getElementsByClassName('quantite')[0];
-                    quantiteBoite.innerHTML = 'Quantité: ' + response.quantite; 
-                  }).catch(error => {
+                    requete = new Request(BaseURL + "index.php?requete=consulterQuantiteBouteilleCellier&id_bouteille=" + id_bouteille + "&id_cellier=" + id_cellier, { method: 'GET' });
+                    console.log(requete);
+                    fetch(requete)
+                        .then(response => {
+                            if (response.status === 200) {
+                                return response.json();
+                            } else {
+                                throw new Error('Erreur');
+                            }
+                        })
+                        .then(response => {
+                            console.debug(response);
+                            let quantiteBoite = evt.target.parentElement.parentElement.getElementsByClassName('quantite')[0];
+                            quantiteBoite.innerHTML = 'Quantité: ' + response.quantite;
+                        }).catch(error => {
+                            console.error(error);
+                        });
+                }).catch(error => {
                     console.error(error);
-                  });   
-              }).catch(error => {
-                console.error(error);
-              });
+                });
         })
 
     });
 
     document.querySelectorAll(".btnAjouter").forEach(function(element) {
-        console.log(element);
+        //console.log(element);
         element.addEventListener("click", function(evt) {
-            let id = evt.target.parentElement.dataset.id;
-            let requete = new Request(BaseURL + "index.php?requete=ajouterBouteilleCellier", { method: 'POST', body: '{"id": ' + id + '}' });
+            let id_bouteille = evt.target.parentElement.dataset.id_bouteille;
+            let id_cellier = evt.target.parentElement.dataset.id_cellier;
+            let requete = new Request(BaseURL + "index.php?requete=ajouterBouteilleCellier", { method: 'POST', body: '{"id_bouteille": ' + id_bouteille + ', "id_cellier": ' + id_cellier + ' }' });
 
             fetch(requete)
-            .then(response => {
-                if (response.status === 200) {
-                  return response.json();
-                } else {
-                  throw new Error('Erreur');
-                }
-              })
-              .then(response => {
-                console.debug(response);
-                requete = new Request(BaseURL+"index.php?requete=consulterQuantiteBouteilleCellier&id="+id, {method: 'GET'}); 
-                fetch(requete)
                 .then(response => {
                     if (response.status === 200) {
-                      return response.json();
+                        return response.json();
                     } else {
-                      throw new Error('Erreur');
+                        throw new Error('Erreur');
                     }
-                  })
-                  .then(response => {
+                })
+                .then(response => {
                     console.debug(response);
-                    let quantiteBoite = evt.target.parentElement.parentElement.getElementsByClassName('quantite')[0];
-                    quantiteBoite.innerHTML = 'Quantité: ' + response.quantite; 
-                  }).catch(error => {
+                    requete = new Request(BaseURL + "index.php?requete=consulterQuantiteBouteilleCellier&id_bouteille=" + id_bouteille + "&id_cellier=" + id_cellier, { method: 'GET' });
+                    fetch(requete)
+                        .then(response => {
+                            if (response.status === 200) {
+                                return response.json();
+                            } else {
+                                throw new Error('Erreur');
+                            }
+                        })
+                        .then(response => {
+                            console.debug(response);
+                            let quantiteBoite = evt.target.parentElement.parentElement.getElementsByClassName('quantite')[0];
+                            quantiteBoite.innerHTML = 'Quantité: ' + response.quantite;
+                        }).catch(error => {
+                            console.error(error);
+                        });
+                }).catch(error => {
                     console.error(error);
-                  });
-              }).catch(error => {
-                console.error(error);
-              });
+                });
         })
     });
 
@@ -151,15 +155,18 @@ window.addEventListener('load', function() {
         if (btnAjouter) {
             btnAjouter.addEventListener("click", function(evt) {
                 var param = {
+                    "id_cellier": 100,
                     "id_bouteille": bouteille.nom.dataset.id,
                     "date_achat": bouteille.date_achat.value,
                     "garde_jusqua": bouteille.garde_jusqua.value,
-                    "notes": bouteille.date_achat.value,
+                    "notes": bouteille.notes.value,
                     "prix": bouteille.prix.value,
                     "quantite": bouteille.quantite.value,
                     "millesime": bouteille.millesime.value,
                 };
+                console.log(param);
                 let requete = new Request(BaseURL + "index.php?requete=ajouterNouvelleBouteilleCellier", { method: 'POST', body: JSON.stringify(param) });
+
                 fetch(requete)
                     .then(response => {
                         if (response.status === 200) {
