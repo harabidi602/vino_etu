@@ -22,7 +22,7 @@ class SAQ extends Modele {
 
 	public function __construct() {
 		parent::__construct();
-		if (!($this -> stmt = $this -> _db -> prepare("INSERT INTO vino__bouteille(nom, type, image, code_saq, pays, description, prix_saq, url_saq, url_img, format) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"))) {
+		if (!($this -> stmt = $this -> _db -> prepare("INSERT INTO vino__bouteille(nom, id_type, image, code_saq, pays, description, prix_saq, url_saq, url_img, format) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"))) {
 			echo "Echec de la préparation : (" . $mysqli -> errno . ") " . $mysqli -> error;
 		}
 	}
@@ -60,11 +60,12 @@ class SAQ extends Modele {
 				//echo $this->get_inner_html($noeud);
 				$info = self::recupereInfo($noeud);
 				echo "<p>".$info->nom;
+				
 				$retour = $this -> ajouteProduit($info);
 				echo "<br>Code de retour : " . $retour -> raison . "<br>";
 				if ($retour -> succes == false) {
 					echo "<pre>";
-					var_dump($info);
+					//var_dump($info);
 					echo "</pre>";
 					echo "<br>";
 				} else {
@@ -136,32 +137,47 @@ class SAQ extends Modele {
 		$aElements = $noeud -> getElementsByTagName("span");
 		foreach ($aElements as $node) {
 			if ($node -> getAttribute('class') == 'price') {
+				//var_dump($node);
 				$info -> prix = trim($node -> textContent);
+				//$test = substr(($info -> prix), 0,5);
+				//var_dump($test);	
+				//var_dump( implode( ',', $info -> prix ) ); 
+				//var_dump($test);
+				
 			}
 		}
 		//var_dump($info);
+		
 		return $info;
 	}
 
 	private function ajouteProduit($bte) {
+		//var_dump($bte);
 		$retour = new stdClass();
 		$retour -> succes = false;
 		$retour -> raison = '';
+		
 
-		//var_dump($bte);
-		// Récupère le type
-		$rows = $this -> _db -> query("select id from vino__type where type = '" . $bte -> desc -> type . "'");
+		// conversion du prix
+		$price = substr(($bte -> prix), 0,5);
+		$t = str_replace(',', '.', $price);
+		$a = (float)$t;
+		
+
+
+		$rows = $this -> _db -> query("select id from vino__bouteille_type where type = '" . $bte -> desc -> type . "'");
 		
 		if ($rows -> num_rows == 1) {
 			$type = $rows -> fetch_assoc();
 			//var_dump($type);
 			$type = $type['id'];
-
+			
 			$rows = $this -> _db -> query("select id from vino__bouteille where code_saq = '" . $bte -> desc -> code_SAQ . "'");
 			if ($rows -> num_rows < 1) {
-				$this -> stmt -> bind_param("sissssisss", $bte -> nom, $type, $bte -> img, $bte -> desc -> code_SAQ, $bte -> desc -> pays, $bte -> desc -> texte, $bte -> prix, $bte -> url, $bte -> img, $bte -> desc -> format);
+				$this -> stmt -> bind_param("sissssdsss", $bte -> nom, $type, $bte -> img, $bte -> desc -> code_SAQ, $bte -> desc -> pays, $bte -> desc -> texte, $a, $bte -> url, $bte -> img, $bte -> desc -> format);
 				$retour -> succes = $this -> stmt -> execute();
 				$retour -> raison = self::INSERE;
+				
 				//var_dump($this->stmt);
 			} else {
 				$retour -> succes = false;

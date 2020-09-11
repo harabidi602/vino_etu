@@ -37,6 +37,9 @@ class Controler
 				case 'boireBouteilleCellier':
 					$this->boireBouteilleCellier();
 					break;
+				case 'consulterQuantiteBouteilleCellier':
+					$this->consulterQuantiteBouteilleCellier($_GET['id_bouteille'], $_GET['id_cellier']);
+					break;	
 				default:
 					$this->accueil();
 					break;
@@ -47,6 +50,7 @@ class Controler
 		{
 			$bte = new Bouteille();
             $data = $bte->getListeBouteilleCellier();
+			//var_dump($data);
 			include("vues/entete.php");
 			include("vues/cellier.php");
 			include("vues/pied.php");
@@ -100,7 +104,7 @@ class Controler
 			$body = json_decode(file_get_contents('php://input'));
 			
 			$bte = new Bouteille();
-			$resultat = $bte->modifierQuantiteBouteilleCellier($body->id, -1);
+			$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, -1, $body->id_cellier);
 			echo json_encode($resultat);
 		}
 
@@ -109,10 +113,15 @@ class Controler
 			$body = json_decode(file_get_contents('php://input'));
 			
 			$bte = new Bouteille();
-			$resultat = $bte->modifierQuantiteBouteilleCellier($body->id, 1);
+			$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, 1, $body->id_cellier);
 			echo json_encode($resultat);
 		}
-		
+
+		private function consulterQuantiteBouteilleCellier($id_bouteille, $id_cellier) {
+			$bte = new Bouteille();
+			$resultat = $bte->getQuantiteById($id_bouteille, $id_cellier);
+			echo json_encode($resultat);
+		}
 }
 ?>
 
