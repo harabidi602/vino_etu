@@ -10,7 +10,7 @@ html,
 body {
     height: 100%;
     margin: 0;
-    background-color: #E5E5E5;
+    background-color: #ffffff;
     font-family: 'Roboto', 'RobotoDraft', sans-serif;
     font-size: 95%;
     display: flex;
@@ -19,12 +19,112 @@ body {
     margin: 0;
 }
 
+header,
+footer {
+    background: #2C0000;
+    opacity: 80%;
+    height: 5vh;
+}
+
 header {
     display: flex;
     left: 0%;
     right: 0%;
     top: 0.05%;
     bottom: 90%;
+}
+
+header>div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-grow: 3;
+}
+
+.profile img {
+    height: 24px;
+    width: 24px;
+    align-items: flex-end;
+    justify-content: center;
+    margin: 5px 5px 5px 5px;
+}
+
+.logo img {
+    align-items: flex-end;
+    justify-content: center;
+    margin: 5px 5px 5px 5px;
+}
+
+.menu {
+    display: flex;
+    /* flex-flow: row wrap;*/
+    /**/
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    background: rgba(119, 4, 4, 0.8);
+}
+
+.menu-item {
+    padding: 30px;
+    width: 200px;
+    height: 100px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.menu-item li {
+    display: inline-block;
+    *display: inline;
+    /*IE7*/
+    *zoom: 1;
+    /*IE7*/
+    color: white;
+    margin-right: 10px;
+}
+
+.menu-item a {
+    color: #ffffff;
+    font-size: 12px;
+    padding: 0px;
+}
+
+
+/*
+content de la page
+*/
+
+.content {
+    padding: 10px;
+    display: flex;
+    flex-grow: 1;
+}
+
+.bouteille {
+    padding: 0px;
+    border: 1px solid #cfcfcf;
+    margin: 5px;
+}
+
+.bouteille .description {
+    display: flex;
+    flex-flow: column wrap;
+    flex: 1 1 30%;
+    max-height: 100%;
+}
+
+.img {
+    text-align: center;
+    display: block;
+}
+
+.bouteille .description>p {
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
 }
 
 .liste {

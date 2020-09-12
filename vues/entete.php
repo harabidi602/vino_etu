@@ -21,10 +21,25 @@
 	<body >
 		
 		
-	<header><h1>Un petit verre de vino ?</h1></header>
-	<nav class="col-1">
+	<header>
+		<div class="profile">
+			<a href="#"><img src="img/profile.png" alt="profile"></a>
+		</div>
+		
+	</header>
+	<nav>
+			<ul class="menu">
+						<li class="logo"><a href=""?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
+						<li class="menu-item"><a href=""?requete=accueil">Accueil</a></li>
+						<li class="menu-item"><a href="#">Gestion des bouteilles</a></li>
+						<li class="menu-item"><a href="#">Gestion des celliers</a></li>
+						<li class="menu-item"><a href="#">Gestion d'administration</a></li>
+
+			</ul>
+		</nav>
+	<nav>
 		<ul>
-					<li><a href="?requete=accueil">Mon cellier</a></li>
+					
 					<li><a href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></li>
 		</ul>
 	</nav>
