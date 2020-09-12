@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class Controler
  * Gère les requêtes HTTP
@@ -11,131 +12,111 @@
  * 
  */
 
-class Controler 
+class Controler
 {
-	
-		/**
-		 * Traite la requête
-		 * @return void
-		 */
-		public function gerer()
-		{
-			
-			switch ($_GET['requete']) {
-				case 'listeBouteille':
-					$this->listeBouteille();
-					break;
-				case 'autocompleteBouteille':
-					$this->autocompleteBouteille();
-					break;
-				case 'ajouterNouvelleBouteilleCellier':
-					$this->ajouterNouvelleBouteilleCellier();
-					break;
-				case 'ajouterBouteilleCellier':
-					$this->ajouterBouteilleCellier();
-					break;
-				case 'boireBouteilleCellier':
-					$this->boireBouteilleCellier();
-					break;
-				case 'consulterQuantiteBouteilleCellier':
-					$this->consulterQuantiteBouteilleCellier($_GET['id_bouteille'], $_GET['id_cellier']);
-					break;	
-				default:
-					$this->accueil();
-					break;
-			}
-		}
 
-		private function accueil()
-		{
+	/**
+	 * Traite la requête
+	 * @return void
+	 */
+	public function gerer()
+	{
+
+		switch ($_GET['requete']) {
+			case 'listeBouteille':
+				$this->listeBouteille();
+				break;
+			case 'autocompleteBouteille':
+				$this->autocompleteBouteille();
+				break;
+			case 'ajouterNouvelleBouteilleCellier':
+				$this->ajouterNouvelleBouteilleCellier();
+				break;
+			case 'ajouterBouteilleCellier':
+				$this->ajouterBouteilleCellier();
+				break;
+			case 'boireBouteilleCellier':
+				$this->boireBouteilleCellier();
+				break;
+			case 'consulterQuantiteBouteilleCellier':
+				$this->consulterQuantiteBouteilleCellier($_GET['id_bouteille'], $_GET['id_cellier']);
+				break;
+			default:
+				$this->accueil();
+				break;
+		}
+	}
+
+	private function accueil()
+	{
+		$bte = new Bouteille();
+		$data = $bte->getListeBouteilleCellier();
+		//var_dump($data);
+		include("vues/entete.php");
+		include("vues/cellier.php");
+		include("vues/pied.php");
+	}
+
+
+	private function listeBouteille()
+	{
+		$bte = new Bouteille();
+		$cellier = $bte->getListeBouteilleCellier();
+
+		return json_encode($cellier);
+	}
+
+	private function autocompleteBouteille()
+	{
+		$bte = new Bouteille();
+		//var_dump(file_get_contents('php://input'));
+		$body = json_decode(file_get_contents('php://input'));
+		//var_dump($body);
+		$listeBouteille = $bte->autocomplete($body->nom);
+
+		echo json_encode($listeBouteille);
+	}
+	private function ajouterNouvelleBouteilleCellier()
+	{
+		$body = json_decode(file_get_contents('php://input'));
+		//var_dump($body);
+		if (!empty($body)) {
 			$bte = new Bouteille();
-            $data = $bte->getListeBouteilleCellier();
+			//var_dump($_POST['data']);
+
 			//var_dump($data);
+			$resultat = $bte->ajouterBouteilleCellier($body);
+			echo json_encode($resultat);
+		} else {
+			$data = $this->listeBouteille();
 			include("vues/entete.php");
-			include("vues/cellier.php");
+			include("vues/ajouter.php");
 			include("vues/pied.php");
-                  
 		}
-		
+	}
 
-		private function listeBouteille()
-		{
-			$bte = new Bouteille();
-            $cellier = $bte->getListeBouteilleCellier();
-            
-            echo json_encode($cellier);
-                  
-		}
-		
-		private function autocompleteBouteille()
-		{
-			$bte = new Bouteille();
-			//var_dump(file_get_contents('php://input'));
-			$body = json_decode(file_get_contents('php://input'));
-			//var_dump($body);
-            $listeBouteille = $bte->autocomplete($body->nom);
-            
-            echo json_encode($listeBouteille);
-                  
-		}
-		private function ajouterNouvelleBouteilleCellier()
-		{
-			$body = json_decode(file_get_contents('php://input'));
-			//var_dump($body);
-			if(!empty($body)){
-				$bte = new Bouteille();
-				//var_dump($_POST['data']);
-				
-				//var_dump($data);
-				$resultat = $bte->ajouterBouteilleCellier($body);
-				echo json_encode($resultat);
-			}
-			else{
-				include("vues/entete.php");
-				include("vues/ajouter.php");
-				include("vues/pied.php");
-			}
-			
-            
-		}
-		
-		private function boireBouteilleCellier()
-		{
-			$body = json_decode(file_get_contents('php://input'));
-			
-			$bte = new Bouteille();
-			$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, -1, $body->id_cellier);
-			echo json_encode($resultat);
-		}
+	private function boireBouteilleCellier()
+	{
+		$body = json_decode(file_get_contents('php://input'));
 
-		private function ajouterBouteilleCellier()
-		{
-			$body = json_decode(file_get_contents('php://input'));
-			
-			$bte = new Bouteille();
-			$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, 1, $body->id_cellier);
-			echo json_encode($resultat);
-		}
+		$bte = new Bouteille();
+		$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, -1, $body->id_cellier);
+		echo json_encode($resultat);
+	}
 
-		private function consulterQuantiteBouteilleCellier($id_bouteille, $id_cellier) {
-			$bte = new Bouteille();
-			$resultat = $bte->getQuantiteById($id_bouteille, $id_cellier);
-			echo json_encode($resultat);
-		}
+	private function ajouterBouteilleCellier()
+	{
+		$body = json_decode(file_get_contents('php://input'));
+
+		$bte = new Bouteille();
+		$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, 1, $body->id_cellier);
+		echo json_encode($resultat);
+	}
+
+	private function consulterQuantiteBouteilleCellier($id_bouteille, $id_cellier)
+	{
+		$bte = new Bouteille();
+		$resultat = $bte->getQuantiteById($id_bouteille, $id_cellier);
+		echo json_encode($resultat);
+	}
 }
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -128,8 +128,13 @@ window.addEventListener('load', function () {
 
     });
 
+    let selectedOption = document.getElementById('cellier');
+    let choice = selectedOption.selectedIndex;
+    let idCellier = selectedOption.options[choice].value;
+    console.log(idCellier);
+
     let bouteille = {
-      cellier: document.getElementById('cellier'),
+      cellier: idCellier,
       nom: document.querySelector(".nom_bouteille"),
       millesime: document.querySelector("[name='millesime']"),
       quantite: document.querySelector("[name='quantite']"),
@@ -155,14 +160,9 @@ window.addEventListener('load', function () {
     let btnAjouter = document.querySelector("[name='ajouterBouteilleCellier']");
     if (btnAjouter) {
       btnAjouter.addEventListener("click", function (evt) {
-
-        let choice = bouteille.cellier.selectedIndex;
-        let idCellier = bouteille.cellier.options[choice].value;
-        console.log(idCellier);
-
         var param = {
           "id_bouteille": bouteille.nom.dataset.id,
-          "id_cellier": idCellier,
+          "id_cellier": bouteille.cellier,
           "date_achat": bouteille.date_achat.value,
           "garde_jusqua": bouteille.garde_jusqua.value,
           "notes": bouteille.date_achat.value,
