@@ -142,16 +142,9 @@ class Bouteille extends Modele
 	public function modifierQuantiteBouteilleCellier($id_bouteille, $nombre, $id_cellier)
 	{
 		//TODO : Valider les données.
-<<<<<<< HEAD
-
-
-		$requete = "UPDATE vino__cellier_bouteille SET quantite = GREATEST(quantite + " . $nombre . ", 0) WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = " . $id_cellier;
-=======
-			
-			
-
+	
 		$requete = "UPDATE vino__cellier_bouteille SET quantite = GREATEST(quantite + ". $nombre. ", 0) WHERE id_bouteille = ". $id_bouteille. " AND id_cellier = ".$id_cellier;
->>>>>>> 481ceb84b537140567fdca3e1d20a3f6d1972664
+
 		//echo $requete;
 		$res = $this->_db->query($requete);
 
@@ -159,15 +152,9 @@ class Bouteille extends Modele
 	}
 
 	//Fonction pour consulter la quantite des bouteilles by id 	
-<<<<<<< HEAD
 	public function getQuantiteById($id_bouteille, $id_cellier)
 	{
 		$requete = "SELECT quantite FROM vino__cellier_bouteille WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = " . $id_cellier;
-=======
-
-	public function getQuantiteById($id_bouteille, $id_cellier) {
-		$requete = "SELECT quantite FROM vino__cellier_bouteille WHERE id_bouteille = ". $id_bouteille." AND id_cellier = ".$id_cellier; 
->>>>>>> 481ceb84b537140567fdca3e1d20a3f6d1972664
 		$res = $this->_db->query($requete);
 		$row = $res->fetch_assoc();
 		return $row;

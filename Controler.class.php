@@ -14,55 +14,6 @@
 
 class Controler
 {
-<<<<<<< HEAD
-=======
-	
-		/**
-		 * Traite la requête
-		 * @return void
-		 */
-		public function gerer()
-		{
-			
-			switch ($_GET['requete']) {
-				case 'listeBouteille':
-					$this->listeBouteille();
-					break;
-				case 'autocompleteBouteille':
-					$this->autocompleteBouteille();
-					break;
-				case 'ajouterNouvelleBouteilleCellier':
-					$this->ajouterNouvelleBouteilleCellier();
-					break;
-				case 'ajouterBouteilleCellier':
-					$this->ajouterBouteilleCellier();
-					break;
-				case 'boireBouteilleCellier':
-					$this->boireBouteilleCellier();
-					break;
-				case 'consulterQuantiteBouteilleCellier':
-
-					$this->consulterQuantiteBouteilleCellier($_GET['id_bouteille'], $_GET['id_cellier']);
-
-					break;	
-				default:
-					$this->accueil();
-					break;
-			}
-		}
-
-		private function accueil()
-		{
-			$bte = new Bouteille();
-            $data = $bte->getListeBouteilleCellier();
-			//var_dump($data);
-			include("vues/entete.php");
-			include("vues/cellier.php");
-			include("vues/pied.php");
-                  
-		}
-		
->>>>>>> 481ceb84b537140567fdca3e1d20a3f6d1972664
 
 	/**
 	 * Traite la requête
