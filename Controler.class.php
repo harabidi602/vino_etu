@@ -41,6 +41,9 @@ class Controler
 			case 'consulterQuantiteBouteilleCellier':
 				$this->consulterQuantiteBouteilleCellier($_GET['id_bouteille'], $_GET['id_cellier']);
 				break;
+			case 'authentification':
+				$this->authentification();
+				break;	
 			default:
 				$this->accueil();
 				break;
@@ -118,5 +121,11 @@ class Controler
 		$bte = new Bouteille();
 		$resultat = $bte->getQuantiteById($id_bouteille, $id_cellier);
 		echo json_encode($resultat);
+	}
+
+	private function authentification() {
+		include("vues/entete_basique.php");
+		include("vues/authentification.php");
+		include("vues/pied.php");
 	}
 }

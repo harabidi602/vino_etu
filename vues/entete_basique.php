@@ -11,7 +11,8 @@
 
 		<link rel="stylesheet" href="./css/normalize.css" type="text/css" media="screen">
 		<link rel="stylesheet" href="./css/base_h5bp.css" type="text/css" media="screen">
-		<link rel="stylesheet" href="./css/main.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="./css/main.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="./css/authentification.css" type="text/css" media="screen">
 		<base href="<?php echo BASEURL; ?>">
 		<!--<script src="./js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>-->
 		<script src="./js/plugins.js"></script>
@@ -19,17 +20,7 @@
 	</head>
 	<body>
 	<header>
-		<div class="menu">
-			<a href="#"><img src="img/profile.png" alt="profile"></a>
-		</div>
-		<nav class="menu">
-			<ul>
-				<li class="logo"><a href=""?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
-				<li class="menu-item"><a href=""?requete=accueil">Accueil</a></li>
-				<li class="menu-item"><a href="#">Gestion des bouteilles</a></li>
-				<li class="menu-item"><a href="#">Gestion d'administration</a></li>
-			</ul>
-		</nav>
+		
 	</header>
 	<div class="col-2">
 		<main class="content">

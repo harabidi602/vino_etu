@@ -8,8 +8,6 @@
 
 html,
 body {
-    height: 100%;
-    margin: 0;
     background-color: #ffffff;
     font-family: 'Roboto', 'RobotoDraft', sans-serif;
     font-size: 95%;
@@ -26,105 +24,211 @@ footer {
     height: 5vh;
 }
 
+
+/*--------------------------------------------------------------------*/
+
+
+/*----------------------------entête de nos pages----------------------*/
+
+
+/*--------------------------------------------------------------------*/
+
 header {
     display: flex;
-    left: 0%;
-    right: 0%;
-    top: 0.05%;
-    bottom: 90%;
-}
-
-header>div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-end;
-    flex-grow: 3;
-}
-
-.profile img {
-    height: 24px;
-    width: 24px;
-    align-items: flex-end;
-    justify-content: center;
-    margin: 5px 5px 5px 5px;
-}
-
-.logo img {
-    align-items: flex-end;
-    justify-content: center;
-    margin: 5px 5px 5px 5px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background: #2C0000;
+    height: 40px;
 }
 
 .menu {
-    display: flex;
-    /* flex-flow: row wrap;*/
-    /**/
-    justify-content: space-around;
-    padding: 0;
-    margin: 0;
+    display: inline-block;
+}
+
+.menu:first-child {
+    width: 100%;
+    text-align: right;
+    padding: 5px;
+}
+
+.menu:first-child img {
+    height: 22px;
+    width: 22px;
+}
+
+.menu:not(:first-child) {
+    flex: 1;
+}
+
+
+/*-----------------------------le menu principal----------------------*/
+
+.menu ul {
+    border: 1px solid rgb(212, 20, 20);
+    background-color: rgba(119, 4, 4, 100%);
     list-style: none;
-    background: rgba(119, 4, 4, 0.8);
+    margin: 0;
+    padding: 0;
+    display: flex;
 }
 
 .menu-item {
-    padding: 30px;
-    width: 200px;
-    height: 100px;
-    color: white;
-    font-weight: bold;
+    flex: 3;
     text-align: center;
-}
-
-.menu-item li {
-    display: inline-block;
-    *display: inline;
-    /*IE7*/
-    *zoom: 1;
-    /*IE7*/
-    color: white;
-    margin-right: 10px;
+    padding-top: 20px;
 }
 
 .menu-item a {
     color: #ffffff;
-    font-size: 12px;
-    padding: 0px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: small;
 }
 
 
-/*
-content de la page
-*/
+/*---------------------------------Fin entête-----------------------------*/
+
+
+/*************************************************************************/
+
+
+/**************************************************************************/
+
+
+/*---------------------------------Contenu des pages---------------------*/
+
+.col-2 {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+}
 
 .content {
-    padding: 10px;
     display: flex;
-    flex-grow: 1;
+}
+
+
+/******************************************************************************/
+
+
+/*---------------------------------page Cellier------------------------------*/
+
+.cellier {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+.cellier>nav {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+}
+
+.cellier .bouteille {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 300px;
+    margin: 1em 0.5em;
 }
 
 .bouteille {
-    padding: 0px;
-    border: 1px solid #cfcfcf;
-    margin: 5px;
+    display: inline-block;
+    padding: 10px;
+    border: 2px solid rgba(0, 0, 0, 10%);
+    width: 350px;
+    justify-content: center;
+    flex: 1 1 100px;
+    text-align: center;
 }
 
 .bouteille .description {
-    display: flex;
-    flex-flow: column wrap;
-    flex: 1 1 30%;
-    max-height: 100%;
-}
-
-.img {
+    max-width: 50%;
     text-align: center;
-    display: block;
 }
 
-.bouteille .description>p {
+.cellier .bouteille img {
+    height: auto;
+}
+
+.description {
+    align-self: flex-start;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.description p {
     padding: 0px;
     margin: 0px;
     text-align: center;
+    font-size: 0.9em;
+}
+
+
+/**********************************************************************************/
+
+
+/*--------------------------PAGE AJOUTER UN NOUVEAU CELLIER------------------------*/
+
+.ajouter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 100%;
+    margin: auto;
+    flex-wrap: wrap;
+    margin-top: 60px;
+}
+
+
+/* les champs d'ajout*/
+
+.nouvelleBouteille {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.nouvelleBouteille>div {
+    width: 400px;
+}
+
+.infoBouteille {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.infoBouteille p {
+    margin: 0px;
+}
+
+.infoBouteille p:first-child {
+    text-align: left;
+    width: 50%;
+}
+
+.infoBouteille p:not(:first-child) {
+    width: 50%;
+}
+
+.infoBouteille button {
+    width: 50%;
+}
+
+.infoBouteille input {
+    padding-right: 20px;
+    margin-right: 0px;
+}
+
+.infoBouteille select {
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
 }
 
 .liste {
@@ -163,7 +267,11 @@ content de la page
 }
 
 footer {
+    display: flex;
+    align-content: flex-end;
+    justify-content: center;
     position: fixed;
+    left: 0px;
     bottom: 0px;
     width: 100%;
     padding-top: 3px;
@@ -171,7 +279,6 @@ footer {
     background-color: #2C0000;
     opacity: 80%;
     color: #FFFFFF;
-    height: 12px;
 }
 
 footer p {
@@ -179,3 +286,4 @@ footer p {
     padding-right: 50px;
     font-size: 10px;
 }
+
