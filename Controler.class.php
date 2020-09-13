@@ -44,6 +44,9 @@ class Controler
 			case 'authentification':
 				$this->authentification();
 				break;	
+			case 'nouveauUtilisateur':
+				$this->nouveauUtilisateur();
+				break;	
 			default:
 				$this->accueil();
 				break;
@@ -126,6 +129,12 @@ class Controler
 	private function authentification() {
 		include("vues/entete_basique.php");
 		include("vues/authentification.php");
+		include("vues/pied.php");
+	}
+
+	private function nouveauUtilisateur() {
+		include("vues/entete_basique.php");
+		include("vues/nouveauUtilisateur.php");
 		include("vues/pied.php");
 	}
 }
