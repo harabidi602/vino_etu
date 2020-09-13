@@ -1,7 +1,11 @@
 <div class="authentification">
     <div class="formA">
-        <h1>AUTHENTIFICATION</h1>
             <div class="formAuthentification" >
+                <!-- <h1><img src="img/authen.png" alt="logo"/>AUTHENTIFICATION</h1> -->
+                <div class="titre">
+                    <img src="img/authen.png" alt="Image Authentification">
+                    <h1>AUTHENTIFICATION</h1>
+                </div>
                 <p><input name="email" placeholder="Email"> </p>
                 <p><input name="mdp" placeholder="Mot de passe"></p>
                 <label>
@@ -12,5 +16,6 @@
     <div class="container">
         <button type="button" class="authentificationButton">Connexion</button>
         <p class="mdp">Oublié <a href="#">votre mot de passe?</a></p>
+        <p class="mdp">Vous n'avez pas de compte? <a href="#">Créer un compte</a></p>
     </div>
 </div>
