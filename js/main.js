@@ -129,6 +129,7 @@ window.addEventListener('load', function() {
         });
 
         let bouteille = {
+            cellier: document.getElementById('cellier'),
             nom: document.querySelector(".nom_bouteille"),
             millesime: document.querySelector("[name='millesime']"),
             quantite: document.querySelector("[name='quantite']"),
@@ -154,9 +155,14 @@ window.addEventListener('load', function() {
         let btnAjouter = document.querySelector("[name='ajouterBouteilleCellier']");
         if (btnAjouter) {
             btnAjouter.addEventListener("click", function(evt) {
+
+                let choice = bouteille.cellier.selectedIndex;
+                let idCellier = bouteille.cellier.options[choice].value;
+                console.log(idCellier);
+
                 var param = {
-                    "id_cellier": 100,
                     "id_bouteille": bouteille.nom.dataset.id,
+                    "id_cellier": idCellier,
                     "date_achat": bouteille.date_achat.value,
                     "garde_jusqua": bouteille.garde_jusqua.value,
                     "notes": bouteille.notes.value,
@@ -164,12 +170,12 @@ window.addEventListener('load', function() {
                     "quantite": bouteille.quantite.value,
                     "millesime": bouteille.millesime.value,
                 };
-                console.log(param);
                 let requete = new Request(BaseURL + "index.php?requete=ajouterNouvelleBouteilleCellier", { method: 'POST', body: JSON.stringify(param) });
-
+                console.log(requete);
                 fetch(requete)
                     .then(response => {
                         if (response.status === 200) {
+                            console.log('1');
                             return response.json();
                         } else {
                             throw new Error('Erreur');
