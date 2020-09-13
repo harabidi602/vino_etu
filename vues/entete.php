@@ -20,7 +20,7 @@
 	<body>
 	<header>
 		<div class="menu">
-			<img src="img/profile.png" alt="profile">
+			<a href="#"><img src="img/profile.png" alt="profile"></a>
 		</div>
 		<nav class="menu">
 			<ul>

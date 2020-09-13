@@ -116,6 +116,195 @@ header {
 .cellier {
     display: flex;
     flex-wrap: wrap;
+}
+
+.cellier>nav {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+}
+
+.cellier .bouteille {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 300px;
+    margin: 1em 0.5em;
+}
+
+.bouteille {
+    display: inline-block;
+    padding: 10px;
+    border: 2px solid rgba(0, 0, 0, 10%);
+    width: 350px;
+    justify-content: center;
+    flex: 1 1 100px;
+    text-align: center;
+}
+
+.bouteille .description {
+    max-width: 50%;
+    text-align: center;
+}
+
+.cellier .bouteille img {
+    height: auto;
+}
+
+.description {
+    align-self: flex-start;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.description p {
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+
+/**********************************************************************************/
+
+
+/*--------------------------PAGE AJOUTER UN NOUVEAU CELLIER------------------------*/
+
+.ajouter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 100%;
+    margin: auto;
+    flex-wrap: wrap;
+    margin-top: 60px;
+}
+
+
+/* les champs d'ajout*/
+
+.nouvelleBouteille {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.nouvelleBouteille>div {
+    width: 400px;
+}
+
+.infoBouteille {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.infoBouteille p {
+    margin: 0px;
+}
+
+.infoBouteille p:first-child {
+    text-align: left;
+    width: 50%;
+}
+
+.infoBouteille p:not(:first-child) {
+    width: 50%;
+}
+
+.infoBouteille button {
+    width: 50%;
+}
+
+.infoBouteille input {
+    padding-right: 20px;
+    margin-right: 0px;
+}
+
+.infoBouteille select {
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.menu {
+    display: inline-block;
+}
+
+.menu:first-child {
+    width: 100%;
+    text-align: right;
+    padding: 5px;
+}
+
+.menu:first-child img {
+    height: 22px;
+    width: 22px;
+}
+
+.menu:not(:first-child) {
+    flex: 1;
+}
+
+
+/*-----------------------------le menu principal----------------------*/
+
+.menu ul {
+    border: 1px solid rgb(212, 20, 20);
+    background-color: rgba(119, 4, 4, 100%);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.menu-item {
+    flex: 3;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.menu-item a {
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: small;
+}
+
+
+/*---------------------------------Fin entête-----------------------------*/
+
+
+/*************************************************************************/
+
+
+/**************************************************************************/
+
+
+/*---------------------------------Contenu des pages---------------------*/
+
+.col-2 {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+}
+
+.content {
+    display: flex;
+}
+
+
+/******************************************************************************/
+
+
+/*---------------------------------page Cellier------------------------------*/
+
+.cellier {
+    display: flex;
+    flex-wrap: wrap;
     margin-bottom: 50px;
 }
 
