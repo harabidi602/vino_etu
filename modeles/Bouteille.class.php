@@ -142,9 +142,7 @@ class Bouteille extends Modele
 	public function modifierQuantiteBouteilleCellier($id_bouteille, $nombre, $id_cellier)
 	{
 		//TODO : Valider les données.
-	
-		$requete = "UPDATE vino__cellier_bouteille SET quantite = GREATEST(quantite + ". $nombre. ", 0) WHERE id_bouteille = ". $id_bouteille. " AND id_cellier = ".$id_cellier;
-
+		$requete = "UPDATE vino__cellier_bouteille SET quantite = GREATEST(quantite + " . $nombre . ", 0) WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = " . $id_cellier;
 		//echo $requete;
 		$res = $this->_db->query($requete);
 

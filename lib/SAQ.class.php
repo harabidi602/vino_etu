@@ -95,7 +95,7 @@ class SAQ extends Modele {
 		
 		$info = new stdClass();
 		$info -> img = $noeud -> getElementsByTagName("img") -> item(0) -> getAttribute('src'); //TODO : Nettoyer le lien
-		var_dump($info->img);
+		//var_dump($info->img);
 		$info->img = substr($info->img, 6); // Enlever le https au dÃ©️but du lien
 		if (preg_match("/\png$\b/i", $info->img)) { // standariser la taille de la photo rÃ©️cupÃ©️rÃ©️e
 			$info->img = $info->img . "?quality=80&fit=bounds&height=166&width=111&canvas=111:166";

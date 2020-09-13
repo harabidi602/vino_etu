@@ -29,6 +29,7 @@
                 <button name="ajouterBouteilleCellier">Ajouter la bouteille</button>
             </div>
         </div>
+        <button name="ajouterBouteilleCellier">Ajouter la bouteille</button>
     </div>
 </div>
 </div>
