@@ -33,10 +33,20 @@ class Bouteille extends Modele
 	{
 
 		$rows = array();
-		$requete = 'SELECT * FROM vino__cellier_bouteille AS v_c_b 
+		$requete = 'SELECT v_c_b.id_cellier,v_c_b.id_bouteille,v_c_b.date_achat,
+		v_c_b.garde_jusqua,v_c_b.notes,v_c_b.prix,v_c_b.quantite,v_c_b.millesime,
+		v_b.nom,v_b.pays,v_b_t.type,v_b.url_saq,v_b.image
+		FROM vino__cellier_bouteille AS v_c_b 
         INNER JOIN vino__cellier v_c ON v_c.id = v_c_b.id_cellier 
         INNER JOIN vino__bouteille v_b ON v_b.id = v_c_b.id_bouteille 
-        INNER JOIN vino__bouteille_type v_b_t ON v_b_t.id = v_b.id_type';
+		INNER JOIN vino__bouteille_type v_b_t ON v_b_t.id = v_b.id_type
+		INNER JOIN vino__utilisateur v_u ON v_u.id = v_c.id_utilisateur';
+		/*
+		 SELECT * FROM vino__cellier_bouteille AS v_c_b 
+        INNER JOIN vino__cellier v_c ON v_c.id = v_c_b.id_cellier 
+        INNER JOIN vino__bouteille v_b ON v_b.id = v_c_b.id_bouteille 
+        INNER JOIN vino__bouteille_type v_b_t ON v_b_t.id = v_b.id_type
+	 */
 
 		if (($res = $this->_db->query($requete)) ==	 true) {
 			if ($res->num_rows) {
@@ -132,8 +142,6 @@ class Bouteille extends Modele
 	public function modifierQuantiteBouteilleCellier($id_bouteille, $nombre, $id_cellier)
 	{
 		//TODO : Valider les données.
-
-
 		$requete = "UPDATE vino__cellier_bouteille SET quantite = GREATEST(quantite + " . $nombre . ", 0) WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = " . $id_cellier;
 		//echo $requete;
 		$res = $this->_db->query($requete);
