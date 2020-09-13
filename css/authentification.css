@@ -1,0 +1,38 @@
+/*Style Authentification*/
+
+.authentification {
+    display: ;
+    background-color: white;
+    text-align: center;
+    width: 70%;
+}    
+
+h1 {
+  font-size: 1.5em;
+}
+
+button {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.titre img {
+  display: inline-block;
+  float: left;
+}
+
+.titre h1 {
+  display: inline-block;
+  /* position: relative; */
+  top: 18px;
+  left: 10px;
+}
+
+.content {
+  text-align: center;
+}
