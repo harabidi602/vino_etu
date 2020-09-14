@@ -476,3 +476,19 @@ footer p {
     font-size: 10px;
 }
 
+/*Bouton Ajouter Cellier*/
+
+.ajouterCellierButton {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    padding: 10px 7px;
+    margin: 5px 0;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+    border-radius: 4px;
+}
+
+.ajouterCellierButtonMod {
+    width: 100%;
+}
