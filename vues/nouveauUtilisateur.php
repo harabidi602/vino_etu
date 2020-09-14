@@ -2,14 +2,14 @@
     <div class="formA">
             <div class="formAuthentification" >
                 <div class="titre">
-                    <h1>Créez votre compte</h1>
+                    <h2>Créez votre compte</h2>
                 </div>
-                <p><input name="nom" placeholder="Nom"> </p>
-                <p><input name="prenom" placeholder="Prénom"></p>
-                <p><input name="identifiant" placeholder="Identifiant"> </p>
-                <p><input type="password" name="mdp" placeholder="Mot de passe"></p>
-                <p><input type="email" name="courriel" placeholder="Email"> </p>
-                <p><input name="telephone" placeholder="Téléphone"></p>
+                <p><input class="inputForm" name="nom" placeholder="Nom"> </p>
+                <p><input class="inputForm" name="prenom" placeholder="Prénom"></p>
+                <p><input class="inputForm" name="identifiant" placeholder="Identifiant"> </p>
+                <p><input class="inputForm" type="password" name="mdp" placeholder="Mot de passe"></p>
+                <p><input class="inputForm" type="email" name="courriel" placeholder="Email"> </p>
+                <p><input class="inputForm" name="telephone" placeholder="Téléphone"></p>
             </div>
     </div>
     <div class="contentForm">
