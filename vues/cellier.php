@@ -2,7 +2,7 @@
     <nav>
         <ul>		
             <li><a href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></li>
-            <li><a href="#">Ajouter un nouveau cellier</a></li>
+            <li><a href="?requete=getListeCelliers">Ajouter un nouveau cellier</a></li>
 		</ul>
     </nav>
     <?php

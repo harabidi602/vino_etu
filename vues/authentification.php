@@ -1,13 +1,12 @@
 <div class="authentification">
     <div class="formA">
             <div class="formAuthentification" >
-                <!-- <h1><img src="img/authen.png" alt="logo"/>AUTHENTIFICATION</h1> -->
                 <div class="titre">
                     <img src="img/authen.png" alt="Image Authentification">
                     <h1>AUTHENTIFICATION</h1>
                 </div>
-                <p><input name="identifiant" placeholder="Identifiant"> </p>
-                <p><input name="mdp" placeholder="Mot de passe"></p>
+                <p><input class="inputForm" name="identifiant" placeholder="Identifiant"> </p>
+                <p><input class="inputForm" name="mdp" placeholder="Mot de passe"></p>
                 <label>
                     <input type="checkbox" checked="checked" name="souvenir"> Se souvenir de moi
                 </label>
