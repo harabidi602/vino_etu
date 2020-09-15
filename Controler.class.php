@@ -63,19 +63,28 @@ class Controler
 	private function accueil()
 	{
 		$bte = new Bouteille();
-		$data = $bte->getListeBouteilleCellier();
-		//var_dump($data);
+		if(empty($_GET['idCellier']) && empty($_GET['paysOption'])){ 
+			$data = $bte->getListeBouteilleCellier();
+		}elseif(empty($_GET['idCellier']) && !empty($_GET['paysOption'])){ 
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption']);
+			//var_dump($data);
+		}elseif(!empty($_GET['idCellier']) && empty($_GET['paysOption'])){//idCellier renseigné 
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']='');
+			
+		}elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption'])){
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']);
+		}
+			$tousCelliers = $bte->lireCelliers();
+
 		include("vues/entete.php");
 		include("vues/cellier.php");
 		include("vues/pied.php");
 	}
 
-
 	private function listeBouteille()
 	{
 		$bte = new Bouteille();
 		$cellier = $bte->getListeBouteilleCellier();
-
 		return json_encode($cellier);
 	}
 
