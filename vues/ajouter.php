@@ -1,7 +1,6 @@
 <div class="ajouter">
     <h4>Ajouter une nouvelle bouteille au cellier </h4>
     <div class="nouvelleBouteille" vertical layout>
-    
         <div class="recherche_nom_bouteille">Rechercher par nom : <input type="text" name="nom_bouteille">
         <ul class="listeAutoComplete"></ul> </div>
         <?php
