@@ -1,33 +1,33 @@
 /*Style Authentification*/
 
 .authentification {
-    display: ;
-    background-color: white;
-    text-align: center;
-    width: 70%;
+  display: ;
+  background-color: white;
+  text-align: center;
+  width: 70%;
 }    
 
 h1 {
-  font-size: 1.5em;
+font-size: 1.5em;
 }
 
 button {
-    background-color: rgb(101, 138, 53);
-    color: white;
-    padding: 7px 5px;
-    margin: 5px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    border-radius: 4px;
+  background-color: rgb(101, 138, 53);
+  color: white;
+  padding: 7px 5px;
+  margin: 5px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 4px;
 }
 
 .contentForm {
-  text-align: center;
+text-align: center;
 }
 
 .inputForm {
-  height: 35px;
-  width: 200px;
-  margin-bottom: 20px;
+height: 35px;
+width: 200px;
+margin-bottom: 20px;
 }

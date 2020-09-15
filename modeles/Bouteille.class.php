@@ -41,7 +41,13 @@ class Bouteille extends Modele
         INNER JOIN vino__bouteille v_b ON v_b.id = v_c_b.id_bouteille 
 		INNER JOIN vino__bouteille_type v_b_t ON v_b_t.id = v_b.id_type
 		INNER JOIN vino__utilisateur v_u ON v_u.id = v_c.id_utilisateur';
-	
+		/*
+		 SELECT * FROM vino__cellier_bouteille AS v_c_b 
+        INNER JOIN vino__cellier v_c ON v_c.id = v_c_b.id_cellier 
+        INNER JOIN vino__bouteille v_b ON v_b.id = v_c_b.id_bouteille 
+        INNER JOIN vino__bouteille_type v_b_t ON v_b_t.id = v_b.id_type
+	 */
+
 		if (($res = $this->_db->query($requete)) ==	 true) {
 			if ($res->num_rows) {
 				while ($row = $res->fetch_assoc()) {
@@ -150,5 +156,12 @@ class Bouteille extends Modele
 		$res = $this->_db->query($requete);
 		$row = $res->fetch_assoc();
 		return $row;
+	}
+
+	//Fonction pour ajouter un nouveau cellier
+	public function ajouterCellier($id_utilisateur, $nom_cellier) {
+		$requete = "INSERT INTO vino__cellier (id_utilisateur, nom_cellier) VALUES (" . $id_utilisateur . "," . "'" . $nom_cellier . "')";
+		$res = $this->_db->query($requete);
+		return $res; 
 	}
 }

@@ -44,12 +44,16 @@ class Controler
 			case 'authentification':
 				$this->authentification();
 				break;	
-			case 'ajouterNouveauUtilisateur':
-				$this->ajouterNouveauUtilisateur();
+			case 'nouveauUtilisateur':
+				$this->nouveauUtilisateur();
+				break;	
+			case 'getListeCelliers':
+				$this->getListeCelliers();	
 				break;	
 			case 'ajouterNouveauCellier':
-				$this->ajouterNouveauCellier();
-				break;		
+				$body = json_decode(file_get_contents('php://input'));
+				$this->ajouterNouveauCellier(1, $body->nom_cellier);	
+				break;
 			default:
 				$this->accueil();
 				break;
@@ -135,18 +139,24 @@ class Controler
 		include("vues/pied.php");
 	}
 
-	private function ajouterNouveauUtilisateur() {
+	private function nouveauUtilisateur() {
 		include("vues/entete_basique.php");
 		include("vues/nouveauUtilisateur.php");
 		include("vues/pied.php");
 	}
 
-	private function ajouterNouveauCellier() {
+	private function getListeCelliers() {
 		$bte = new Bouteille();
 		$data = $bte->getListeBouteilleCellier();
 		$data = json_encode($data);
 		include("vues/entete.php");
 		include("vues/ajouter_cellier.php");
 		include("vues/pied.php");
+	}
+
+	private function ajouterNouveauCellier($id_utilisateur, $nom_cellier) {
+		$bte = new Bouteille();
+		$data = $bte->ajouterCellier($id_utilisateur, $nom_cellier);
+		return $data; 
 	}
 }

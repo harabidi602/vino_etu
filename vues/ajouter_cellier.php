@@ -3,7 +3,7 @@
     <div class="gestionCellier">
         <div class="formCellier" >
             <p><input name="nomCellier" placeholder="Nom du nouveau Cellier"> </p>
-            <button type="button" class="ajouterCellierButton">Ajouter</button>
+            <button type="button" id="buttonAjouterCellier" class="ajouterCellierButton">Ajouter</button>
         </div>
     </div>
     
@@ -34,7 +34,5 @@
                 </td>
             </tr>
             <?php endforeach; ?>	
-       
-            
     </table>
 </div>

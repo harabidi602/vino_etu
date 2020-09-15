@@ -2,7 +2,7 @@
     <div class="formA">
             <div class="formAuthentification" >
                 <div class="titre">
-                    <h2>Créez votre compte</h2>
+                    <h1>Créez votre compte</h1>
                 </div>
                 <p><input class="inputForm" name="nom" placeholder="Nom"> </p>
                 <p><input class="inputForm" name="prenom" placeholder="Prénom"></p>
