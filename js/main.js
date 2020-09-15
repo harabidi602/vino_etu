@@ -204,28 +204,22 @@ window.addEventListener('load', function() {
 
         elem.addEventListener("change", function(e) {
             e.preventDefault();
-            e.stopPropagation()
-
+            e.stopPropagation();
             let choice = bouteille.cellier.selectedIndex;
             let paysChoisi = bouteille.pays.selectedIndex;
             let idCellier = bouteille.cellier.options[choice].value;
             let paysOption = bouteille.pays.options[paysChoisi].value;
-            console.log('choice ', choice, ' paysChoisi ', paysChoisi, ' idCellier ', idCellier, ' paysOption ', paysOption)
+            //console.log('choice ', choice, ' paysChoisi ', paysChoisi, ' idCellier ', idCellier, ' paysOption ', paysOption)
             if (choice > 0 && paysChoisi > 0) {
-                // 
                 window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier + "&paysOption=" + paysOption;
-                //console.log("choix  ", choice);
-                // console.log(paysOption);
-                //alert(paysOption);
             } else if (paysChoisi <= 0 && choice > 0) {
                 window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier;
-                // alert(paysOption);
+
             } else if (choice <= 0) {
                 window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&paysOption=" + paysOption;
-                //alert(paysOption);
-                // alert(paysOption);
+
             }
-            // setTimeout(100000, console.log(paysChoisi));
+
             let requete = new Request(BaseURL + "index.php?requete=");
             fetch(requete)
                 .then(response => {
@@ -240,23 +234,4 @@ window.addEventListener('load', function() {
                 });
         });
     });
-    /* selectCellier.addEventListener("change", function(evt) {
-         let choice = bouteille.cellier.selectedIndex;
-         let idCellier = bouteille.cellier.options[choice].value;
-         window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier;
-         let requete = new Request(BaseURL + "index.php?requete=");
-         fetch(requete)
-             .then(response => {
-                 if (response.status === 200) {
-                     console.log('resp', response);
-                     return response.json().then((data) => console.log(data));
-                 } else {
-                     throw new Error('Erreur');
-                 }
-             }).catch(error => {
-                 console.error(error);
-             }); 
-     });
-
-     */
 });
