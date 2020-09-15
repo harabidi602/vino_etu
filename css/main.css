@@ -483,7 +483,7 @@ footer p {
     padding: 3px 2px;
     border: none;
     cursor: pointer;
-    width: 50%;
+    width: 30%;
     border-radius: 4px;
 }
 
@@ -493,31 +493,92 @@ footer p {
     border: 3px solid rgb(101, 138, 53);
 }
 
+/*Contenu page Ajouter Cellier*/
+
+.ajouterCel {
+    text-align: center;
+}
+
+.imageNC {
+    margin-top: 20px;
+}
 
 /*Styles Table*/
 
-table {
-    margin-top: 20px;
-    width: 100%; 
-}
-
-tr:nth-child(even){background-color: #f2f2f2;}
-
-tr:hover {background-color: #ddd;}
-
-th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: center;
-  background-color:  rgba(119, 4, 4, 0.2);; 
-  color: white;
-}
-
-th,td{
-    box-sizing:border-box;
-    padding: 5px;
+table { 
+	width: 100%; 
+	border-collapse: collapse; 
+    margin: 20px auto;
+    margin-bottom: 50px;
     text-align: center;
 }
+
+tr:hover {
+    background-color: #ddd;
+}
+
+th { 
+	background:  rgba(101, 138, 53, 0.2); 
+    color:black; 
+    font-weight: 700;
+}
+
+td, th { 
+	padding: 5px; 
+	border: 1px solid lightgray; 
+	text-align: center; 
+	font-size: 15px;
+	}
+
+/* 
+Responsive adapté aux appareils mobiles
+*/
+@media all and (max-width:640px)
+{
+
+	table { 
+	  	width: 100%; 
+	}
+
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		/* Label the data */
+		content: attr(data-column);
+
+		color: #000;
+		font-weight: bold;
+	}
+
+}
+
 
 .inputForm {
     height: 35px;
