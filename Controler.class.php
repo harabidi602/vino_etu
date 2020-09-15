@@ -147,7 +147,7 @@ class Controler
 
 	private function getListeCelliers() {
 		$bte = new Bouteille();
-		$data = $bte->getListeBouteilleCellier();
+		$data = $bte->getListeCelliers();
 		$data = json_encode($data);
 		include("vues/entete.php");
 		include("vues/ajouter_cellier.php");

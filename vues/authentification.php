@@ -1,7 +1,6 @@
 <div class="authentification">
     <div class="formA">
             <div class="formAuthentification" >
-                <!-- <h1><img src="img/authen.png" alt="logo"/>AUTHENTIFICATION</h1> -->
                 <div class="titre">
                     <img src="img/authen.png" alt="Image Authentification">
                     <h1>AUTHENTIFICATION</h1>

@@ -481,14 +481,47 @@ footer p {
     background-color: rgb(101, 138, 53);
     color: white;
     padding: 3px 2px;
-    margin: 2px 0;
     border: none;
     cursor: pointer;
-    width: 10%;
+    width: 50%;
     border-radius: 4px;
 }
 
-.ajouterCellierButtonMod {
-    width: 100%;
+.buttonModSup {
+    background-color: white;
+    color: black;
+    border: 3px solid rgb(101, 138, 53);
 }
 
+
+/*Styles Table*/
+
+table {
+    margin-top: 20px;
+    width: 100%; 
+}
+
+tr:nth-child(even){background-color: #f2f2f2;}
+
+tr:hover {background-color: #ddd;}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color:  rgba(119, 4, 4, 0.2);; 
+  color: white;
+}
+
+th,td{
+    box-sizing:border-box;
+    padding: 5px;
+    text-align: center;
+}
+
+.inputForm {
+    height: 35px;
+    width: 200px;
+    margin-bottom: 5px;
+    text-align: center;
+}

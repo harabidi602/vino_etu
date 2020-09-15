@@ -35,7 +35,7 @@ class Bouteille extends Modele
 		$rows = array();
 		$requete = 'SELECT v_c_b.id_cellier,v_c_b.id_bouteille,v_c_b.date_achat,
 		v_c_b.garde_jusqua,v_c_b.notes,v_c_b.prix,v_c_b.quantite,v_c_b.millesime,
-		v_b.nom,v_b.pays,v_b_t.type,v_b.url_saq,v_b.image, v_c.nom_cellier
+		v_b.nom,v_b.pays,v_b_t.type,v_b.url_saq,v_b.image
 		FROM vino__cellier_bouteille AS v_c_b 
         INNER JOIN vino__cellier v_c ON v_c.id = v_c_b.id_cellier 
         INNER JOIN vino__bouteille v_b ON v_b.id = v_c_b.id_bouteille 
@@ -157,6 +157,27 @@ class Bouteille extends Modele
 		$row = $res->fetch_assoc();
 		return $row;
 	}
+
+	//Fonction pour récuperer la liste des celliers
+	public function getListeCelliers()
+	{
+		$rows = array();
+		$requete = 'SELECT * FROM vino__cellier AS v_c';
+
+		if (($res = $this->_db->query($requete)) ==	 true) {
+			if ($res->num_rows) {
+				while ($row = $res->fetch_assoc()) {
+					$row['nom_cellier'] = trim(utf8_encode($row['nom_cellier']));
+					$rows[] = $row;
+				}
+			}
+		} else {
+			throw new Exception("Erreur de requête sur la base de donnée", 1);
+			//$this->_db->error;
+		}
+		return $rows;
+	}
+
 
 	//Fonction pour ajouter un nouveau cellier
 	public function ajouterCellier($id_utilisateur, $nom_cellier) {
