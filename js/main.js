@@ -94,8 +94,9 @@ window.addEventListener('load', function() {
         })
     });
 
+    // la recherche d'une bouteille par son nom
     let inputNomBouteille = document.querySelector("[name='nom_bouteille']");
-    console.log(inputNomBouteille);
+    //console.log(inputNomBouteille);
     let liste = document.querySelector('.listeAutoComplete');
 
     if (inputNomBouteille) {
@@ -139,13 +140,12 @@ window.addEventListener('load', function() {
             notes: document.querySelector("[name='notes']"),
         };
 
-
+        //choisir un nom d'une bouteile
         liste.addEventListener("click", function(evt) {
-            console.dir(evt.target)
+            //console.dir(evt.target)
             if (evt.target.tagName == "LI") {
                 bouteille.nom.dataset.id = evt.target.dataset.id;
                 bouteille.nom.innerHTML = evt.target.innerHTML;
-
                 liste.innerHTML = "";
                 inputNomBouteille.value = "";
 
@@ -158,7 +158,7 @@ window.addEventListener('load', function() {
 
                 let choice = bouteille.cellier.selectedIndex;
                 let idCellier = bouteille.cellier.options[choice].value;
-                console.log(idCellier);
+                //console.log(idCellier);
 
                 var param = {
                     "id_bouteille": bouteille.nom.dataset.id,
@@ -171,11 +171,11 @@ window.addEventListener('load', function() {
                     "millesime": bouteille.millesime.value,
                 };
                 let requete = new Request(BaseURL + "index.php?requete=ajouterNouvelleBouteilleCellier", { method: 'POST', body: JSON.stringify(param) });
-                console.log(requete);
+                //console.log(requete);
                 fetch(requete)
                     .then(response => {
                         if (response.status === 200) {
-                            console.log('1');
+                            //console.log('1');
                             return response.json();
                         } else {
                             throw new Error('Erreur');
@@ -192,5 +192,71 @@ window.addEventListener('load', function() {
         }
     }
 
+    let bouteille = {
+        cellier: document.getElementById('cellier'),
+        pays: document.getElementById("pays")
+    };
+    //selectionner un cellier
+    let selectCellier = document.querySelectorAll(".tri_cellier");
+    /**/
+    // console.log(selectCellier);
+    selectCellier.forEach(function(elem) {
 
+        elem.addEventListener("change", function(e) {
+            e.preventDefault();
+            e.stopPropagation()
+
+            let choice = bouteille.cellier.selectedIndex;
+            let paysChoisi = bouteille.pays.selectedIndex;
+            let idCellier = bouteille.cellier.options[choice].value;
+            let paysOption = bouteille.pays.options[paysChoisi].value;
+            console.log('choice ', choice, ' paysChoisi ', paysChoisi, ' idCellier ', idCellier, ' paysOption ', paysOption)
+            if (choice > 0 && paysChoisi > 0) {
+                // 
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier + "&paysOption=" + paysOption;
+                //console.log("choix  ", choice);
+                // console.log(paysOption);
+                //alert(paysOption);
+            } else if (paysChoisi <= 0 && choice > 0) {
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier;
+                // alert(paysOption);
+            } else if (choice <= 0) {
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&paysOption=" + paysOption;
+                //alert(paysOption);
+                // alert(paysOption);
+            }
+            // setTimeout(100000, console.log(paysChoisi));
+            let requete = new Request(BaseURL + "index.php?requete=");
+            fetch(requete)
+                .then(response => {
+                    if (response.status === 200) {
+                        console.log('resp', response);
+                        return response.json().then((data) => console.log(data));
+                    } else {
+                        throw new Error('Erreur');
+                    }
+                }).catch(error => {
+                    console.error(error);
+                });
+        });
+    });
+    /* selectCellier.addEventListener("change", function(evt) {
+         let choice = bouteille.cellier.selectedIndex;
+         let idCellier = bouteille.cellier.options[choice].value;
+         window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier;
+         let requete = new Request(BaseURL + "index.php?requete=");
+         fetch(requete)
+             .then(response => {
+                 if (response.status === 200) {
+                     console.log('resp', response);
+                     return response.json().then((data) => console.log(data));
+                 } else {
+                     throw new Error('Erreur');
+                 }
+             }).catch(error => {
+                 console.error(error);
+             }); 
+     });
+
+     */
 });
