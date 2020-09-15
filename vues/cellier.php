@@ -54,26 +54,28 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
             <li><a href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></li>
             <li><a href="#">Ajouter un nouveau cellier</a></li>
             <li><label for="tri_cellier">Choisir un cellier</label>
-        <select id="cellier" name="tri_cellier" class="tri_cellier"> 
-        <option disabled selected value="-1"> -- selectionner une option -- </option>
-            <?php 
-            foreach ($arrayId as $cellier) { 
-                ?> //Récupérer les différents id_cellier de la BD
-            <option value="<?php echo $cellier; ?>"<?php echo $id === $cellier ? "selected" : "" ?>><?php echo $cellier; ?></option>
-             
-            <?php } ?>
-        </select></li>
-        <li>
-            <label for="pays">Choisir un pays</label>
-            <select name="pays" id="pays" class="tri_cellier">
-            <option disabled selected value="-1"> -- selectionner une option -- </option>
-            <?php 
-            foreach ($arrayP as $pays) { 
-                ?> 
-            <option value="<?php echo $pays;?>"<?php echo $p === $pays ? "selected" : "" ?>><?php echo $pays; ?></option>
-            <?php } ?>
-            </select>
-        </li>
+              <select id="cellier" name="tri_cellier" class="tri_cellier"> 
+                  <option disabled selected value="-1"> -- selectionner une option -- </option>
+                  <?php 
+                  foreach ($arrayId as $cellier) { 
+                      ?> //Récupérer les différents id_cellier de la BD
+                  <option value="<?php echo $cellier; ?>"<?php echo $id === $cellier ? "selected" : "" ?>><?php echo $cellier; ?></option>
+
+                  <?php } ?>
+                </select>
+             </li>
+            <li>
+             <label for="pays">Choisir un pays</label>
+              <select name="pays" id="pays" class="tri_cellier">
+                <option disabled selected value="-1"> -- selectionner une option -- </option>
+                  <?php 
+                    foreach ($arrayP as $pays) { 
+                  ?> 
+                  <option value="<?php echo $pays;?>"<?php echo $p === $pays ? "selected" : "" ?>><?php echo $pays; ?></option>
+                <?php } ?>
+              </select>
+             </li>
+        <li><a href="?requete=getListeCelliers">Ajouter un nouveau cellier</a></li>
 		</ul>
     </nav>
     <?php

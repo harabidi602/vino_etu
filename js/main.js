@@ -9,7 +9,8 @@
  */
 
 //const BaseURL = "https://e1995654.webdev.cmaisonneuve.qc.ca/vino_etu/";
-const BaseURL = document.baseURI;
+//const BaseURL = document.baseURI;
+const BaseURL = window.location.href.split('?')[0];
 //console.log(BaseURL);
 window.addEventListener('load', function() {
     console.log("load");
@@ -192,7 +193,32 @@ window.addEventListener('load', function() {
         }
     }
 
-    let bouteille = {
+    let inputAjouterCellier = document.querySelector("[name='nomCellier']");
+    let buttonAjouterCellier = document.getElementById("buttonAjouterCellier");
+               
+    if (inputAjouterCellier) {
+        buttonAjouterCellier.addEventListener("click", function(evt) {
+            var param = {
+                "nom_cellier": inputAjouterCellier.value
+            };
+            let requete = new Request(BaseURL + "index.php?requete=ajouterNouveauCellier", { method: 'POST', body: JSON.stringify(param) });
+            fetch(requete)
+                .then(response => {
+                    if (response.status === 200) {
+                        return response.json();
+                    } else {
+                        throw new Error('Erreur');
+                    }
+                })
+                .then(response => {
+                    console.log(response);
+                    location.reload();
+                }).catch(error => {
+                    console.error(error);
+                });
+        })
+    }    
+let bouteille = {
         cellier: document.getElementById('cellier'),
         pays: document.getElementById("pays")
     };
@@ -214,12 +240,9 @@ window.addEventListener('load', function() {
                 window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier + "&paysOption=" + paysOption;
             } else if (paysChoisi <= 0 && choice > 0) {
                 window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier;
-
             } else if (choice <= 0) {
                 window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&paysOption=" + paysOption;
-
             }
-
             let requete = new Request(BaseURL + "index.php?requete=");
             fetch(requete)
                 .then(response => {

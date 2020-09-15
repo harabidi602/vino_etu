@@ -184,4 +184,32 @@ class Bouteille extends Modele
 		$row = $res->fetch_assoc();
 		return $row;
 	}
+
+	//Fonction pour récuperer la liste des celliers
+	public function getListeCelliers()
+	{
+		$rows = array();
+		$requete = 'SELECT * FROM vino__cellier AS v_c';
+
+		if (($res = $this->_db->query($requete)) ==	 true) {
+			if ($res->num_rows) {
+				while ($row = $res->fetch_assoc()) {
+					$row['nom_cellier'] = trim(utf8_encode($row['nom_cellier']));
+					$rows[] = $row;
+				}
+			}
+		} else {
+			throw new Exception("Erreur de requête sur la base de donnée", 1);
+			//$this->_db->error;
+		}
+		return $rows;
+	}
+
+
+	//Fonction pour ajouter un nouveau cellier
+	public function ajouterCellier($id_utilisateur, $nom_cellier) {
+		$requete = "INSERT INTO vino__cellier (id_utilisateur, nom_cellier) VALUES (" . $id_utilisateur . "," . "'" . $nom_cellier . "')";
+		$res = $this->_db->query($requete);
+		return $res; 
+	}
 }
