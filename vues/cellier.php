@@ -52,7 +52,7 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
     <nav>
         <ul>		
             <li><a href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></li>
-            <li><a href="#">Ajouter un nouveau cellier</a></li>
+            <li><a href="?requete=getListeCelliers">Ajouter un nouveau cellier</a></li>
             <li><label for="tri_cellier">Choisir un cellier</label>
               <select id="cellier" name="tri_cellier" class="tri_cellier"> 
                   <option disabled selected value="-1"> -- selectionner une option -- </option>
@@ -75,7 +75,6 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
                 <?php } ?>
               </select>
              </li>
-        <li><a href="?requete=getListeCelliers">Ajouter un nouveau cellier</a></li>
 		</ul>
     </nav>
     <?php

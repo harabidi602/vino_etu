@@ -74,7 +74,6 @@ class Controler
 		}elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption'])){
 			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']);
 		}
-			
 			$tousCelliers = $bte->lireCelliers();
 
 		include("vues/entete.php");
