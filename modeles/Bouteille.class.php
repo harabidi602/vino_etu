@@ -45,35 +45,35 @@ class Bouteille extends Modele
 		INNER JOIN vino__utilisateur v_u ON v_u.id = v_c.id_utilisateur
 		
 		';
-	if(!empty($id_cellier)){ 
-	$requete.=" WHERE v_c_b.id_cellier ='".$id_cellier."'";
-	}
-	if(!empty($type)){ 
-		$requete.=" AND v_b_t.type ='".$type."'";
-	}
-	if(!empty($quantite)){ 
-		
-		$requete.=" AND v_c_b.quantite ='".$quantite."'";
-		
-	}
-	if(!empty($pays)){ 
-		$requete.=" AND v_b.pays ='".$pays."'";
-	}
-	if(!empty($millesime)){ 
-		$requete.=" AND v_b.millesime ='".$millesime."'";
-	}
-		if (($res = $this->_db->query($requete)) ==	 true) {
-			if ($res->num_rows) {
-				while ($row = $res->fetch_assoc()) {
-					$row['nom'] = trim(utf8_encode($row['nom']));
-					$rows[] = $row;
-				}
-			}
-		} else {
-			throw new Exception("Erreur de requête sur la base de donnée", 1);
-			//$this->_db->error;
+		if(!empty($id_cellier)){ 
+		$requete.=" WHERE v_c_b.id_cellier ='".$id_cellier."'";
 		}
-		return $rows;
+		if(!empty($type)){ 
+			$requete.=" AND v_b_t.type ='".$type."'";
+		}
+		if(!empty($quantite)){ 
+			
+			$requete.=" AND v_c_b.quantite ='".$quantite."'";
+			
+		}
+		if(!empty($pays)){ 
+			$requete.=" AND v_b.pays ='".$pays."'";
+		}
+		if(!empty($millesime)){ 
+			$requete.=" AND v_b.millesime ='".$millesime."'";
+		}
+			if (($res = $this->_db->query($requete)) ==	 true) {
+				if ($res->num_rows) {
+					while ($row = $res->fetch_assoc()) {
+						$row['nom'] = trim(utf8_encode($row['nom']));
+						$rows[] = $row;
+					}
+				}
+			} else {
+				throw new Exception("Erreur de requête sur la base de donnée", 1);
+				//$this->_db->error;
+			}
+			return $rows;
 	}
 	/**
 	 * Cette méthode récupère la liste des noms des celliers

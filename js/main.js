@@ -237,29 +237,27 @@ window.addEventListener('load', function() {
             fetch(requete)
                 .then(response => {
                     if (response.status === 200) {
-                        location.reload();
-                        return response.json();
+                        console.log('resp', response);
+                        return response.json().then((data) => console.log(data));
                     } else {
                         throw new Error('Erreur');
                     }
-                })
-                .then(response => {
-                    console.log(response);
                 }).catch(error => {
                     console.error(error);
                 });
-        })
-    }); 
+        });
+    });
+    //Fonctionnalités du boutton ajouter pour ajouter un nouveau cellier
+    let inputAjouterCellier = document.querySelector("[name='nomCellier']");
+    let buttonAjouterCellier = document.getElementById("buttonAjouterCellier");
+    let URLSansR = window.location.href.split('?')[0];
 
-    
-    document.querySelectorAll("[name='modifierButton']").forEach(item => {
-        item.addEventListener('click', event => {
-            var row = event.target.parentElement.parentElement.parentElement; 
+    if (inputAjouterCellier) {
+        buttonAjouterCellier.addEventListener("click", function(evt) {
             var param = {
-                "nom_cellier": row.getElementsByClassName('nomCellier')[0].value,
-                "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML) 
+                "nom_cellier": inputAjouterCellier.value
             };
-            let requete = new Request(BaseURL + "index.php?requete=actualiserCellier", { method: 'POST', body: JSON.stringify(param) });
+            let requete = new Request(URLSansR + "index.php?requete=ajouterNouveauCellier", { method: 'POST', body: JSON.stringify(param) });
             fetch(requete)
                 .then(response => {
                     if (response.status === 200) {
@@ -275,16 +273,40 @@ window.addEventListener('load', function() {
                     console.error(error);
                 });
         })
-    })
+    }
+    document.querySelectorAll("[name='modifierButton']").forEach(item => {
+        item.addEventListener('click', event => {
+            var row = event.target.parentElement.parentElement.parentElement;
+            var param = {
+                "nom_cellier": row.getElementsByClassName('nomCellier')[0].value,
+                "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
+            };
+            let requete = new Request(URLSansR + "index.php?requete=actualiserCellier", { method: 'POST', body: JSON.stringify(param) });
+            fetch(requete)
+                .then(response => {
+                    if (response.status === 200) {
+                        location.reload();
+                        return response.json();
+                    } else {
+                        throw new Error('Erreur');
+                    }
+                })
+                .then(response => {
+                    console.log(response);
+                }).catch(error => {
+                    console.error(error);
+                });
+        });
+    });
 
     document.querySelectorAll("[name='suprimmerButton']").forEach(item => {
         item.addEventListener('click', event => {
-            var row = event.target.parentElement.parentElement.parentElement; 
+            var row = event.target.parentElement.parentElement.parentElement;
             console.log(row);
             var param = {
-                "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML) 
+                "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
             };
-            let requete = new Request(BaseURL + "index.php?requete=supprimerCellier", { method: 'POST', body: JSON.stringify(param) });
+            let requete = new Request(URLSansR + "index.php?requete=supprimerCellier", { method: 'POST', body: JSON.stringify(param) });
             fetch(requete)
                 .then(response => {
                     if (response.status === 200) {
@@ -299,6 +321,7 @@ window.addEventListener('load', function() {
                 }).catch(error => {
                     console.error(error);
                 });
-        })
-    })
+        });
+    });
+
 });
