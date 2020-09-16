@@ -63,16 +63,36 @@ class Controler
 	private function accueil()
 	{
 		$bte = new Bouteille();
-		if(empty($_GET['idCellier']) && empty($_GET['paysOption'])){ 
+		if(empty($_GET['idCellier']) && empty($_GET['paysOption'])  && empty($_GET['typeOption'])){ //tous les param sont vide
 			$data = $bte->getListeBouteilleCellier();
-		}elseif(empty($_GET['idCellier']) && !empty($_GET['paysOption'])){ 
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption']);
-			//var_dump($data);
-		}elseif(!empty($_GET['idCellier']) && empty($_GET['paysOption'])){//idCellier renseigné 
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']='');
 			
-		}elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption'])){
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']);
+
+		}elseif(empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])){ //pays+type
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption'],$_GET['typeOption']);
+			
+
+		}elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])){//pays+cellier
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption'],$_GET['typeOption']='');
+			
+
+		}elseif(!empty($_GET['idCellier']) && empty($_GET['paysOption']) && empty($_GET['typeOption'])){//cellier
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']='',$_GET['typeOption']='');
+			
+
+		}elseif (empty($_GET['idCellier']) && empty($_GET['paysOption']) && !empty($_GET['typeOption'])){//type
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption']='',$_GET['typeOption']);
+			
+
+		}
+		elseif (empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])){//pays
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption'],$_GET['typeOption']='');
+			
+
+		}
+		elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])){//pays+cellier+type
+
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption'],$_GET['typeOption']);
+			
 		}
 			$tousCelliers = $bte->lireCelliers();
 
