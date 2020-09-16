@@ -71,19 +71,48 @@ class Controler
 	private function accueil()
 	{
 		$bte = new Bouteille();
-		$data = $bte->getListeBouteilleCellier();
-		//var_dump($data);
+		if(empty($_GET['idCellier']) && empty($_GET['paysOption'])  && empty($_GET['typeOption'])){ //tous les param sont vide
+			$data = $bte->getListeBouteilleCellier();
+			
+
+		}elseif(empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])){ //pays+type
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption'],$_GET['typeOption']);
+			
+
+		}elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])){//pays+cellier
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption'],$_GET['typeOption']='');
+			
+
+		}elseif(!empty($_GET['idCellier']) && empty($_GET['paysOption']) && empty($_GET['typeOption'])){//cellier
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']='',$_GET['typeOption']='');
+			
+
+		}elseif (empty($_GET['idCellier']) && empty($_GET['paysOption']) && !empty($_GET['typeOption'])){//type
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption']='',$_GET['typeOption']);
+			
+
+		}
+		elseif (empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])){//pays
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption'],$_GET['typeOption']='');
+			
+
+		}
+		elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])){//pays+cellier+type
+
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption'],$_GET['typeOption']);
+			
+		}
+			$tousCelliers = $bte->lireCelliers();
+
 		include("vues/entete.php");
 		include("vues/cellier.php");
 		include("vues/pied.php");
 	}
 
-
 	private function listeBouteille()
 	{
 		$bte = new Bouteille();
 		$cellier = $bte->getListeBouteilleCellier();
-
 		return json_encode($cellier);
 	}
 

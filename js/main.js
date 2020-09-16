@@ -9,8 +9,7 @@
  */
 
 //const BaseURL = "https://e1995654.webdev.cmaisonneuve.qc.ca/vino_etu/";
-//const BaseURL = document.baseURI;
-const BaseURL = window.location.href.split('?')[0];
+const BaseURL = document.baseURI;
 //console.log(BaseURL);
 window.addEventListener('load', function() {
     console.log("load");
@@ -95,8 +94,9 @@ window.addEventListener('load', function() {
         })
     });
 
+    // la recherche d'une bouteille par son nom
     let inputNomBouteille = document.querySelector("[name='nom_bouteille']");
-    console.log(inputNomBouteille);
+    //console.log(inputNomBouteille);
     let liste = document.querySelector('.listeAutoComplete');
 
     if (inputNomBouteille) {
@@ -140,13 +140,12 @@ window.addEventListener('load', function() {
             notes: document.querySelector("[name='notes']"),
         };
 
-
+        //choisir un nom d'une bouteile
         liste.addEventListener("click", function(evt) {
-            console.dir(evt.target)
+            //console.dir(evt.target)
             if (evt.target.tagName == "LI") {
                 bouteille.nom.dataset.id = evt.target.dataset.id;
                 bouteille.nom.innerHTML = evt.target.innerHTML;
-
                 liste.innerHTML = "";
                 inputNomBouteille.value = "";
 
@@ -159,7 +158,7 @@ window.addEventListener('load', function() {
 
                 let choice = bouteille.cellier.selectedIndex;
                 let idCellier = bouteille.cellier.options[choice].value;
-                console.log(idCellier);
+                //console.log(idCellier);
 
                 var param = {
                     "id_bouteille": bouteille.nom.dataset.id,
@@ -172,11 +171,11 @@ window.addEventListener('load', function() {
                     "millesime": bouteille.millesime.value,
                 };
                 let requete = new Request(BaseURL + "index.php?requete=ajouterNouvelleBouteilleCellier", { method: 'POST', body: JSON.stringify(param) });
-                console.log(requete);
+                //console.log(requete);
                 fetch(requete)
                     .then(response => {
                         if (response.status === 200) {
-                            console.log('1');
+                            //console.log('1');
                             return response.json();
                         } else {
                             throw new Error('Erreur');
@@ -193,15 +192,48 @@ window.addEventListener('load', function() {
         }
     }
 
-    let inputAjouterCellier = document.querySelector("[name='nomCellier']");
-    let buttonAjouterCellier = document.getElementById("buttonAjouterCellier");
-               
-    if (inputAjouterCellier) {
-        buttonAjouterCellier.addEventListener("click", function(evt) {
-            var param = {
-                "nom_cellier": inputAjouterCellier.value
-            };
-            let requete = new Request(BaseURL + "index.php?requete=ajouterNouveauCellier", { method: 'POST', body: JSON.stringify(param) });
+    let bouteille = {
+        cellier: document.getElementById('cellier'),
+        pays: document.getElementById("pays"),
+        type: document.getElementById("type")
+    };
+    //selectionner un cellier
+    let selectCellier = document.querySelectorAll(".tri_cellier");
+    /**/
+    // console.log(selectCellier);
+    selectCellier.forEach(function(elem) {
+
+        elem.addEventListener("change", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let choice = bouteille.cellier.selectedIndex;
+            let idCellier = bouteille.cellier.options[choice].value;
+            let paysChoisi = bouteille.pays.selectedIndex;
+            let paysOption = bouteille.pays.options[paysChoisi].value;
+            let typeChoisi = bouteille.type.selectedIndex;
+            let typeOption = bouteille.type.options[typeChoisi].value;
+
+
+
+            console.log('choice ', choice, ' paysChoisi ', paysChoisi, ' typeChoisi ', typeChoisi,
+                ' idCellier ', idCellier, ' paysOption ', paysOption, ' typeOption ', typeOption)
+            if (choice > 0 && paysChoisi > 0 && typeChoisi > 0) { //tous les param
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier + "&paysOption=" + paysOption + "&typeOption=" + typeOption;
+            } else if (paysChoisi <= 0 && choice > 0 && typeChoisi > 0) { //le cellier + le type
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier + "&typeOption=" + typeOption;
+            } else if (choice <= 0 && paysChoisi <= 0 && typeChoisi > 0) { //le type
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&typeOption=" + typeOption;
+            } else if (choice > 0 && paysChoisi <= 0 && typeChoisi <= 0) { //le cellier
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier;
+            } else if (paysChoisi > 0 && typeChoisi <= 0 && choice <= 0) { //le pays
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&paysOption=" + paysOption;
+            } else if (paysChoisi > 0 && typeChoisi > 0 && choice <= 0) { //pays + type
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&paysOption=" + paysOption + "&typeOption=" + typeOption;
+            } else if (paysChoisi > 0 && typeChoisi <= 0 && choice > 0) { //pays + cellier
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&paysOption=" + paysOption + "&idCellier=" + idCellier;
+            }
+
+            let requete = new Request(BaseURL + "index.php?requete=");
             fetch(requete)
                 .then(response => {
                     if (response.status === 200) {
@@ -217,7 +249,7 @@ window.addEventListener('load', function() {
                     console.error(error);
                 });
         })
-    } 
+    }); 
 
     
     document.querySelectorAll("[name='modifierButton']").forEach(item => {

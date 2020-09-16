@@ -64,7 +64,6 @@ header {
 /*-----------------------------le menu principal----------------------*/
 
 .menu ul {
-    border: 1px solid rgb(212, 20, 20);
     background-color: rgba(119, 4, 4, 100%);
     list-style: none;
     margin: 0;
@@ -230,50 +229,6 @@ header {
     width: 100%;
 }
 
-.menu {
-    display: inline-block;
-}
-
-.menu:first-child {
-    width: 100%;
-    text-align: right;
-    padding: 5px;
-}
-
-.menu:first-child img {
-    height: 22px;
-    width: 22px;
-}
-
-.menu:not(:first-child) {
-    flex: 1;
-}
-
-
-/*-----------------------------le menu principal----------------------*/
-
-.menu ul {
-    border: 1px solid rgb(212, 20, 20);
-    background-color: rgba(119, 4, 4, 100%);
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.menu-item {
-    flex: 3;
-    text-align: center;
-    padding-top: 20px;
-}
-
-.menu-item a {
-    color: #ffffff;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-size: small;
-}
-
 
 /*---------------------------------Fin entête-----------------------------*/
 
@@ -285,16 +240,6 @@ header {
 
 
 /*---------------------------------Contenu des pages---------------------*/
-
-.col-2 {
-    margin-top: 60px;
-    display: flex;
-    justify-content: center;
-}
-
-.content {
-    display: flex;
-}
 
 
 /******************************************************************************/
@@ -359,66 +304,6 @@ header {
 
 
 /*--------------------------PAGE AJOUTER UN NOUVEAU CELLIER------------------------*/
-
-.ajouter {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 100%;
-    margin: auto;
-    flex-wrap: wrap;
-    margin-top: 60px;
-}
-
-
-/* les champs d'ajout*/
-
-.nouvelleBouteille {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-}
-
-.nouvelleBouteille>div {
-    width: 400px;
-}
-
-.infoBouteille {
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-    display: flex;
-    flex-direction: column;
-}
-
-.infoBouteille p {
-    margin: 0px;
-}
-
-.infoBouteille p:first-child {
-    text-align: left;
-    width: 50%;
-}
-
-.infoBouteille p:not(:first-child) {
-    width: 50%;
-}
-
-.infoBouteille button {
-    width: 50%;
-}
-
-.infoBouteille input {
-    padding-right: 20px;
-    margin-right: 0px;
-}
-
-.infoBouteille select {
-    background-color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%;
-}
 
 .liste {
     display: block;
@@ -476,7 +361,9 @@ footer p {
     font-size: 10px;
 }
 
+
 /*Boutons Ajouter*/
+
 .ajouterCellierButton {
     background-color: rgb(101, 138, 53);
     color: white;
@@ -486,6 +373,13 @@ footer p {
     width: 30%;
     border-radius: 4px;
 }
+
+.buttonModSup {
+    background-color: white;
+    color: black;
+    border: 3px solid rgb(101, 138, 53);
+}
+
 
 /*Contenu page Ajouter Cellier*/
 
@@ -497,11 +391,12 @@ footer p {
     margin-top: 20px;
 }
 
+
 /*Styles Table*/
 
-table { 
-	width: 100%; 
-	border-collapse: collapse; 
+table {
+    width: 100%;
+    border-collapse: collapse;
     margin: 20px auto;
     margin-bottom: 50px;
     text-align: center;
@@ -511,56 +406,68 @@ tr:hover {
     background-color: #ddd;
 }
 
-th { 
-	background:  rgba(101, 138, 53, 0.2); 
-    color:black; 
+th {
+    background: rgba(101, 138, 53, 0.2);
+    color: black;
     font-weight: 700;
 }
 
-td, th { 
-	padding: 5px; 
-	border: 1px solid lightgray; 
-	text-align: center; 
-	font-size: 15px;
-    }
-    
+td,
+th {
+    padding: 5px;
+    border: 1px solid lightgray;
+    text-align: center;
+    font-size: 15px;
+}
+
+
 /* 
 Responsive adapté aux appareils mobiles
 */
-@media all and (max-width:640px)
-{
-	table { 
-	  	width: 100%; 
-	}
 
-	table, thead, tbody, th, td, tr { 
-		display: block; 
+@media all and (max-width:640px) {
+    table {
+        width: 100%;
     }
-    
-  	thead tr { 
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-	}
-	
-	
-	td { 
-		position: relative;
-		padding-left: 50%; 
-	}
-
-   
-	td:before { 
-		content: attr(data-column);
-		font-weight: 700;
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
         position: absolute;
-		top: 10px;
-		left: 10px;
-		width: 50%; 
+        top: -9999px;
+        left: -9999px;
     }
-
+    tr {
+        border: 1px solid #ccc;
+    }
+    td {
+        /* Behave  like a "row" */
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+    td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        /* Label the data */
+        content: attr(data-column);
+        color: #000;
+        font-weight: bold;
+    }
 }
-
 
 .inputForm {
     height: 35px;
