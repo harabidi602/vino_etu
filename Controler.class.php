@@ -57,7 +57,11 @@ class Controler
 			case 'actualiserCellier':
 				$body = json_decode(file_get_contents('php://input'));
 				$this->modifierCellier($body->nom_cellier, $body->id_cellier);	
-				break;		
+				break;
+			case 'supprimerCellier':
+				$body = json_decode(file_get_contents('php://input'));
+				$this->supprimerCellier($body->id_cellier);	
+				break;			
 			default:
 				$this->accueil();
 				break;
@@ -167,6 +171,12 @@ class Controler
 	private function modifierCellier($nom_cellier, $id_cellier) {
 		$bte = new Bouteille();
 		$data = $bte->modifierCellier($nom_cellier, $id_cellier);
+		return $data; 
+	}
+
+	private function supprimerCellier ($id_cellier) {
+		$bte = new Bouteille();
+		$data = $bte->supprimerCellier($id_cellier);
 		return $data; 
 	}
 }
