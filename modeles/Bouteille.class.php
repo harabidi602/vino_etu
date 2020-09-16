@@ -197,9 +197,7 @@ class Bouteille extends Modele
 	//Fontion pour supprimer le cellier
 	public function supprimerCellier($id_cellier) {
 		$requete = "DELETE FROM vino__cellier WHERE id = " . $id_cellier;
-		//echo $requete;
 		$res = $this->_db->query($requete);
-
 		return $res;
 	}
 }
