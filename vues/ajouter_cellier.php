@@ -29,7 +29,7 @@
                 <td data-column="Nom Cellier"><input type="text" class="nomCellier" value="<?php echo $cellier['nom_cellier'] ?>"></td>
                 <td data-column="Actions">
                     <button class="btn"><i class="fa fa-wrench" aria-hidden="true" name="modifierButton"></i></button>
-                    <button class="btn"><i class="fa fa-trash" aria-hidden="true" ></i></button>
+                    <button class="btn"><i class="fa fa-trash" aria-hidden="true" name="suprimmerButton" ></i></button>
                 </td>
             </tr>
          <?php endforeach; ?>
