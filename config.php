@@ -10,9 +10,8 @@
  * @license http://creativecommons.org/licenses/by-nc/3.0/deed.fr
  * 
  */
-	
-	
-
+	//Démarrer des sessions
+    session_start();
 
 	function mon_autoloader($class) 
 	{

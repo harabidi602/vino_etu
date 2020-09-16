@@ -11,131 +11,268 @@
  * 
  */
 
-class Controler 
+
+
+class Controler
 {
-	
-		/**
-		 * Traite la requête
-		 * @return void
-		 */
-		public function gerer()
-		{
-			
-			switch ($_GET['requete']) {
-				case 'listeBouteille':
-					$this->listeBouteille();
-					break;
-				case 'autocompleteBouteille':
-					$this->autocompleteBouteille();
-					break;
-				case 'ajouterNouvelleBouteilleCellier':
-					$this->ajouterNouvelleBouteilleCellier();
-					break;
-				case 'ajouterBouteilleCellier':
-					$this->ajouterBouteilleCellier();
-					break;
-				case 'boireBouteilleCellier':
-					$this->boireBouteilleCellier();
-					break;
-				case 'consulterQuantiteBouteilleCellier':
-					$this->consulterQuantiteBouteilleCellier($_GET['id_bouteille'], $_GET['id_cellier']);
-					break;	
-				default:
-					$this->accueil();
-					break;
-			}
-		}
 
-		private function accueil()
-		{
+	/**
+	 * Traite la requête
+	 * @return void
+	 */
+	public function gerer()
+	{
+        
+        
+		switch ($_GET['requete']) {
+			case 'listeBouteille':
+				$this->listeBouteille();
+				break;
+			case 'autocompleteBouteille':
+				$this->autocompleteBouteille();
+				break;
+			case 'ajouterNouvelleBouteilleCellier':
+                $this->isAuth();
+				$this->ajouterNouvelleBouteilleCellier();
+				break;
+			case 'ajouterBouteilleCellier':
+				$this->ajouterBouteilleCellier();
+				break;
+			case 'boireBouteilleCellier':
+				$this->boireBouteilleCellier();
+				break;
+			case 'consulterQuantiteBouteilleCellier':
+				$this->consulterQuantiteBouteilleCellier($_GET['id_bouteille'], $_GET['id_cellier']);
+				break;
+            case 'accueil':
+                $this->isAuth();
+				$this->accueil();
+				break;    
+            case 'nouveauUtilisateur':
+				$this->nouveauUtilisateur();
+				break;   
+            case 'reinitialiserMdp':
+				$this->reinitialiserMdp();
+				break;     
+			default:
+				$this->indexPage();
+				break;
+		}
+	}
+
+    
+    
+    // La fonction pour redirection vers la page index.php pour la saisie de l'identifiant et du mot de passe  
+    public function isAuth()
+	{
+        if (!$_SESSION['utilisateur_identifiant']) {
+            
+        header('Location: index.php'); }
+    }
+
+    
+    // La fonction contrôle l'authentification 
+    public function indexPage()
+	{
+        
+        $auth = new Authentication();
+        
+        if (isset($_POST['envoi'])) {
+
+        $identifiant = trim($_POST['identifiant']);
+        $mot_de_passe = trim($_POST['mdp']); 
+            
+        if (!empty($auth->sqlIdentificationUtilisateur($identifiant, $mot_de_passe))) {
+            
+        $rows=$auth->sqlVinoUtilisateur($identifiant);
+        $type=$rows['id_type'];  
+        //var_dump($type);     
+           
+        $_SESSION['utilisateur_identifiant'] = $identifiant; 
+        //var_dump($_SESSION['utilisateur_identifiant']);    
+           
+        if ($type == 1){
+        $this->accueil();
+        exit;    
+        } 
+        elseif ($type == 2){
+        $this->ajouterNouvelleBouteilleCellier();
+        exit;        
+        }     
+    }
+        else {  
+        $erreur = "Identifiant ou mot de passe incorrect.";     
+    }
+    }
+		include("vues/entete_basique.php");
+		include("vues/authentification.php");
+		include("vues/pied.php");	
+	}
+    
+    // La fonction pour déconnecter
+    private function quitter()
+	{
+        
+      session_start();
+      unset($_SESSION['identifiant_utilisateur']); 
+      session_destroy();
+      header('Location: index.php');   
+        
+	}
+    
+    
+   // La fonction ajoute un utilisateur
+    public function nouveauUtilisateur()
+	{
+   
+        $auth = new Authentication();
+        
+        if (count($_POST) !== 0) {
+         
+        $oUtilisateur = new Utilisateur($_POST['nom'],$_POST['prenom'],$_POST['identifiant'],$_POST['mdp'],$_POST['courriel'],$_POST['telephone']);
+        $erreurs = $oUtilisateur->erreurs; 
+                    
+            
+        if (count($erreurs) === 0) {
+            
+        $iden = trim($_POST['identifiant']);    
+        $rows=$auth->sqlVinoUtilisateur($iden);    
+        $tiden=$rows['identifiant'];   
+            
+        if ($tiden == $iden) { 
+        $message = "L'utilisateur avec cet identifiant déjà existe dans le système";      
+        unset($_POST);
+        }    
+        elseif ($tiden != $iden) {
+        $auth->sqlAjouterUtilisateur($oUtilisateur->nom,$oUtilisateur->prenom,$oUtilisateur->identifiant,$oUtilisateur->mdp,$oUtilisateur->courriel,$oUtilisateur->telephone,2);
+        $message = "Utilisateur ajouté";
+        unset($_POST);    
+        }
+        else {
+        $message = "Utilisateur n'est pas ajouté";   
+        unset($_POST);    
+        }    
+        }   
+        } else {
+        $erreurs = [];
+        $oUtilisateur = new Utilisateur;
+        }
+        
+        include("vues/entete_basique.php");
+		include("vues/nouveauUtilisateur.php");
+		include("vues/pied.php");
+    }
+
+    // La fonction réinitialise le mot de passe d'utilisateur
+    public function reinitialiserMdp()
+	{
+   
+        $auth = new Authentication();
+        
+        if (isset($_POST['reinitialise']) && isset($_POST['identifiant']) && isset($_POST['courriel'])){
+
+        $iden = trim($_POST['identifiant']);
+        $courriel = trim($_POST['courriel']);    
+            
+        $rows=$auth->sqlVinoUtilisateur($iden);
+        $tiden=$rows['identifiant'];
+        $tcourriel = $rows['courriel'];  
+            
+    
+        if ($tiden == $iden && $tcourriel == $courriel ) { 
+        $longueur = 8;
+        $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';    
+        $mdp = substr(str_shuffle($caracteres), 0, $longueur); 
+            
+        if ($auth->sqlReinitialiserMdp($iden,$mdp) === true){
+           $message = "Le mot de passe a été réinitialisé.Votre nouveau mot de passe: <br />".$mdp;
+           unset($_POST);
+        }  else {
+           $message = "Il ya de probleme avec mot de passe";
+           unset($_POST);
+        }} else {
+        $message = "L'utilisateur avec cet identifiant n'existe pas dans le système"; 
+        unset($_POST);     
+        }    
+            
+	}
+        include("vues/entete_basique.php");
+		include("vues/reinitialiserMdp.php");
+		include("vues/pied.php");
+    }
+    
+    
+	private function accueil()
+	{
+		$bte = new Bouteille();
+		$data = $bte->getListeBouteilleCellier();
+		//var_dump($data);
+		include("vues/entete_basique.php");
+		include("vues/cellier.php");
+		include("vues/pied.php");
+        
+	}
+
+
+	private function listeBouteille()
+	{
+		$bte = new Bouteille();
+		$cellier = $bte->getListeBouteilleCellier();
+
+		return json_encode($cellier);
+	}
+
+	private function autocompleteBouteille()
+	{
+		$bte = new Bouteille();
+		//var_dump(file_get_contents('php://input'));
+		$body = json_decode(file_get_contents('php://input'));
+		//var_dump($body);
+		$listeBouteille = $bte->autocomplete($body->nom);
+
+		echo json_encode($listeBouteille);
+	}
+	private function ajouterNouvelleBouteilleCellier()
+	{
+		$body = json_decode(file_get_contents('php://input'));
+		//var_dump($body);
+		if (!empty($body)) {
 			$bte = new Bouteille();
-            $data = $bte->getListeBouteilleCellier();
+			//var_dump($_POST['data']);
+
 			//var_dump($data);
-			include("vues/entete.php");
-			include("vues/cellier.php");
+			$resultat = $bte->ajouterBouteilleCellier($body);
+			echo json_encode($resultat);
+		} else {
+			$data = $this->listeBouteille();
+			include("vues/entete_basique.php");
+			include("vues/ajouter.php");
 			include("vues/pied.php");
-                  
 		}
-		
+	}
 
-		private function listeBouteille()
-		{
-			$bte = new Bouteille();
-            $cellier = $bte->getListeBouteilleCellier();
-            
-            echo json_encode($cellier);
-                  
-		}
-		
-		private function autocompleteBouteille()
-		{
-			$bte = new Bouteille();
-			//var_dump(file_get_contents('php://input'));
-			$body = json_decode(file_get_contents('php://input'));
-			//var_dump($body);
-            $listeBouteille = $bte->autocomplete($body->nom);
-            
-            echo json_encode($listeBouteille);
-                  
-		}
-		private function ajouterNouvelleBouteilleCellier()
-		{
-			$body = json_decode(file_get_contents('php://input'));
-			//var_dump($body);
-			if(!empty($body)){
-				$bte = new Bouteille();
-				//var_dump($_POST['data']);
-				
-				//var_dump($data);
-				$resultat = $bte->ajouterBouteilleCellier($body);
-				echo json_encode($resultat);
-			}
-			else{
-				include("vues/entete.php");
-				include("vues/ajouter.php");
-				include("vues/pied.php");
-			}
-			
-            
-		}
-		
-		private function boireBouteilleCellier()
-		{
-			$body = json_decode(file_get_contents('php://input'));
-			
-			$bte = new Bouteille();
-			$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, -1, $body->id_cellier);
-			echo json_encode($resultat);
-		}
+	private function boireBouteilleCellier()
+	{
+		$body = json_decode(file_get_contents('php://input'));
 
-		private function ajouterBouteilleCellier()
-		{
-			$body = json_decode(file_get_contents('php://input'));
-			
-			$bte = new Bouteille();
-			$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, 1, $body->id_cellier);
-			echo json_encode($resultat);
-		}
+		$bte = new Bouteille();
+		$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, -1, $body->id_cellier);
+		echo json_encode($resultat);
+	}
 
-		private function consulterQuantiteBouteilleCellier($id_bouteille, $id_cellier) {
-			$bte = new Bouteille();
-			$resultat = $bte->getQuantiteById($id_bouteille, $id_cellier);
-			echo json_encode($resultat);
-		}
+	private function ajouterBouteilleCellier()
+	{
+		$body = json_decode(file_get_contents('php://input'));
+
+		$bte = new Bouteille();
+		$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, 1, $body->id_cellier);
+		echo json_encode($resultat);
+	}
+
+	private function consulterQuantiteBouteilleCellier($id_bouteille, $id_cellier)
+	{
+		$bte = new Bouteille();
+		$resultat = $bte->getQuantiteById($id_bouteille, $id_cellier);
+		echo json_encode($resultat);
+	}
 }
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,0 +1,32 @@
+/*Style Authentification*/
+
+.authentification {
+    display: ;
+    background-color: white;
+    text-align: center;
+    width: 70%;
+}    
+
+h1 {
+  font-size: 1.5em;
+}
+
+button {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    padding: 10px 7px;
+    margin: 5px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.titre h1 {
+  top: 20px;
+  left: 0;
+}
+
+.contentForm {
+  text-align: center;
+}

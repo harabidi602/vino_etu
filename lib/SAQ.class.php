@@ -95,7 +95,12 @@ class SAQ extends Modele {
 		
 		$info = new stdClass();
 		$info -> img = $noeud -> getElementsByTagName("img") -> item(0) -> getAttribute('src'); //TODO : Nettoyer le lien
-		;
+		//var_dump($info->img);
+		$info->img = substr($info->img, 6); // Enlever le https au dÃ©️but du lien
+		if (preg_match("/\png$\b/i", $info->img)) { // standariser la taille de la photo rÃ©️cupÃ©️rÃ©️e
+			$info->img = $info->img . "?quality=80&fit=bounds&height=166&width=111&canvas=111:166";
+		}
+		//var_dump($info->img);
 		$a_titre = $noeud -> getElementsByTagName("a") -> item(0);
 		$info -> url = $a_titre->getAttribute('href');
 		
@@ -158,11 +163,22 @@ class SAQ extends Modele {
 		$retour -> raison = '';
 		
 
-		// conversion du prix
+		//$price = substr(($bte -> prix), 0,5);
 		$price = substr(($bte -> prix), 0,5);
+		//str_replace(',', '.', $price);
 		$t = str_replace(',', '.', $price);
 		$a = (float)$t;
+		//var_dump((float)$t);
 		
+		
+		//var_dump(str_replace(',', '.', $price));
+		//var_dump(floatval(substr(($t), 0,5)));
+		// Récupère le type
+		//$float = (float)$bte -> prix;
+		
+
+//echo gettype($float); // Outputs: double
+//var_dump($float); // Outputs: 2.75
 
 
 		$rows = $this -> _db -> query("select id from vino__bouteille_type where type = '" . $bte -> desc -> type . "'");
