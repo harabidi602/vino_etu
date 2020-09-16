@@ -205,11 +205,26 @@ class Bouteille extends Modele
 		return $rows;
 	}
 
-
 	//Fonction pour ajouter un nouveau cellier
 	public function ajouterCellier($id_utilisateur, $nom_cellier) {
 		$requete = "INSERT INTO vino__cellier (id_utilisateur, nom_cellier) VALUES (" . $id_utilisateur . "," . "'" . $nom_cellier . "')";
 		$res = $this->_db->query($requete);
 		return $res; 
+	}
+
+	//Fontion pour modifier le nom d'un cellier
+	public function modifierCellier($nom_cellier, $id_cellier) {
+		$requete = "UPDATE vino__cellier SET nom_cellier ='" . $nom_cellier . "' WHERE id = " . $id_cellier;
+		//echo $requete;
+		$res = $this->_db->query($requete);
+
+		return $res;
+	}
+
+	//Fontion pour supprimer le cellier
+	public function supprimerCellier($id_cellier) {
+		$requete = "DELETE FROM vino__cellier WHERE id = " . $id_cellier;
+		$res = $this->_db->query($requete);
+		return $res;
 	}
 }
