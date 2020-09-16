@@ -6,19 +6,15 @@ $arrCelliers = json_decode(json_encode($tousCelliers),true);
 $arrayId =[];
 $arrayC=[];
 $arrayP=[];
-/*$arrayType =[]; 
-$arrayQte=[];
+$arrayType =[]; 
+/*$arrayQte=[];
 
 $arrayMillesime=[];*/
 //var_dump($data);
 foreach($arr as $key => $cellier) {
     array_push($arrayId, $cellier['id_cellier']);
     array_push($arrayP, $cellier['pays']);
-   // var_dump($cellier['pays']);
-    /*array_push($arrayType, $cellier['type']);
-    array_push($arrayQte, $cellier['quantite']);
-    
-    array_push($arrayMillesime, $cellier['millesime']);*/
+    array_push($arrayType, $cellier['type']);
 }
 foreach($arrCelliers as $key =>$tousCelliers){
     array_push($arrayC, $tousCelliers['id']);
@@ -26,13 +22,15 @@ foreach($arrCelliers as $key =>$tousCelliers){
 
 $arrayId = array_unique($arrayId);
 $arrayP = array_unique($arrayP) ;
-/*$arrayType = array_unique($arrayType);
-$arrayQte = array_unique($arrayQte);
+$arrayT = array_unique($arrayType);
+
+/*$arrayQte = array_unique($arrayQte);
 ;
 $arrayMillesime = array_unique($arrayMillesime);*/
 /**/
 $id = null;
 $p = null;
+$t=null;
 //isset($_POST['tri_critere']) && $_POST['tri_critere']>0
 /**/
          
@@ -42,10 +40,9 @@ if ( isset( $_GET['idCellier'] ) && !empty( $_GET['idCellier'] ) ){
 if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
     $p = trim($_GET['paysOption']);
  }
-//$f = $data->getListeBouteilleCellier($id); 
-
-
-
+ if ( isset( $_GET['typeOption'] ) && !empty( $_GET['typeOption'] ) ){
+    $t = trim($_GET['typeOption']);
+ }
 ?>
 
 <section class="cellier">
@@ -57,7 +54,7 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
               <select id="cellier" name="tri_cellier" class="tri_cellier"> 
                   <option disabled selected value="-1"> -- selectionner une option -- </option>
                   <?php 
-                  foreach ($arrayId as $cellier) { 
+                  foreach ($arrayC as $cellier) { 
                       ?> //Récupérer les différents id_cellier de la BD
                   <option value="<?php echo $cellier; ?>"<?php echo $id === $cellier ? "selected" : "" ?>><?php echo $cellier; ?></option>
 
@@ -74,6 +71,17 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
                   <option value="<?php echo $pays;?>"<?php echo $p === $pays ? "selected" : "" ?>><?php echo $pays; ?></option>
                 <?php } ?>
               </select>
+             </li>
+             <li><label for="tri_cellier">Choisir un type de vin</label>
+              <select id="type" name="type" class="tri_cellier"> 
+                  <option disabled selected value="-1"> -- selectionner une option -- </option>
+                  <?php 
+                  foreach ($arrayT as $type) { 
+                      ?> //Récupérer les différents id_cellier de la BD
+                  <option value="<?php echo $type; ?>"<?php echo $t === $type ? "selected" : "" ?>><?php echo $type; ?></option>
+
+                  <?php } ?>
+                </select>
              </li>
 		</ul>
     </nav>

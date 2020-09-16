@@ -194,7 +194,8 @@ window.addEventListener('load', function() {
 
     let bouteille = {
         cellier: document.getElementById('cellier'),
-        pays: document.getElementById("pays")
+        pays: document.getElementById("pays"),
+        type: document.getElementById("type")
     };
     //selectionner un cellier
     let selectCellier = document.querySelectorAll(".tri_cellier");
@@ -206,18 +207,30 @@ window.addEventListener('load', function() {
             e.preventDefault();
             e.stopPropagation();
             let choice = bouteille.cellier.selectedIndex;
-            let paysChoisi = bouteille.pays.selectedIndex;
             let idCellier = bouteille.cellier.options[choice].value;
+            let paysChoisi = bouteille.pays.selectedIndex;
             let paysOption = bouteille.pays.options[paysChoisi].value;
-            //console.log('choice ', choice, ' paysChoisi ', paysChoisi, ' idCellier ', idCellier, ' paysOption ', paysOption)
-            if (choice > 0 && paysChoisi > 0) {
-                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier + "&paysOption=" + paysOption;
-            } else if (paysChoisi <= 0 && choice > 0) {
+            let typeChoisi = bouteille.type.selectedIndex;
+            let typeOption = bouteille.type.options[typeChoisi].value;
+
+
+
+            console.log('choice ', choice, ' paysChoisi ', paysChoisi, ' typeChoisi ', typeChoisi,
+                ' idCellier ', idCellier, ' paysOption ', paysOption, ' typeOption ', typeOption)
+            if (choice > 0 && paysChoisi > 0 && typeChoisi > 0) { //tous les param
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier + "&paysOption=" + paysOption + "&typeOption=" + typeOption;
+            } else if (paysChoisi <= 0 && choice > 0 && typeChoisi > 0) { //le cellier + le type
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier + "&typeOption=" + typeOption;
+            } else if (choice <= 0 && paysChoisi <= 0 && typeChoisi > 0) { //le type
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&typeOption=" + typeOption;
+            } else if (choice > 0 && paysChoisi <= 0 && typeChoisi <= 0) { //le cellier
                 window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier;
-
-            } else if (choice <= 0) {
+            } else if (paysChoisi > 0 && typeChoisi <= 0 && choice <= 0) { //le pays
                 window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&paysOption=" + paysOption;
-
+            } else if (paysChoisi > 0 && typeChoisi > 0 && choice <= 0) { //pays + type
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&paysOption=" + paysOption + "&typeOption=" + typeOption;
+            } else if (paysChoisi > 0 && typeChoisi <= 0 && choice > 0) { //pays + cellier
+                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&paysOption=" + paysOption + "&idCellier=" + idCellier;
             }
 
             let requete = new Request(BaseURL + "index.php?requete=");
