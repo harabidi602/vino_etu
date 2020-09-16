@@ -44,6 +44,13 @@ class Controler
 			case 'consulterQuantiteBouteilleCellier':
 				$this->consulterQuantiteBouteilleCellier($_GET['id_bouteille'], $_GET['id_cellier']);
 				break;
+            case 'getListeCelliers':
+				$this->getListeCelliers();	
+				break;	
+			case 'ajouterNouveauCellier':
+				$body = json_decode(file_get_contents('php://input'));
+				$this->ajouterNouveauCellier(1, $body->nom_cellier);	
+				break;    
             case 'accueil':
                 $this->isAuth();
 				$this->accueil();
@@ -60,10 +67,8 @@ class Controler
 		}
 	}
 
-    
-    
     // La fonction pour redirection vers la page index.php pour la saisie de l'identifiant et du mot de passe  
-    public function isAuth()
+    private function isAuth()
 	{
         if (!$_SESSION['utilisateur_identifiant']) {
             
@@ -72,7 +77,7 @@ class Controler
 
     
     // La fonction contrôle l'authentification 
-    public function indexPage()
+    private function indexPage()
 	{
         
         $auth = new Authentication();
@@ -121,8 +126,8 @@ class Controler
 	}
     
     
-   // La fonction ajoute un utilisateur
-    public function nouveauUtilisateur()
+    // La fonction ajoute un utilisateur
+    private function nouveauUtilisateur()
 	{
    
         $auth = new Authentication();
@@ -164,7 +169,7 @@ class Controler
     }
 
     // La fonction réinitialise le mot de passe d'utilisateur
-    public function reinitialiserMdp()
+    private function reinitialiserMdp()
 	{
    
         $auth = new Authentication();
@@ -205,14 +210,23 @@ class Controler
 	private function accueil()
 	{
 		$bte = new Bouteille();
-		$data = $bte->getListeBouteilleCellier();
-		//var_dump($data);
-		include("vues/entete_basique.php");
+		if(empty($_GET['idCellier']) && empty($_GET['paysOption'])){ 
+			$data = $bte->getListeBouteilleCellier();
+		}elseif(empty($_GET['idCellier']) && !empty($_GET['paysOption'])){ 
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption']);
+			//var_dump($data);
+		}elseif(!empty($_GET['idCellier']) && empty($_GET['paysOption'])){//idCellier renseigné 
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']='');
+			
+		}elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption'])){
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']);
+		}
+			$tousCelliers = $bte->lireCelliers();
+
+		include("vues/entete.php");
 		include("vues/cellier.php");
 		include("vues/pied.php");
-        
 	}
-
 
 	private function listeBouteille()
 	{
@@ -274,5 +288,20 @@ class Controler
 		$bte = new Bouteille();
 		$resultat = $bte->getQuantiteById($id_bouteille, $id_cellier);
 		echo json_encode($resultat);
+	}
+    
+    private function getListeCelliers() {
+		$bte = new Bouteille();
+		$data = $bte->getListeCelliers();
+		$data = json_encode($data);
+		include("vues/entete.php");
+		include("vues/ajouter_cellier.php");
+		include("vues/pied.php");
+	}
+
+	private function ajouterNouveauCellier($id_utilisateur, $nom_cellier) {
+		$bte = new Bouteille();
+		$data = $bte->ajouterCellier($id_utilisateur, $nom_cellier);
+		return $data; 
 	}
 }

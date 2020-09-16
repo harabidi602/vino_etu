@@ -1,6 +1,6 @@
 <?php
 	// Remplir et renommer dataconf.php
-	define("BASEURL", "http://projects/vino_etu_poligon/");
+	define("BASEURL", "http://projects/vino_etu/");
 
 	define('HOST', 'localhost');
 	define('USER', 'root');

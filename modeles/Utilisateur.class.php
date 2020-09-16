@@ -120,7 +120,7 @@ class Utilisateur
     public function setMdp($mdp = null) {
         unset($this->erreurs['mdp']);
         $mdp = trim($mdp);
-        $regExp ='/^[a-z0-9_-]{8,16}$/'; 
+        $regExp ='/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/'; 
         if ($mdp!== null && preg_match($regExp, $mdp)) {
             $this->$mdp = $mdp;
         } else {

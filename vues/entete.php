@@ -2,7 +2,6 @@
 <html lang="fr">
 	<head>
 		<title>Un petit verre de vino</title>
-
 		<meta charset="utf-8">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta name="viewport" content="width=device-width, minimum-scale=0.5, initial-scale=1.0, user-scalable=yes">
@@ -18,36 +17,20 @@
 		<script src="./js/plugins.js"></script>
 		<script src="./js/main.js"></script>
 	</head>
-	<body >
-		
-		
+	<body>
 	<header>
-		<div class="profile">
+		<div class="menu">
 			<a href="#"><img src="img/profile.png" alt="profile"></a>
 		</div>
-		
-	</header>
-	<nav>
-			<ul class="menu">
-						<li class="logo"><a href=""?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
-						<li class="menu-item"><a href=""?requete=accueil">Accueil</a></li>
-						<li class="menu-item"><a href="#">Gestion des bouteilles</a></li>
-						<li class="menu-item"><a href="#">Gestion des celliers</a></li>
-						<li class="menu-item"><a href="#">Gestion d'administration</a></li>
-
+		<nav class="menu">
+			<ul>
+				<li class="logo"><a href=""?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
+				<li class="menu-item"><a href=""?requete=accueil">Accueil</a></li>
+				<li class="menu-item"><a href="#">Gestion des bouteilles</a></li>
+				<li class="menu-item"><a href="#">Gestion d'administration</a></li>
 			</ul>
 		</nav>
-	<nav>
-		<ul>
-					
-					<li><a href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></li>
-		</ul>
-	</nav>
+	</header>
 	<div class="col-2">
-		
 		<main class="content">
-		<article><!--Article</article>
-		</main>
 		
-	</div>
--->
