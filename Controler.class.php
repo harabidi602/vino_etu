@@ -54,6 +54,10 @@ class Controler
 				$body = json_decode(file_get_contents('php://input'));
 				$this->ajouterNouveauCellier(1, $body->nom_cellier);	
 				break;
+			case 'actualiserCellier':
+				$body = json_decode(file_get_contents('php://input'));
+				$this->modifierCellier($body->nom_cellier, $body->id_cellier);	
+				break;		
 			default:
 				$this->accueil();
 				break;
@@ -157,6 +161,12 @@ class Controler
 	private function ajouterNouveauCellier($id_utilisateur, $nom_cellier) {
 		$bte = new Bouteille();
 		$data = $bte->ajouterCellier($id_utilisateur, $nom_cellier);
+		return $data; 
+	}
+
+	private function modifierCellier($nom_cellier, $id_cellier) {
+		$bte = new Bouteille();
+		$data = $bte->modifierCellier($nom_cellier, $id_cellier);
 		return $data; 
 	}
 }

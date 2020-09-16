@@ -205,6 +205,7 @@ window.addEventListener('load', function() {
             fetch(requete)
                 .then(response => {
                     if (response.status === 200) {
+                        location.reload();
                         return response.json();
                     } else {
                         throw new Error('Erreur');
@@ -212,11 +213,35 @@ window.addEventListener('load', function() {
                 })
                 .then(response => {
                     console.log(response);
-                    location.reload();
                 }).catch(error => {
                     console.error(error);
                 });
         })
-    }    
+    } 
 
+    
+    document.querySelectorAll("[name='modifierButton']").forEach(item => {
+        item.addEventListener('click', event => {
+            var row = event.target.parentElement.parentElement.parentElement; 
+            var param = {
+                "nom_cellier": row.getElementsByClassName('nomCellier')[0].value,
+                "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML) 
+            };
+            let requete = new Request(BaseURL + "index.php?requete=actualiserCellier", { method: 'POST', body: JSON.stringify(param) });
+            fetch(requete)
+                .then(response => {
+                    if (response.status === 200) {
+                        location.reload();
+                        return response.json();
+                    } else {
+                        throw new Error('Erreur');
+                    }
+                })
+                .then(response => {
+                    console.log(response);
+                }).catch(error => {
+                    console.error(error);
+                });
+        })
+      })
 });

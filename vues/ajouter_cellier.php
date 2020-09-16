@@ -25,11 +25,11 @@
         <tbody>
         <?php foreach ($arr as $cellier) : ?>
             <tr>
-                <td data-column="Id Cellier"><?php echo $cellier['id'] ?></td>
-                <td data-column="Nom Cellier"><?php echo $cellier['nom_cellier'] ?></td>
+                <td data-column="Id Cellier" class="idCellier"><?php echo $cellier['id'] ?></td>
+                <td data-column="Nom Cellier"><input type="text" class="nomCellier" value="<?php echo $cellier['nom_cellier'] ?>"></td>
                 <td data-column="Actions">
-                    <button class="btn"><i class="fa fa-wrench" aria-hidden="true"></i></button>
-                    <button class="btn"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    <button class="btn"><i class="fa fa-wrench" aria-hidden="true" name="modifierButton"></i></button>
+                    <button class="btn"><i class="fa fa-trash" aria-hidden="true" ></i></button>
                 </td>
             </tr>
          <?php endforeach; ?>
