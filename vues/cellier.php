@@ -8,11 +8,10 @@ $arrayC=[];
 $arrayP=[];
 $arrayType =[]; 
 /*$arrayQte=[];
-
 $arrayMillesime=[];*/
 //var_dump($data);
 foreach($arr as $key => $cellier) {
-    array_push($arrayId, $cellier['id_cellier']);
+    array_push($arrayId, $cellier['nom_cellier']);
     array_push($arrayP, $cellier['pays']);
     array_push($arrayType, $cellier['type']);
 }
@@ -20,14 +19,15 @@ foreach($arrCelliers as $key =>$tousCelliers){
     array_push($arrayC, $tousCelliers['id']);
 }
 
-$arrayId = array_unique($arrayId);
+//$arrayId = array_unique($arrayId);
 $arrayP = array_unique($arrayP) ;
 $arrayT = array_unique($arrayType);
-
 /*$arrayQte = array_unique($arrayQte);
 ;
+
 $arrayMillesime = array_unique($arrayMillesime);*/
 /**/
+//var_dump($arrayId);
 $id = null;
 $p = null;
 $t=null;
