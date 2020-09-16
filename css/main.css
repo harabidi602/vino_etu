@@ -123,6 +123,10 @@ header {
     display: flex;
 }
 
+.cellier nav ul {
+    list-style-type: none;
+}
+
 .cellier .bouteille {
     display: flex;
     flex-direction: column;

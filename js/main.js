@@ -281,7 +281,7 @@ window.addEventListener('load', function() {
                 "nom_cellier": row.getElementsByClassName('nomCellier')[0].value,
                 "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
             };
-            let requete = new Request(BaseURL + "index.php?requete=actualiserCellier", { method: 'POST', body: JSON.stringify(param) });
+            let requete = new Request(URLSansR + "index.php?requete=actualiserCellier", { method: 'POST', body: JSON.stringify(param) });
             fetch(requete)
                 .then(response => {
                     if (response.status === 200) {
@@ -306,7 +306,7 @@ window.addEventListener('load', function() {
             var param = {
                 "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
             };
-            let requete = new Request(BaseURL + "index.php?requete=supprimerCellier", { method: 'POST', body: JSON.stringify(param) });
+            let requete = new Request(URLSansR + "index.php?requete=supprimerCellier", { method: 'POST', body: JSON.stringify(param) });
             fetch(requete)
                 .then(response => {
                     if (response.status === 200) {
