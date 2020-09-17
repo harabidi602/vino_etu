@@ -26,8 +26,8 @@
 		<nav class="menu">
 			<ul>
 				<li class="logo"><a href=""?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
-				<li class="menu-item"><a href=""?requete=accueil">Accueil</a></li>
-				<li class="menu-item"><a href="#">Gestion des bouteilles</a></li>
+				<li class="menu-item"><a href="?requete=accueil">Accueil</a></li>
+				<li class="menu-item"><a href="?requete=getListeCelliers">Gestion des celliers</a></li>
 				<li class="menu-item"><a href="#">Gestion d'administration</a></li>
 			</ul>
 		</nav>
