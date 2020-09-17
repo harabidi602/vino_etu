@@ -379,6 +379,8 @@ class Controler
 	private function supprimerCellier ($id_cellier) {
 		$bte = new Bouteille();
 		$data = $bte->supprimerCellier($id_cellier);
-		return $data; 
+		if(!$data) {
+			http_response_code(417);
+		}
 	}
 }
