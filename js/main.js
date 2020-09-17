@@ -213,8 +213,6 @@ window.addEventListener('load', function() {
             let typeChoisi = bouteille.type.selectedIndex;
             let typeOption = bouteille.type.options[typeChoisi].value;
 
-
-
             console.log('choice ', choice, ' paysChoisi ', paysChoisi, ' typeChoisi ', typeChoisi,
                 ' idCellier ', idCellier, ' paysOption ', paysOption, ' typeOption ', typeOption)
             if (choice > 0 && paysChoisi > 0 && typeChoisi > 0) { //tous les param
