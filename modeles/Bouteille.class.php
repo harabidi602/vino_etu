@@ -29,7 +29,7 @@ class Bouteille extends Modele
 		return $rows;
 	}
 
-	public function getListeBouteilleCellier($id_cellier='',$pays=''/*$id, ='',$type ='',$quantite ='',$millesime=''*/)
+	public function getListeBouteilleCellier($id_cellier='',$pays='',$type =''/*,$quantite ='',$millesime=''*/)
 	{
 
 		$rows = array();
@@ -45,35 +45,35 @@ class Bouteille extends Modele
 		INNER JOIN vino__utilisateur v_u ON v_u.id = v_c.id_utilisateur
 		
 		';
-	if(!empty($id_cellier)){ 
-	$requete.=" WHERE v_c_b.id_cellier ='".$id_cellier."'";
-	}
-	if(!empty($type)){ 
-		$requete.=" AND v_b.id_type ='".$type."'";
-	}
-	if(!empty($quantite)){ 
-		
-		$requete.=" AND v_c_b.quantite ='".$quantite."'";
-		
-	}
-	if(!empty($pays)){ 
-		$requete.=" AND v_b.pays ='".$pays."'";
-	}
-	if(!empty($millesime)){ 
-		$requete.=" AND v_b.millesime ='".$millesime."'";
-	}
-		if (($res = $this->_db->query($requete)) ==	 true) {
-			if ($res->num_rows) {
-				while ($row = $res->fetch_assoc()) {
-					$row['nom'] = trim(utf8_encode($row['nom']));
-					$rows[] = $row;
-				}
-			}
-		} else {
-			throw new Exception("Erreur de requête sur la base de donnée", 1);
-			//$this->_db->error;
+		if(!empty($id_cellier)){ 
+		$requete.=" WHERE v_c_b.id_cellier ='".$id_cellier."'";
 		}
-		return $rows;
+		if(!empty($type)){ 
+			$requete.=" AND v_b_t.type ='".$type."'";
+		}
+		if(!empty($quantite)){ 
+			
+			$requete.=" AND v_c_b.quantite ='".$quantite."'";
+			
+		}
+		if(!empty($pays)){ 
+			$requete.=" AND v_b.pays ='".$pays."'";
+		}
+		if(!empty($millesime)){ 
+			$requete.=" AND v_b.millesime ='".$millesime."'";
+		}
+			if (($res = $this->_db->query($requete)) ==	 true) {
+				if ($res->num_rows) {
+					while ($row = $res->fetch_assoc()) {
+						$row['nom'] = trim(utf8_encode($row['nom']));
+						$rows[] = $row;
+					}
+				}
+			} else {
+				throw new Exception("Erreur de requête sur la base de donnée", 1);
+				//$this->_db->error;
+			}
+			return $rows;
 	}
 	/**
 	 * Cette méthode récupère la liste des noms des celliers
@@ -205,11 +205,26 @@ class Bouteille extends Modele
 		return $rows;
 	}
 
-
 	//Fonction pour ajouter un nouveau cellier
 	public function ajouterCellier($id_utilisateur, $nom_cellier) {
 		$requete = "INSERT INTO vino__cellier (id_utilisateur, nom_cellier) VALUES (" . $id_utilisateur . "," . "'" . $nom_cellier . "')";
 		$res = $this->_db->query($requete);
 		return $res; 
+	}
+
+	//Fontion pour modifier le nom d'un cellier
+	public function modifierCellier($nom_cellier, $id_cellier) {
+		$requete = "UPDATE vino__cellier SET nom_cellier ='" . $nom_cellier . "' WHERE id = " . $id_cellier;
+		//echo $requete;
+		$res = $this->_db->query($requete);
+
+		return $res;
+	}
+
+	//Fontion pour supprimer le cellier
+	public function supprimerCellier($id_cellier) {
+		$requete = "DELETE FROM vino__cellier WHERE id = " . $id_cellier;
+		$res = $this->_db->query($requete);
+		return $res;
 	}
 }

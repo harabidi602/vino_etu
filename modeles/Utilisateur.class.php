@@ -120,9 +120,9 @@ class Utilisateur
     public function setMdp($mdp = null) {
         unset($this->erreurs['mdp']);
         $mdp = trim($mdp);
-        $regExp ='/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/'; 
+        $regExp ='/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/'; 
         if ($mdp!== null && preg_match($regExp, $mdp)) {
-            $this->$mdp = $mdp;
+            $this->mdp = $mdp;
         } else {
            $this->erreurs['mdp'] = "Utilisez 8 caractères ou plus pour votre mot de passe";
         }
