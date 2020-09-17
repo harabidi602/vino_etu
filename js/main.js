@@ -248,7 +248,7 @@ window.addEventListener('load', function() {
     //Fonctionnalités du boutton ajouter pour ajouter un nouveau cellier
     let inputAjouterCellier = document.querySelector("[name='nomCellier']");
     let buttonAjouterCellier = document.getElementById("buttonAjouterCellier");
-    let URLSansR = window.location.href.split('?')[0];
+    let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/")+1);
 
     if (inputAjouterCellier) {
         buttonAjouterCellier.addEventListener("click", function(evt) {
@@ -299,26 +299,29 @@ window.addEventListener('load', function() {
 
     document.querySelectorAll("[name='suprimmerButton']").forEach(item => {
         item.addEventListener('click', event => {
-            var row = event.target.parentElement.parentElement.parentElement;
-            console.log(row);
-            var param = {
-                "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
-            };
-            let requete = new Request(URLSansR + "index.php?requete=supprimerCellier", { method: 'POST', body: JSON.stringify(param) });
-            fetch(requete)
-                .then(response => {
-                    if (response.status === 200) {
-                        location.reload();
-                        return response.json();
-                    } else {
-                        throw new Error('Erreur');
-                    }
-                })
-                .then(response => {
-                    console.log(response);
-                }).catch(error => {
-                    console.error(error);
-                });
+            var choice =  confirm('Êtes-vous sûr de vouloir supprimer ce cellier?');
+            if(choice) {
+                var row = event.target.parentElement.parentElement.parentElement;
+                console.log(row);
+                var param = {
+                    "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
+                };
+                let requete = new Request(URLSansR + "index.php?requete=supprimerCellier", { method: 'POST', body: JSON.stringify(param) });
+                fetch(requete)
+                    .then(response => {
+                        if (response.status === 200) {
+                            location.reload();
+                            return response.json();
+                        } else {
+                            alert("Le cellier n'a pas pu être effacé. Vérifier la présence de bouteilles dans le cellier");
+                        }
+                    })
+                    .then(response => {
+                        console.log(response);
+                    }).catch(error => {
+                        console.error(error);
+                    });
+            } 
         });
     });
 
