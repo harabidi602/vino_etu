@@ -120,11 +120,24 @@ header {
 .cellier>nav {
     width: 100%;
     padding: 5px;
-    display: flex;
+    /*display: flex;*/
 }
 
 .cellier nav ul {
     list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.cellier nav ul>* {
+    padding: 10px;
+}
+
+.cellier nav ul li label {
+    display: block;
+    width: 200px;
 }
 
 .cellier .bouteille {
