@@ -5,18 +5,14 @@
         <ul class="listeAutoComplete"></ul></div>
         <?php
         //Transformer le résultat de Json en array 
-        $arr = json_decode($data, true);
-        $arrayId = []; 
-        foreach($arr as $key => $cellier) {
-            array_push($arrayId, $cellier['id_cellier']);
-        }
-        $arrayId = array_unique($arrayId); ?>
+        $arrayCelliers = json_decode($dataCellier, true);
+        ?>
         
         <div class="infoBouteille">
         <p>Nom : <span data-id_bouteille="" class="nom_bouteille"></span></p>
                 <p>Num Cellier<select id="cellier"> 
-                    <?php foreach ($arrayId as $cle => $cellier) { ?> //Récupérer les différents id_cellier de la BD
-                        <option value="<?php echo $cellier;?>"><?php echo $cellier; ?></option>
+                    <?php foreach ($arrayCelliers as $cellier) { ?> //Récupérer les différents id_cellier de la BD
+                        <option value="<?php echo $cellier['id'];?>"><?php echo $cellier['id'] ; ?></option>
                     <?php } ?>
                 </select></p>  
                 <p>Millesime : <input name="millesime"></p>
