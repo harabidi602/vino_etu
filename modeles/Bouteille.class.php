@@ -75,23 +75,7 @@ class Bouteille extends Modele
 			}
 			return $rows;
 	}
-	/**
-	 * Cette méthode récupère la liste des noms des celliers
-	 * de l'utilisateur connecté 
-	 * 
-	 */
-	public function lireCelliers(){
-		$rows = array();
-		$res = $this->_db->query('Select * from vino__cellier');
-		if ($res->num_rows) {
-			while ($row = $res->fetch_assoc()) {
-				$rows[] = $row;
-			}
-		}
-
-		return $rows;
-	}
-
+	
 	/**
 	 * Cette méthode permet de retourner les résultats de recherche pour la fonction d'autocomplete de l'ajout des bouteilles dans le cellier
 	 * 
@@ -151,7 +135,7 @@ class Bouteille extends Modele
 			"'" . $data->prix . "'," .
 			"'" . $data->quantite . "'," .
 			"'" . $data->millesime . "')";
-
+		
 		$res = $this->_db->query($requete);
 
 		return $res;
@@ -185,12 +169,21 @@ class Bouteille extends Modele
 		return $row;
 	}
 
-	//Fonction pour récuperer la liste des celliers
-	public function getListeCelliers()
+	
+	/**
+	 * Cette méthode récupère la liste des ids des celliers par utilisateurs
+	 *  
+	 * 
+	 */
+	public function lireCelliers($id_utilisateur = NULL)
 	{
 		$rows = array();
-		$requete = 'SELECT * FROM vino__cellier AS v_c';
-
+	
+		if($id_utilisateur === NULL) {
+			$requete = 'SELECT * FROM vino__cellier'; 
+		} else {
+			$requete = 'SELECT * FROM vino__cellier WHERE id_utilisateur = ' . $id_utilisateur;
+		}
 		if (($res = $this->_db->query($requete)) ==	 true) {
 			if ($res->num_rows) {
 				while ($row = $res->fetch_assoc()) {
