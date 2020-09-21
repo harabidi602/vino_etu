@@ -76,6 +76,17 @@ class Controler
             case 'reinitialiserMdp':
 				$this->reinitialiserMdp();
 				break;    
+            case 'quitter':
+				$this->quitter();
+				break;  
+            case 'nouveauAdminUtilisateur':
+                $this->isAuth();
+				$this->nouveauAdminUtilisateur();	
+				break;	    
+            case 'modificationUtilisateur':
+                $this->isAuth();
+				$this->modificationUtilisateur($body->id);	
+				break;	       
 			default:
                 $this->authentification();
 				break;
@@ -347,4 +358,90 @@ class Controler
 			http_response_code(417);
 		}
 	}
+    
+    
+    
+  // La fonction ajoute un utilisateur
+	private function nouveauAdminUtilisateur() {
+        
+        $admin = new Admin();
+        $util =  new Authentication();
+        
+        if (count($_POST) !== 0) {
+            
+        if($_POST['type'] == 'administrateur'){
+            
+           $type = 1;
+            
+        } else $type = 2;  
+         
+        $oUtilisateur = new Utilisateur($_POST['nom'],$_POST['prenom'],$_POST['identifiant'],$_POST['mdp'],$_POST['courriel'],$_POST['telephone']);
+        $erreurs = $oUtilisateur->erreurs; 
+                      
+        if (count($erreurs) === 0) {
+            
+        $iden = trim($_POST['identifiant']);    
+        $rows=$util->sqlVinoUtilisateur($iden);    
+        $tiden=$rows['identifiant'];   
+            
+        if ($tiden == $iden) { 
+        $message = "L'utilisateur avec cet identifiant déjà existe dans le système";      
+        unset($_POST);
+        }    
+        elseif ($tiden != $iden) {   
+            
+        $admin->sqlAjouterAdmin($oUtilisateur->nom,$oUtilisateur->prenom,$oUtilisateur->identifiant,$oUtilisateur->mdp,$oUtilisateur->courriel,$oUtilisateur->telephone,$type);
+        $message = "L'utilisateur bien ajouté";
+        unset($_POST);    
+        }
+        else {
+        $message = "L'utilisateur n'est pas ajouté";   
+        unset($_POST);    
+        }    
+        }   
+        } else {
+        $erreurs = [];
+        $oUtilisateur = new Utilisateur;
+        }  
+        
+		include("vues/entete.php");
+		include("vues/pied.php");
+	}  
+    
+    // La fonction modifie un utilisateur
+	private function modificationUtilisateur($id) {
+        
+        $admin = new Admin();
+        
+        if (count($_POST) !== 0) {
+         
+        $oUtilisateur = new Utilisateur($_POST['nom'],$_POST['prenom'],$_POST['identifiant'],$_POST['mdp'],$_POST['courriel'],$_POST['telephone']);
+        $erreurs = $oUtilisateur->erreurs; 
+                      
+        if (count($erreurs) === 0) {
+              
+        $type = trim($_POST['id_type']);    
+            
+        $admin->sqlModificationUtilisateur($id,$oUtilisateur->nom,$oUtilisateur->prenom,$oUtilisateur->identifiant,$oUtilisateur->mdp,$oUtilisateur->courriel,$oUtilisateur->telephone,$type);
+        $message = "L'utilisateur bien modifié";
+        unset($_POST);    
+        } else {
+        $message = "L'utilisateur n'est pas modifié";   
+        unset($_POST);    
+        }
+        } else {
+        $erreurs = [];
+        $oUtilisateur = new Utilisateur;
+        }  
+        
+		include("vues/entete.php");
+		include("vues/pied.php");
+	}  
+    
+    
+    
+    
+    
+    
+    
 }
