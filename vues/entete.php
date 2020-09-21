@@ -20,8 +20,10 @@
 	</head>
 	<body>
 	<header>
+	
 		<div class="menu">
-			<a href="#"><img src="img/profile.png" alt="profile"></a>
+            <p>Bienvenu <?php echo $_SESSION['utilisateur_identifiant']; ?>  <a href="index.php?requete=quitter"><img src="img/profile.png" alt="profile"></a></p>
+			
 		</div>
 		<nav class="menu">
 			<ul>
