@@ -19,22 +19,22 @@
 		<script src="./js/main.js"></script>
 	</head>
 	<body>
-	<header>
-	
-		<div class="menu">
-            <p>Bienvenu <?php echo $_SESSION['utilisateur_identifiant']; ?>  <a href="index.php?requete=quitter"><img src="img/profile.png" alt="profile"></a></p>
-			
-		</div>
-		<nav class="menu">
-			<ul>
-				<li class="logo"><a href=""?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
-				<li class="menu-item"><a href="?requete=accueil">Accueil</a></li>
-				<?php if ($_SESSION['utilisateur_type'] == 2){ ?><li class="menu-item"><a href="?requete=getListeCelliers">Gestion des celliers</a></li><?php } ?>
-				<?php if ($_SESSION['utilisateur_type'] == 1){ ?>
-				<li class="menu-item"><a href="index.php?requete=admin">Gestion d'administration</a></li><?php }?>
-			</ul>
-		</nav>
-	</header>
+		<header>
+			<div class="menu">
+				<span>Bienvenu <?php echo $_SESSION['utilisateur_identifiant']; ?></span>
+				<img src="img/profile.png" alt="profile">
+				<a href="index.php?requete=quitter"><img src="img/logout.png" alt="Déconnexion"></a>
+			</div>
+			<nav class="menu">
+				<ul>
+					<li class="logo"><a href=""?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
+					<li class="menu-item"><a href="?requete=accueil">Accueil</a></li>
+					<?php if ($_SESSION['utilisateur_type'] == 2){ ?><li class="menu-item"><a href="?requete=getListeCelliers">Gestion des celliers</a></li><?php } ?>
+					<?php if ($_SESSION['utilisateur_type'] == 1){ ?>
+					<li class="menu-item"><a href="index.php?requete=admin">Gestion d'administration</a></li><?php }?>
+				</ul>
+			</nav>
+		</header>
 	<div class="col-2">
 		<main class="content">
 		

@@ -1,6 +1,6 @@
 <div class="ajouterCel">
     <div>
-        <img class="imageNC" src="img/cellar.png" alt="Image Cellier">
+        <img class="imageNC" src="img/cellier.png" alt="Image Cellier">
         <h4>Ajouter un nouveau cellier</h4>
     </div>
     <div class="gestionCellier">

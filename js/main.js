@@ -344,30 +344,34 @@ window.addEventListener('load', function() {
     console.log(modifier_bouteille);
     if (modifier_bouteille) {
         modifier_bouteille.addEventListener("click", function(e) {
-            console.log('Boton Modificar'); 
-            // e.preventDefault();
-            // var row = e.target.parentElement.parentElement;
-            // console.log(row);
-            // var param = {
-            //     "id_cellier": parseInt(row.getElementsByClassName('id_cellier')[0].innerHTML)
-            // };
-            // let requete = new Request(URLSansR + "index.php?requete=modifierBouteille", { method: 'POST', body: JSON.stringify(param) });
+            let row = e.target.parentElement.parentElement;
+            let param = {
+                "id_bouteille": row.querySelectorAll("[name='bouteille_id']")[0].value,
+                "id_cellier": row.querySelectorAll("[name='cellierSelect']")[0].value,
+                "quantite": row.querySelectorAll("[name='quantite']")[0].value,
+                "date_achat": row.querySelectorAll("[name='date_achat']")[0].value,
+                "millesime": row.querySelectorAll("[name='millesime']")[0].value,
+                "garde_jusqua": row.querySelectorAll("[name='garde_jusqua']")[0].value,
+                "notes": row.querySelectorAll("[name='notes']")[0].value,
+                "prix": row.querySelectorAll("[name='prix']")[0].value
 
-            // fetch(requete)
-            //     .then(response => {
-            //         if (response.status === 200) {
+            };
 
-            //             return response.json();
-            //         } else {
-            //             throw new Error('Erreur');
-            //         }
-            //     })
-            //     .then(response => {
-            //         console.debug(response);
-            //     }).catch(error => {
-            //         console.error(error);
-            //     });
-        })
+            let requete = new Request(URLSansR + "index.php?requete=modifierBouteille", { method: 'POST', body: JSON.stringify(param) });
+            fetch(requete)
+                .then(response => {
+                    if (response.status === 200) {
+                        return response.json();
+                    } else {
+                        throw new Error('Erreur');
+                    }
+                })
+                .then(response => {
+                    console.debug(response);
+                }).catch(error => {
+                    console.error(error);
+                });
+        });
 
     }
 });
