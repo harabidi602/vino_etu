@@ -4,9 +4,9 @@
  * Class Bouteille
  * Cette classe possède les fonctions de gestion des bouteilles dans le cellier et des bouteilles dans le catalogue complet.
  * 
- * @author Jonathan Martel
+ * @author Equipe2
  * @version 1.0
- * @update 2019-01-21
+ * @update 2020-09-20
  * @license Creative Commons BY-NC 3.0 (Licence Creative Commons Attribution - Pas d’utilisation commerciale 3.0 non transposé)
  * @license http://creativecommons.org/licenses/by-nc/3.0/deed.fr
  * 
@@ -210,7 +210,6 @@ class Bouteille extends Modele
 		$requete = "UPDATE vino__cellier SET nom_cellier ='" . $nom_cellier . "' WHERE id = " . $id_cellier;
 		//echo $requete;
 		$res = $this->_db->query($requete);
-
 		return $res;
 	}
 
@@ -220,4 +219,32 @@ class Bouteille extends Modele
 		$res = $this->_db->query($requete);
 		return $res;
 	}
+	//recuperer les infos de la bouteille avant de la modifier
+	public function lireBouteille($id_bouteille,$id_cellier){
+		$requete ="SELECT * FROM `vino__cellier_bouteille` AS v_c_b
+		LEFT JOIN vino__bouteille v_b ON v_c_b.id_bouteille = v_b.id WHERE v_c_b.id_bouteille = " . $id_bouteille . " AND v_c_b.id_cellier = " . $id_cellier;
+		$res = $this->_db->query($requete);
+		if ($res->num_rows) {
+			while ($row = $res->fetch_assoc()) {
+				$rows[] = $row;
+			}
+		}
+
+		return $rows;
+	}
+	//modifier une bouteille
+	public function modifierBouteille($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,$quantite,$millesime){
+
+		$requete = "UPDATE vino__cellier_bouteille 
+		SET date_achat ='" . $date_achat . "',
+		garde_jusqua='".$garde_jusqua."',
+		notes= '".$notes."',
+		prix= '".$prix."',
+		quantite= '".$quantite."',
+		millesime= '".$millesime."'
+		WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = ".$id_cellier;
+		$res = $this->_db->query($requete);
+		return $res;
+	}
 }
+
