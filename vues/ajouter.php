@@ -8,8 +8,8 @@
         $arrayCelliers = json_decode($dataCellier, true);
         ?>
         
-        <div class="infoBouteille">
-        <p>Nom : <span data-id_bouteille="" class="nom_bouteille"></span></p>
+            <div class="infoBouteille">
+                <p>Nom : <span data-id_bouteille="" class="nom_bouteille"></span></p>
                 <p>Num Cellier<select id="cellier"> 
                     <?php foreach ($arrayCelliers as $cellier) { ?> //Récupérer les différents id_cellier de la BD
                         <option value="<?php echo $cellier['id'];?>"><?php echo $cellier['id'] ; ?></option>
@@ -23,7 +23,6 @@
                 <p>Notes <input name="notes"></p>
                 <button name="ajouterBouteilleCellier">Ajouter la bouteille</button>
             </div>
-        </div>
     </div>
 </div>
-</div>
+

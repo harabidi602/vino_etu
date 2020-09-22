@@ -7,9 +7,7 @@ $arrayId =[];
 $arrayC=[];
 $arrayP=[];
 $arrayType =[]; 
-/*$arrayQte=[];
-$arrayMillesime=[];*/
-//var_dump($data);
+
 foreach($arr as $key => $cellier) {
     array_push($arrayId, $cellier['nom_cellier']);
     array_push($arrayP, $cellier['pays']);
@@ -19,20 +17,14 @@ foreach($arrCelliers as $key =>$tousCelliers){
     array_push($arrayC, $tousCelliers['id']);
 }
 
-//$arrayId = array_unique($arrayId);
+
 $arrayP = array_unique($arrayP) ;
 $arrayT = array_unique($arrayType);
-/*$arrayQte = array_unique($arrayQte);
-;
 
-$arrayMillesime = array_unique($arrayMillesime);*/
-/**/
-//var_dump($arrayId);
 $id = null;
 $p = null;
 $t=null;
-//isset($_POST['tri_critere']) && $_POST['tri_critere']>0
-/**/
+
          
 if ( isset( $_GET['idCellier'] ) && !empty( $_GET['idCellier'] ) ){
    $id = trim($_GET['idCellier']);
@@ -102,7 +94,7 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
                 <li><a href="<?php echo $bouteille['url_saq'] ?>">Voir SAQ</a></li>
             </ul>
             <div class="options" data-id_bouteille="<?php echo $bouteille['id_bouteille'] ?>" data-id_cellier="<?php echo $bouteille['id_cellier'] ?>">
-                <button>Modifier</button>
+                <button class="btnModifierBouteille" id='modifierBouteille' name="modifierBouteille">Modifier</button>
                 <button class='btnAjouter'>Ajouter</button>
                 <button class='btnBoire'>Boire</button>
 
