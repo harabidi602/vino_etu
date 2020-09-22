@@ -60,6 +60,13 @@ header {
     flex: 1;
 }
 
+/*Styles du message de bienvenu(e)*/
+.menu>span {
+    color: lightgray; 
+    padding: 10px;
+    font-style: inherit;
+}
+
 
 /*-----------------------------le menu principal----------------------*/
 
