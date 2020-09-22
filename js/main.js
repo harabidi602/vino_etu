@@ -165,12 +165,13 @@ window.addEventListener('load', function() {
                     "id_cellier": idCellier,
                     "date_achat": bouteille.date_achat.value,
                     "garde_jusqua": bouteille.garde_jusqua.value,
-                    "notes": bouteille.date_achat.value,
+                    "notes": bouteille.notes.value,
                     "prix": bouteille.prix.value,
                     "quantite": bouteille.quantite.value,
                     "millesime": bouteille.millesime.value,
                 };
-                let requete = new Request(BaseURL + "index.php?requete=ajouterNouvelleBouteilleCellier", { method: 'POST', body: JSON.stringify(param) });
+                let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+                let requete = new Request(URLSansR + "index.php?requete=ajouterNouvelleBouteilleCellier", { method: 'POST', body: JSON.stringify(param) });
                 //console.log(requete);
                 fetch(requete)
                     .then(response => {
