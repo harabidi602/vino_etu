@@ -165,7 +165,7 @@ window.addEventListener('load', function() {
                     "id_cellier": idCellier,
                     "date_achat": bouteille.date_achat.value,
                     "garde_jusqua": bouteille.garde_jusqua.value,
-                    "notes": bouteille.date_achat.value,
+                    "notes": bouteille.notes.value,
                     "prix": bouteille.prix.value,
                     "quantite": bouteille.quantite.value,
                     "millesime": bouteille.millesime.value,
@@ -175,7 +175,8 @@ window.addEventListener('load', function() {
                 fetch(requete)
                     .then(response => {
                         if (response.status === 200) {
-                            //console.log('1');
+                            location.reload();
+                            alert('Bouteille ajoutée au cellier avec succès');
                             return response.json();
                         } else {
                             throw new Error('Erreur');
@@ -199,36 +200,34 @@ window.addEventListener('load', function() {
     };
     //selectionner un cellier
     let selectCellier = document.querySelectorAll(".tri_cellier");
-    /**/
-    // console.log(selectCellier);
     selectCellier.forEach(function(elem) {
-
         elem.addEventListener("change", function(e) {
             e.preventDefault();
             e.stopPropagation();
-            let choice = bouteille.cellier.selectedIndex;
-            let idCellier = bouteille.cellier.options[choice].value;
-            let paysChoisi = bouteille.pays.selectedIndex;
-            let paysOption = bouteille.pays.options[paysChoisi].value;
-            let typeChoisi = bouteille.type.selectedIndex;
-            let typeOption = bouteille.type.options[typeChoisi].value;
+            let choice = bouteille.cellier.selectedIndex; //selection cellier
+            let idCellier = bouteille.cellier.options[choice].value; //valeur cellier choisi
+            let paysChoisi = bouteille.pays.selectedIndex; //selection pays
+            let paysOption = bouteille.pays.options[paysChoisi].value; //valeur pays choisi
+            let typeChoisi = bouteille.type.selectedIndex; //type choisi
+            let typeOption = bouteille.type.options[typeChoisi].value; //valeur type choisi
 
+            //test des selects selectionnées pour les rediriger vers le bon resultat
             console.log('choice ', choice, ' paysChoisi ', paysChoisi, ' typeChoisi ', typeChoisi,
                 ' idCellier ', idCellier, ' paysOption ', paysOption, ' typeOption ', typeOption)
             if (choice > 0 && paysChoisi > 0 && typeChoisi > 0) { //tous les param
-                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier + "&paysOption=" + paysOption + "&typeOption=" + typeOption;
+                window.location = BaseURL + "index.php?requete=accueil&idCellier=" + idCellier + "&paysOption=" + paysOption + "&typeOption=" + typeOption;
             } else if (paysChoisi <= 0 && choice > 0 && typeChoisi > 0) { //le cellier + le type
-                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier + "&typeOption=" + typeOption;
+                window.location = BaseURL + "index.php?requete=accueil&idCellier=" + idCellier + "&typeOption=" + typeOption;
             } else if (choice <= 0 && paysChoisi <= 0 && typeChoisi > 0) { //le type
-                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&typeOption=" + typeOption;
+                window.location = BaseURL + "index.php?requete=accueil&typeOption=" + typeOption;
             } else if (choice > 0 && paysChoisi <= 0 && typeChoisi <= 0) { //le cellier
-                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&idCellier=" + idCellier;
+                window.location = BaseURL + "index.php?requete=accueil&idCellier=" + idCellier;
             } else if (paysChoisi > 0 && typeChoisi <= 0 && choice <= 0) { //le pays
-                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&paysOption=" + paysOption;
+                window.location = BaseURL + "index.php?requete=accueil&paysOption=" + paysOption;
             } else if (paysChoisi > 0 && typeChoisi > 0 && choice <= 0) { //pays + type
-                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&paysOption=" + paysOption + "&typeOption=" + typeOption;
+                window.location = BaseURL + "index.php?requete=accueil&paysOption=" + paysOption + "&typeOption=" + typeOption;
             } else if (paysChoisi > 0 && typeChoisi <= 0 && choice > 0) { //pays + cellier
-                window.location = BaseURL + "index.php?requete=getListeBouteilleCellier&paysOption=" + paysOption + "&idCellier=" + idCellier;
+                window.location = BaseURL + "index.php?requete=accueil&paysOption=" + paysOption + "&idCellier=" + idCellier;
             }
 
             let requete = new Request(BaseURL + "index.php?requete=");
@@ -248,7 +247,8 @@ window.addEventListener('load', function() {
     //Fonctionnalités du boutton ajouter pour ajouter un nouveau cellier
     let inputAjouterCellier = document.querySelector("[name='nomCellier']");
     let buttonAjouterCellier = document.getElementById("buttonAjouterCellier");
-    let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/")+1);
+    let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+
 
     if (inputAjouterCellier) {
         buttonAjouterCellier.addEventListener("click", function(evt) {
@@ -272,9 +272,11 @@ window.addEventListener('load', function() {
                 });
         })
     }
+    //modifier cellier
     document.querySelectorAll("[name='modifierButton']").forEach(item => {
         item.addEventListener('click', event => {
             var row = event.target.parentElement.parentElement.parentElement;
+            console.log('row cellier ', row);
             var param = {
                 "nom_cellier": row.getElementsByClassName('nomCellier')[0].value,
                 "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
@@ -296,11 +298,11 @@ window.addEventListener('load', function() {
                 });
         });
     });
-
+    //supprimer cellier
     document.querySelectorAll("[name='suprimmerButton']").forEach(item => {
         item.addEventListener('click', event => {
-            var choice =  confirm('Êtes-vous sûr de vouloir supprimer ce cellier?');
-            if(choice) {
+            var choice = confirm('Êtes-vous sûr de vouloir supprimer ce cellier?');
+            if (choice) {
                 var row = event.target.parentElement.parentElement.parentElement;
                 console.log(row);
                 var param = {
@@ -321,8 +323,52 @@ window.addEventListener('load', function() {
                     }).catch(error => {
                         console.error(error);
                     });
-            } 
+            }
+        });
+    });
+    //Modifier une bouteille dans le cellier
+    document.querySelectorAll("[name='modifierBouteille']").forEach(item => {
+        item.addEventListener('click', event => {
+            let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+            let id_bouteille = event.target.parentElement.dataset.id_bouteille;
+            let id_cellier = event.target.parentElement.dataset.id_cellier;
+            window.location = URLSansR + "index.php?requete=getInfosBouteille&id_bouteille=" + id_bouteille + "&id_cellier=" + id_cellier;
         });
     });
 
+    let modifier_bouteille = document.querySelectorAll("[name='modifier_bouteille']")[0];
+    if (modifier_bouteille) {
+        modifier_bouteille.addEventListener("click", function(e) {
+            let row = e.target.parentElement.parentElement;
+            let param = {
+                "id_bouteille": parseInt(row.querySelectorAll("[name='bouteille_id']")[0].value),
+                "id_cellier": parseInt(row.querySelectorAll("[name='id_cellier']")[0].value),
+                "quantite": JSON.parse(row.querySelectorAll("[name='quantite']")[0].value),
+                "date_achat": row.querySelectorAll("[name='date_achat']")[0].value,
+                "millesime": JSON.parse(row.querySelectorAll("[name='millesime']")[0].value),
+                "garde_jusqua": JSON.parse(row.querySelectorAll("[name='garde_jusqua']")[0].value),
+                "notes": row.querySelectorAll("[name='notes']")[0].value,
+                "prix": JSON.parse(row.querySelectorAll("[name='prix']")[0].value)
+
+            };
+            //console.log('param', param);
+            let requete = new Request(URLSansR + "index.php?requete=modifierBouteille", { method: 'POST', body: JSON.stringify(param) });
+            fetch(requete)
+                .then(response => {
+                    if (response.status === 200) {
+                        location.reload();
+                        alert('Modification de la bouteille effectuée avec succès');
+                        return response.json();
+                    } else {
+                        throw new Error('Erreur');
+                    }
+                })
+                .then(response => {
+                    console.debug(response);
+                }).catch(error => {
+                    console.error(error);
+                });
+        })
+
+    }
 });
