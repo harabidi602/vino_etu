@@ -5,9 +5,7 @@
         <ul class="listeAutoComplete"></ul></div>
         <?php
         //Transformer le résultat de Json en array 
-        $arrayCelliers = json_decode($dataCellier, true);
-        ?>
-        
+        $arrayCelliers = json_decode($dataCellier, true);?>
             <div class="infoBouteille">
                 <p>Nom : <span data-id_bouteille="" class="nom_bouteille"></span></p>
                 <p>Num Cellier<select id="cellier"> 

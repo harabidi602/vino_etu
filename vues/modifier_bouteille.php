@@ -1,15 +1,6 @@
 <?php 
 $arrInfosBouteille = json_decode(json_encode($data),true);
-$arrayC=[];
-$decode = json_decode($dataCellier, true);
-foreach($decode as $row){
-   array_push($arrayC, $row['id']);
-}
-$id = null;
-if ( isset( $_GET['id_cellier'] ) && !empty( $_GET['id_cellier'] ) ){
-    $id = trim($_GET['id_cellier']);
- }
- foreach ($arrInfosBouteille as $cle => $bouteille) {?>
+foreach ($arrInfosBouteille as $cle => $bouteille) {?>
 <div><h4><span>Modification de la bouteille :<?php echo $bouteille['nom']?></span></h4>
     <div class="modifierBouteille">
         <input type='hidden' value="<?php echo $bouteille['id_bouteille'] ?>" name="bouteille_id">
