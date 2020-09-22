@@ -73,6 +73,16 @@ class Controler
 				$body = json_decode(file_get_contents('php://input'));
 				$this->supprimerCellier($body->id_cellier);	
 				break;	
+			case 'getInfosBouteille' :
+				$this->isAuth();
+				$this->getInfosBouteille($_GET['id_bouteille'], $_GET['id_cellier']);
+				break;
+			case 'modifierBouteille':
+				$this->isAuth();
+				$body = json_decode(file_get_contents('php://input'));
+				$this->modifierBouteilleInfos($body->id_bouteille,$body->id_cellier,$body->date_achat,$body->garde_jusqua,$body->notes,$body->prix,
+				$body->quantite,$body->millesime);	
+				break;
             case 'reinitialiserMdp':
 				$this->reinitialiserMdp();
 				break;    
@@ -347,4 +357,32 @@ class Controler
 			http_response_code(417);
 		}
 	}
+
+	private function getInfosBouteille($id_bouteille,$id_cellier){
+		$bte = new Bouteille();
+		
+		if (!empty($body)) {
+			$resultat = $bte->lireBouteille($id_bouteille,$id_cellier);
+			echo json_encode($resultat);
+		} else {
+			$data = $bte->lireBouteille($id_bouteille,$id_cellier);
+			$tousCelliers = $bte->lireCelliers();
+			$dataCellier = json_encode($tousCelliers);
+			include("vues/entete.php");
+			include("vues/modifier_bouteille.php");
+			include("vues/pied.php");
+		}
+		
+		
+	}
+	private function modifierBouteilleInfos($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,$quantite,$millesime){
+		//checker si l'utilisateur à le droit de modifier
+		$bte = new Bouteille();
+		$body = json_decode(file_get_contents('php://input'));
+		$data = $bte->modifierBouteille($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,$quantite,$millesime);
+		
+		return $data;
+	}
+
+	
 }
