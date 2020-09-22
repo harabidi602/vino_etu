@@ -237,14 +237,13 @@ class Bouteille extends Modele
 	public function modifierBouteille($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,$quantite,$millesime){
 
 		$requete = "UPDATE vino__cellier_bouteille 
-		SET date_achat ='" . $date_achat . "'
-		and garde_jusqua='".$garde_jusqua."'
-		and notes= '".$notes."'
-		and prix= '".$prix."'
-		and quantite= '".$quantite."'
-		and millesime= '".$millesime."'
-		and id_cellier = '".$id_cellier."'
-		WHERE id_bouteille = " . $id_bouteille;
+		SET date_achat ='" . $date_achat . "',
+		garde_jusqua='".$garde_jusqua."',
+		notes= '".$notes."',
+		prix= '".$prix."',
+		quantite= '".$quantite."',
+		millesime= '".$millesime."'
+		WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = ".$id_cellier;
 		$res = $this->_db->query($requete);
 		return $res;
 	}
