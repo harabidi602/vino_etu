@@ -92,20 +92,23 @@ class SAQ extends Modele
 
 		return $innerHTML;
 	}
+
 	private function nettoyerEspace($chaine)
 	{
 		return preg_replace('/\s+/', ' ', $chaine);
 	}
+
 	private function recupereInfo($noeud)
 	{
 
 		$info = new stdClass();
-
-		$doc = new \DOMDocument();
-		@$doc->loadHTML(self::$_webpage);
-
-		$xpath = new \DOMXpath($doc);
-		$info->img = $xpath->query('//img[@class="product-image-photo"]')->item(0)->getAttribute('src');
+		$items = $noeud->getElementsByTagName("img");
+		foreach ($items as $item) {
+			if ($item->getAttribute('class') == 'product-image-photo') {
+				$info->img = $item->getAttribute('src');
+				//var_dump($info->img);
+			}
+		} //TODO : Nettoyer le lien
 
 		$info->img = substr($info->img, 6); // Enlever le https au début du lien
 		var_dump($info->img);
