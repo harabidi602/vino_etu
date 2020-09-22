@@ -75,16 +75,26 @@ class Controler
 				break;	
 			case 'getInfosBouteille' :
 				$this->isAuth();
-				$this->getInfosBouteille($_GET['id_bouteille'], $_GET['id_cellier']);
-				break;
-			case 'modifierBouteille':
-				$this->isAuth();
 				$body = json_decode(file_get_contents('php://input'));
-				$this->modifierBouteilleInfos($body->id_bouteille,$body->id_cellier,$body->date_achat,$body->garde_jusqua,$body->notes,$body->prix,
-				$body->quantite,$body->millesime);	
+				$this->getInfosBouteille($_GET['id_bouteille'], $_GET['id_cellier']);
 				break;
             case 'reinitialiserMdp':
 				$this->reinitialiserMdp();
+				break;    
+            case 'quitter':
+				$this->quitter();
+				break;  
+            case 'nouveauAdminUtilisateur':
+                $this->isAuth();
+				$this->nouveauAdminUtilisateur();	
+				break;	    
+            case 'modificationUtilisateur':
+                $this->isAuth();
+				$this->modificationUtilisateur($body->id);	
+				break;	
+            case 'admin':
+                $this->isAuth();
+                $this->admin();
 				break;    
 			default:
                 $this->authentification();
@@ -323,9 +333,10 @@ class Controler
         include("vues/entete_basique.php");
 		include("vues/reinitialiserMdp.php");
 		include("vues/pied.php");
-    }
-        
-	private function getListeCelliers($id_utilisateur) {
+	}
+	
+	//Fonction pour récupérer la liste des celliers 
+    private function getListeCelliers($id_utilisateur) {
 		if ($_SESSION['utilisateur_type'] == 1){
 			$this->accueil();
 			exit;    
@@ -338,18 +349,22 @@ class Controler
 		include("vues/pied.php");
 	}
 
+
+	//Fonction pour ajouter un nouveau cellier 
 	private function ajouterNouveauCellier($id_utilisateur, $nom_cellier) {
 		$bte = new Bouteille();
 		$data = $bte->ajouterCellier($id_utilisateur, $nom_cellier);
 		return $data; 
 	}
 
+	//Fonction pour modifier un cellier 
 	private function modifierCellier($nom_cellier, $id_cellier) {
 		$bte = new Bouteille();
 		$data = $bte->modifierCellier($nom_cellier, $id_cellier);
 		return $data; 
 	}
 
+	//Fonction pour supprimer un cellier
 	private function supprimerCellier ($id_cellier) {
 		$bte = new Bouteille();
 		$data = $bte->supprimerCellier($id_cellier);
@@ -357,7 +372,94 @@ class Controler
 			http_response_code(417);
 		}
 	}
-
+    
+    
+  // La fonction redirige l'utilisateur vers la page gestion d'administration    
+   private function admin () {
+       
+		include("vues/entete.php");
+        include("vues/admin.php");
+		include("vues/pied.php");
+	} 
+    
+  // La fonction ajoute un utilisateur
+	private function nouveauAdminUtilisateur() {
+        
+        $admin = new Admin();
+        $util =  new Authentication();
+        
+        if (count($_POST) !== 0) {
+            
+        if($_POST['type'] == 'administrateur'){
+            
+           $type = 1;
+            
+        } else $type = 2;  
+         
+        $oUtilisateur = new Utilisateur($_POST['nom'],$_POST['prenom'],$_POST['identifiant'],$_POST['mdp'],$_POST['courriel'],$_POST['telephone']);
+        $erreurs = $oUtilisateur->erreurs; 
+                      
+        if (count($erreurs) === 0) {
+            
+        $iden = trim($_POST['identifiant']);    
+        $rows=$util->sqlVinoUtilisateur($iden);    
+        $tiden=$rows['identifiant'];   
+            
+        if ($tiden == $iden) { 
+        $message = "L'utilisateur avec cet identifiant déjà existe dans le système";      
+        unset($_POST);
+        }    
+        elseif ($tiden != $iden) {   
+            
+        $admin->sqlAjouterAdmin($oUtilisateur->nom,$oUtilisateur->prenom,$oUtilisateur->identifiant,$oUtilisateur->mdp,$oUtilisateur->courriel,$oUtilisateur->telephone,$type);
+        $message = "L'utilisateur bien ajouté";
+        unset($_POST);    
+        }
+        else {
+        $message = "L'utilisateur n'est pas ajouté";   
+        unset($_POST);    
+        }    
+        }   
+        } else {
+        $erreurs = [];
+        $oUtilisateur = new Utilisateur;
+        }  
+        
+		include("vues/entete.php");
+        include("vues/adminUtilisateur.php");
+		include("vues/pied.php");
+	}  
+    
+    // La fonction modifie un utilisateur
+	private function modificationUtilisateur($id) {
+        
+        $admin = new Admin();
+        
+        if (count($_POST) !== 0) {
+         
+        $oUtilisateur = new Utilisateur($_POST['nom'],$_POST['prenom'],$_POST['identifiant'],$_POST['mdp'],$_POST['courriel'],$_POST['telephone']);
+        $erreurs = $oUtilisateur->erreurs; 
+                      
+        if (count($erreurs) === 0) {
+              
+        $type = trim($_POST['id_type']);    
+            
+        $admin->sqlModificationUtilisateur($id,$oUtilisateur->nom,$oUtilisateur->prenom,$oUtilisateur->identifiant,$oUtilisateur->mdp,$oUtilisateur->courriel,$oUtilisateur->telephone,$type);
+        $message = "L'utilisateur bien modifié";
+        unset($_POST);    
+        } else {
+        $message = "L'utilisateur n'est pas modifié";   
+        unset($_POST);    
+        }
+        } else {
+        $erreurs = [];
+        $oUtilisateur = new Utilisateur;
+        }  
+        
+		include("vues/entete.php");
+		include("vues/pied.php");
+	}  
+    
 	private function getInfosBouteille($id_bouteille,$id_cellier){
 		$bte = new Bouteille();
 		
@@ -372,20 +474,11 @@ class Controler
 			include("vues/modifier_bouteille.php");
 			include("vues/pied.php");
 		}
-		
-		
 	}
-	private function modifierBouteilleInfos($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,
-	$quantite,$millesime){
-		//checker si l'utilisateur à le droit de modifier
-		$body = json_decode(file_get_contents('php://input'));
+	
+	private function modifierBouteille($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,$quantite,$millesime){
 		$bte = new Bouteille();
-		$data = $bte->modifierBouteille($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,
-		$quantite,$millesime);
-		//$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, 1, $body->id_cellier);
-		//var_dump($data);
+		$data = $bte->modifierBouteille($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,$quantite,$millesime);
 		return $data;
 	}
-
-	
 }
