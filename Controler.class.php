@@ -73,6 +73,11 @@ class Controler
 				$body = json_decode(file_get_contents('php://input'));
 				$this->supprimerCellier($body->id_cellier);	
 				break;	
+			case 'getInfosBouteille' :
+				$this->isAuth();
+				$body = json_decode(file_get_contents('php://input'));
+				$this->getInfosBouteille($_GET['id_bouteille'], $_GET['id_cellier']);
+				break;
             case 'reinitialiserMdp':
 				$this->reinitialiserMdp();
 				break;    
@@ -328,9 +333,10 @@ class Controler
         include("vues/entete_basique.php");
 		include("vues/reinitialiserMdp.php");
 		include("vues/pied.php");
-    }
-        
-	private function getListeCelliers($id_utilisateur) {
+	}
+	
+	//Fonction pour récupérer la liste des celliers 
+    private function getListeCelliers($id_utilisateur) {
 		if ($_SESSION['utilisateur_type'] == 1){
 			$this->accueil();
 			exit;    
@@ -343,18 +349,22 @@ class Controler
 		include("vues/pied.php");
 	}
 
+
+	//Fonction pour ajouter un nouveau cellier 
 	private function ajouterNouveauCellier($id_utilisateur, $nom_cellier) {
 		$bte = new Bouteille();
 		$data = $bte->ajouterCellier($id_utilisateur, $nom_cellier);
 		return $data; 
 	}
 
+	//Fonction pour modifier un cellier 
 	private function modifierCellier($nom_cellier, $id_cellier) {
 		$bte = new Bouteille();
 		$data = $bte->modifierCellier($nom_cellier, $id_cellier);
 		return $data; 
 	}
 
+	//Fonction pour supprimer un cellier
 	private function supprimerCellier ($id_cellier) {
 		$bte = new Bouteille();
 		$data = $bte->supprimerCellier($id_cellier);
@@ -450,10 +460,25 @@ class Controler
 		include("vues/pied.php");
 	}  
     
-    
-    
-    
-    
-    
-    
+	private function getInfosBouteille($id_bouteille,$id_cellier){
+		$bte = new Bouteille();
+		
+		if (!empty($body)) {
+			$resultat = $bte->lireBouteille($id_bouteille,$id_cellier);
+			echo json_encode($resultat);
+		} else {
+			$data = $bte->lireBouteille($id_bouteille,$id_cellier);
+			$tousCelliers = $bte->lireCelliers();
+			$dataCellier = json_encode($tousCelliers);
+			include("vues/entete.php");
+			include("vues/modifier_bouteille.php");
+			include("vues/pied.php");
+		}
+	}
+	
+	private function modifierBouteille($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,$quantite,$millesime){
+		$bte = new Bouteille();
+		$data = $bte->modifierBouteille($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,$quantite,$millesime);
+		return $data;
+	}
 }
