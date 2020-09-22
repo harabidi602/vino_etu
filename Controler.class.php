@@ -91,7 +91,11 @@ class Controler
             case 'modificationUtilisateur':
                 $this->isAuth();
 				$this->modificationUtilisateur($body->id);	
-				break;	       
+				break;	
+            case 'admin':
+                $this->isAuth();
+                $this->admin();
+				break;    
 			default:
                 $this->authentification();
 				break;
@@ -370,6 +374,13 @@ class Controler
 	}
     
     
+  // La fonction redirige l'utilisateur vers la page gestion d'administration    
+   private function admin () {
+       
+		include("vues/entete.php");
+        include("vues/admin.php");
+		include("vues/pied.php");
+	} 
     
   // La fonction ajoute un utilisateur
 	private function nouveauAdminUtilisateur() {
@@ -415,6 +426,7 @@ class Controler
         }  
         
 		include("vues/entete.php");
+        include("vues/adminUtilisateur.php");
 		include("vues/pied.php");
 	}  
     
