@@ -357,7 +357,7 @@ window.addEventListener('load', function() {
                 "prix": JSON.parse(row.querySelectorAll("[name='prix']")[0].value)
 
             };
-            //console.log('param', param);
+
             let requete = new Request(URLSansR + "index.php?requete=modifierBouteille", { method: 'POST', body: JSON.stringify(param) });
             fetch(requete)
                 .then(response => {

@@ -15,8 +15,8 @@ foreach($arr as $key => $cellier) {
 }
 foreach($arrCelliers as $key =>$tousCelliers){
     array_push($arrayC, $tousCelliers['id']);
-}
 
+}
 
 $arrayP = array_unique($arrayP) ;
 $arrayT = array_unique($arrayType);

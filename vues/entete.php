@@ -23,7 +23,7 @@
 			<div class="menu">
 				<span>Bienvenue <?php echo $_SESSION['utilisateur_identifiant']; ?></span>
 				<img src="img/user-24.png" alt="profile">
-				<a href="index.php?requete=quitter"><img src="img/logout-24.png" alt="Déconnexion"></a>
+				<a href="index.php?requete=quitter"><abbr title="Se deconnecter"><img src="img/logout-24.png" alt="Déconnexion"></abbr></a>
 			</div>
 			<nav class="menu">
 				<ul>
