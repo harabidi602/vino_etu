@@ -15,8 +15,8 @@ foreach($arr as $key => $cellier) {
 }
 foreach($arrCelliers as $key =>$tousCelliers){
     array_push($arrayC, $tousCelliers['id']);
-}
 
+}
 
 $arrayP = array_unique($arrayP) ;
 $arrayT = array_unique($arrayType);
@@ -43,7 +43,7 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
             <li><a href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></li>
             <li><label for="tri_cellier">Choisir un cellier</label>
               <select id="cellier" name="tri_cellier" class="tri_cellier"> 
-                  <option disabled selected value="-1"> -- selectionner une option -- </option>
+                  <option  selected value="-1"> -- selectionner une option -- </option>
                   <?php 
                   foreach ($arrayC as $cellier) { 
                       ?> //Récupérer les différents id_cellier de la BD
@@ -55,7 +55,7 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
             <li>
              <label for="pays">Choisir un pays</label>
               <select name="pays" id="pays" class="tri_cellier">
-                <option disabled selected value="-1"> -- selectionner une option -- </option>
+                <option  selected value="-1"> -- selectionner une option -- </option>
                   <?php 
                     foreach ($arrayP as $pays) { 
                   ?> 
@@ -65,7 +65,7 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
              </li>
              <li><label for="tri_cellier">Choisir un type de vin</label>
               <select id="type" name="type" class="tri_cellier"> 
-                  <option disabled selected value="-1"> -- selectionner une option -- </option>
+                  <option  selected value="-1"> -- selectionner une option -- </option>
                   <?php 
                   foreach ($arrayT as $type) { 
                       ?> //Récupérer les différents id_cellier de la BD

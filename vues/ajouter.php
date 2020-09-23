@@ -5,11 +5,9 @@
         <ul class="listeAutoComplete"></ul></div>
         <?php
         //Transformer le résultat de Json en array 
-        $arrayCelliers = json_decode($dataCellier, true);
-        ?>
-        
-        <div class="infoBouteille">
-        <p>Nom : <span data-id_bouteille="" class="nom_bouteille"></span></p>
+        $arrayCelliers = json_decode($dataCellier, true);?>
+            <div class="infoBouteille">
+                <p>Nom : <span data-id_bouteille="" class="nom_bouteille"></span></p>
                 <p>Num Cellier<select id="cellier"> 
                     <?php foreach ($arrayCelliers as $cellier) { ?> //Récupérer les différents id_cellier de la BD
                         <option value="<?php echo $cellier['id'];?>"><?php echo $cellier['id'] ; ?></option>
@@ -23,7 +21,6 @@
                 <p>Notes <input name="notes"></p><span class="erreur" id="erreurNotes"></span>
                 <button name="ajouterBouteilleCellier">Ajouter la bouteille</button>
             </div>
-        </div>
     </div>
 </div>
-</div>
+
