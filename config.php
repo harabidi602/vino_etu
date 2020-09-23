@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fichier de configuration. Il est appelé par index.php et par test/index.php
  * Il contient notamment l'autoloader
@@ -11,20 +10,28 @@
  * @license http://creativecommons.org/licenses/by-nc/3.0/deed.fr
  * 
  */
+	//Démarrer des sessions
+    session_start();
 
-//Démarrer session
-session_start();
-
-function mon_autoloader($class)
-{
-	$dossierClasse = array('modeles/', 'vues/', 'lib/', 'lib/mysql/', '');	// Ajouter les dossiers au besoin
-
-	foreach ($dossierClasse as $dossier) {
-		//var_dump('./'.$dossier.$class.'.class.php');
-		if (file_exists('./' . $dossier . $class . '.class.php')) {
-			require_once('./' . $dossier . $class . '.class.php');
+	function mon_autoloader($class) 
+	{
+		$dossierClasse = array('modeles/', 'vues/', 'lib/', 'lib/mysql/', '' );	// Ajouter les dossiers au besoin
+		
+		foreach ($dossierClasse as $dossier) 
+		{
+			//var_dump('./'.$dossier.$class.'.class.php');
+			if(file_exists('./'.$dossier.$class.'.class.php'))
+			{
+				require_once('./'.$dossier.$class.'.class.php');
+			}
 		}
+		
+	  
 	}
-}
-
-spl_autoload_register('mon_autoloader');
+	
+	spl_autoload_register('mon_autoloader');
+	
+	
+	
+	
+?>
