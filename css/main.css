@@ -47,24 +47,32 @@ header {
 
 .menu:first-child {
     width: 100%;
-    text-align: right;
-    padding: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.menu:first-child span {
+    flex: 1;
 }
 
 .menu:first-child img {
     height: 22px;
     width: 22px;
+    margin-top: 6px;
 }
 
 .menu:not(:first-child) {
     flex: 1;
 }
 
+
 /*Styles du message de bienvenu(e)*/
+
 .menu>span {
-    color: lightgray; 
+    color: white;
     padding: 10px;
     font-style: inherit;
+    text-align: center;
 }
 
 
@@ -501,7 +509,6 @@ Responsive adapté aux appareils mobiles
     tr {
         display: block;
     }
-   
     thead tr {
         position: absolute;
         top: -9999px;
