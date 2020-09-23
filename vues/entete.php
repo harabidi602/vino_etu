@@ -21,9 +21,9 @@
 	<body>
 		<header>
 			<div class="menu">
-				<span>Bienvenu <?php echo $_SESSION['utilisateur_identifiant']; ?></span>
-				<img src="img/profile.png" alt="profile">
-				<a href="index.php?requete=quitter"><img src="img/logout.png" alt="Déconnexion"></a>
+				<span>Bienvenue <?php echo $_SESSION['utilisateur_identifiant']; ?></span>
+				<img src="img/user-24.png" alt="profile">
+				<a href="index.php?requete=quitter"><img src="img/logout-24.png" alt="Déconnexion"></a>
 			</div>
 			<nav class="menu">
 				<ul>
