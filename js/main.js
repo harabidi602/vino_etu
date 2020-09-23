@@ -229,6 +229,8 @@ window.addEventListener('load', function() {
                 window.location = BaseURL + "index.php?requete=accueil&paysOption=" + paysOption + "&typeOption=" + typeOption;
             } else if (paysChoisi > 0 && typeChoisi <= 0 && choice > 0) { //pays + cellier
                 window.location = BaseURL + "index.php?requete=accueil&paysOption=" + paysOption + "&idCellier=" + idCellier;
+            } else if (paysChoisi <= 0 && typeChoisi <= 0 && choice <= 0) { //aucun parametres
+                window.location = BaseURL + "index.php?requete=accueil";
             }
 
             let requete = new Request(BaseURL + "index.php?requete=");
@@ -355,7 +357,7 @@ window.addEventListener('load', function() {
                 "prix": JSON.parse(row.querySelectorAll("[name='prix']")[0].value)
 
             };
-            //console.log('param', param);
+
             let requete = new Request(URLSansR + "index.php?requete=modifierBouteille", { method: 'POST', body: JSON.stringify(param) });
             fetch(requete)
                 .then(response => {
