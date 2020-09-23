@@ -65,7 +65,12 @@ header {
     flex: 1;
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
 
+>>>>>>> 73f398bc7ec856893f5f8f6e149192411943fa77
 /*Styles du message de bienvenu(e)*/
 
 .menu>span {
@@ -75,6 +80,7 @@ header {
     text-align: center;
 }
 
+>>>>>>> 8b46b64dd468c86e7416fe37cc1d5b2d2149f5a8
 
 /*-----------------------------le menu principal----------------------*/
 
@@ -342,6 +348,101 @@ header {
     /*background-color: #003777;*/
     background-color: #e85e30;
     color: #FFFFFF;
+<<<<<<< HEAD
+}
+
+.liste>div:hover {
+    color: #000000;
+    transition: color 200ms ease-in-out;
+}
+
+@media all and (max-width:640px) {
+    footer {
+        display: none;
+    }
+}
+
+footer {
+    display: flex;
+    align-content: flex-end;
+    justify-content: center;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    padding-top: 3px;
+    text-align: center;
+    background-color: #2C0000;
+    opacity: 80%;
+    color: #FFFFFF;
+}
+
+footer p {
+    display: inline;
+    padding-right: 50px;
+    font-size: 10px;
+}
+
+
+/*Boutons Ajouter*/
+
+.ajouterCellierButton {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    padding: 3px 2px;
+    border: none;
+    cursor: pointer;
+    width: 30%;
+    border-radius: 4px;
+}
+
+.buttonModSup {
+    background-color: white;
+    color: black;
+    border: 3px solid rgb(101, 138, 53);
+}
+
+
+/*Contenu page Ajouter Cellier*/
+
+.ajouterCel {
+    text-align: center;
+}
+
+.imageNC {
+    margin-top: 20px;
+}
+
+
+/*Styles Table*/
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+th {
+    background: rgba(101, 138, 53, 0.2);
+    color: black;
+    font-weight: 700;
+}
+
+td,
+th {
+    padding: 5px;
+    border: 1px solid lightgray;
+    text-align: center;
+    font-size: 15px;
+}
+
+=======
 }
 
 .liste>div:hover {
@@ -492,6 +593,7 @@ th {
     font-size: 15px;
 }
 
+>>>>>>> 8b46b64dd468c86e7416fe37cc1d5b2d2149f5a8
 
 /* 
 Responsive adapté aux appareils mobiles
@@ -509,6 +611,14 @@ Responsive adapté aux appareils mobiles
     tr {
         display: block;
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+    /* Hide table headers (but not display: none;, for accessibility) */
+=======
+   
+>>>>>>> 8b46b64dd468c86e7416fe37cc1d5b2d2149f5a8
+=======
+>>>>>>> 73f398bc7ec856893f5f8f6e149192411943fa77
     thead tr {
         position: absolute;
         top: -9999px;
@@ -518,25 +628,44 @@ Responsive adapté aux appareils mobiles
         border: 1px solid #ccc;
     }
     td {
+<<<<<<< HEAD
+        /* Behave  like a "row" */
+=======
+>>>>>>> 8b46b64dd468c86e7416fe37cc1d5b2d2149f5a8
         border: none;
         border-bottom: 1px solid #eee;
         position: relative;
         padding-left: 50%;
     }
     td:before {
+<<<<<<< HEAD
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        /* Label the data */
+=======
         position: absolute;
         top: 6px;
         left: 0px;
         width: 45%;
         padding-right: 10px;
         white-space: nowrap;
+>>>>>>> 8b46b64dd468c86e7416fe37cc1d5b2d2149f5a8
         content: attr(data-column);
         color: #000;
         font-weight: bold;
     }
+<<<<<<< HEAD
+=======
     input {
         width: 100%;
     }
+>>>>>>> 8b46b64dd468c86e7416fe37cc1d5b2d2149f5a8
 }
 
 .inputForm {
