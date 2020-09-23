@@ -229,6 +229,8 @@ window.addEventListener('load', function() {
                 window.location = BaseURL + "index.php?requete=accueil&paysOption=" + paysOption + "&typeOption=" + typeOption;
             } else if (paysChoisi > 0 && typeChoisi <= 0 && choice > 0) { //pays + cellier
                 window.location = BaseURL + "index.php?requete=accueil&paysOption=" + paysOption + "&idCellier=" + idCellier;
+            } else if (paysChoisi <= 0 && typeChoisi <= 0 && choice <= 0) { //aucun parametres
+                window.location = BaseURL + "index.php?requete=accueil";
             }
 
             let requete = new Request(BaseURL + "index.php?requete=");
