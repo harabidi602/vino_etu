@@ -51,16 +51,15 @@ class Bouteille extends Modele
 		if (!empty($type)) {
 			$requete .= " AND v_b_t.type ='" . $type . "'";
 		}
-		if (!empty($quantite)) {
-
+		/*if (!empty($quantite)) {
 			$requete .= " AND v_c_b.quantite ='" . $quantite . "'";
-		}
+		}*/
 		if (!empty($pays)) {
 			$requete .= " AND v_b.pays ='" . $pays . "'";
 		}
-		if (!empty($millesime)) {
+		/*if (!empty($millesime)) {
 			$requete .= " AND v_b.millesime ='" . $millesime . "'";
-		}
+		}*/
 		if ($_SESSION['utilisateur_type']) {
 			$requete .= " AND v_u.id ='" . $_SESSION['utilisateur_type'] . "'";
 		}
@@ -254,4 +253,3 @@ class Bouteille extends Modele
 		return $res;
 	}
 }
-
