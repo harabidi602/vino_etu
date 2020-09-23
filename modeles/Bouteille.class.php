@@ -214,7 +214,6 @@ class Bouteille extends Modele
 		$requete = "UPDATE vino__cellier SET nom_cellier ='" . $nom_cellier . "' WHERE id = " . $id_cellier;
 		//echo $requete;
 		$res = $this->_db->query($requete);
-
 		return $res;
 	}
 
@@ -255,3 +254,4 @@ class Bouteille extends Modele
 		return $res;
 	}
 }
+

@@ -47,13 +47,18 @@ header {
 
 .menu:first-child {
     width: 100%;
-    text-align: right;
-    padding: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.menu:first-child span {
+    flex: 1;
 }
 
 .menu:first-child img {
     height: 22px;
     width: 22px;
+    margin-top: 6px;
 }
 
 .menu:not(:first-child) {
@@ -61,12 +66,18 @@ header {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+
+>>>>>>> 73f398bc7ec856893f5f8f6e149192411943fa77
 /*Styles du message de bienvenu(e)*/
+
 .menu>span {
-    color: lightgray; 
+    color: white;
     padding: 10px;
     font-style: inherit;
+    text-align: center;
 }
 
 >>>>>>> 8b46b64dd468c86e7416fe37cc1d5b2d2149f5a8
@@ -81,6 +92,11 @@ header {
     display: flex;
 }
 
+.menu-item ul li {
+    padding: 0px;
+    margin: 0px;
+}
+
 .menu-item {
     flex: 3;
     text-align: center;
@@ -92,6 +108,24 @@ header {
     text-decoration: none;
     text-transform: uppercase;
     font-size: small;
+    color: white;
+    font-weight: 300;
+    letter-spacing: 2px;
+    display: inline-block;
+    /* width: 100%; */
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+}
+
+.menu-item a:hover {
+    color: rgb(101, 138, 53);
+}
+
+@media all and (max-width:640px) {
+    .menu-item a {
+        font-size: 10px;
+    }
 }
 
 
@@ -125,12 +159,14 @@ header {
 .cellier {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 50px;
 }
 
 .cellier>nav {
+    display: flex;
     width: 100%;
     padding: 5px;
-    /*display: flex;*/
+    justify-content: center;
 }
 
 .cellier nav ul {
@@ -188,6 +224,22 @@ header {
     margin: 0px;
     text-align: center;
     font-size: 0.9em;
+}
+
+.options button {
+    /**/
+    background-color: rgb(101, 138, 53);
+    color: white;
+    padding: 3px 2px;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    border-radius: 4px;
+}
+
+.options button:hover {
+    background-color: rgba(119, 4, 4, 100%);
+    color: white;
 }
 
 
@@ -256,81 +308,23 @@ header {
     width: 100%;
 }
 
-
-/*---------------------------------Fin entête-----------------------------*/
-
-
-/*************************************************************************/
+@media all and (max-width:816px) {
+    .ajouter {
+        margin: 10px;
+    }
+}
 
 
 /**************************************************************************/
 
 
+/*---------------------------------Fin entête-----------------------------*/
+
+
 /*---------------------------------Contenu des pages---------------------*/
 
 
-/******************************************************************************/
-
-
-/*---------------------------------page Cellier------------------------------*/
-
-.cellier {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 50px;
-}
-
-.cellier>nav {
-    width: 100%;
-    padding: 5px;
-    display: flex;
-}
-
-.cellier .bouteille {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 300px;
-    margin: 1em 0.5em;
-}
-
-.bouteille {
-    display: inline-block;
-    padding: 10px;
-    border: 2px solid rgba(0, 0, 0, 10%);
-    width: 350px;
-    justify-content: center;
-    flex: 1 1 100px;
-    text-align: center;
-}
-
-.bouteille .description {
-    max-width: 50%;
-    text-align: center;
-}
-
-.cellier .bouteille img {
-    height: auto;
-}
-
-.description {
-    align-self: flex-start;
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.description p {
-    padding: 0px;
-    margin: 0px;
-    text-align: center;
-    font-size: 0.9em;
-}
-
-
-/**********************************************************************************/
-
-
-/*--------------------------PAGE AJOUTER UN NOUVEAU CELLIER------------------------*/
+/*--------------PAGE AJOUTER UNE NOUVELLE BOUTEILLE à UN CELLIER---------*/
 
 .liste {
     display: block;
@@ -456,11 +450,68 @@ th {
     transition: color 200ms ease-in-out;
 }
 
+.listeAutoComplete li:hover {
+    color: rgb(101, 138, 53);
+    font-weight: bold;
+    cursor: pointer;
+}
+
 @media all and (max-width:640px) {
     footer {
         display: none;
     }
 }
+
+
+/********************************************************************************/
+
+
+/*-------------------------MODIFIER UNE BOUTEILLE----------------------------*/
+
+.modifierBouteille {
+    list-style-type: none;
+    margin: 0 auto;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+
+.modifierBouteille p {
+    margin: 0px;
+}
+
+.modifierBouteille p:first-child {
+    text-align: left;
+    width: 50%;
+}
+
+.modifierBouteille p:not(:first-child) {
+    width: 50%;
+}
+
+.modifierBouteille button {
+    width: 50%;
+    margin: 0;
+}
+
+.modifierBouteille input {
+    padding-right: 20px;
+    margin-right: 0px;
+}
+
+.modifierBouteille select {
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+
+/********************************************************************************/
+
+
+/*---------------------------PIED DE PAGE--------------------------------------*/
 
 footer {
     display: flex;
@@ -484,7 +535,7 @@ footer p {
 }
 
 
-/*Boutons Ajouter*/
+/*------------------------Boutons Ajouter Cellier-------------------------*/
 
 .ajouterCellierButton {
     background-color: rgb(101, 138, 53);
@@ -561,10 +612,13 @@ Responsive adapté aux appareils mobiles
         display: block;
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     /* Hide table headers (but not display: none;, for accessibility) */
 =======
    
 >>>>>>> 8b46b64dd468c86e7416fe37cc1d5b2d2149f5a8
+=======
+>>>>>>> 73f398bc7ec856893f5f8f6e149192411943fa77
     thead tr {
         position: absolute;
         top: -9999px;

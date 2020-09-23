@@ -73,14 +73,24 @@ class Controler
 				break;
 			case 'getInfosBouteille':
 				$this->isAuth();
-				$body = json_decode(file_get_contents('php://input'));
 				$this->getInfosBouteille($_GET['id_bouteille'], $_GET['id_cellier']);
 				break;
+<<<<<<< HEAD
 			case 'reinitialiserMdp':
+=======
+			case 'modifierBouteille':
+				$this->isAuth();
+				$body = json_decode(file_get_contents('php://input'));
+				$this->modifierBouteilleInfos($body->id_bouteille,$body->id_cellier,$body->date_achat,$body->garde_jusqua,$body->notes,$body->prix,
+				$body->quantite,$body->millesime);	
+				break;
+            case 'reinitialiserMdp':
+>>>>>>> 73f398bc7ec856893f5f8f6e149192411943fa77
 				$this->reinitialiserMdp();
 				break;
 			case 'quitter':
 				$this->quitter();
+<<<<<<< HEAD
 				break;
 			case 'nouveauAdminUtilisateur':
 				$this->isAuth();
@@ -94,6 +104,22 @@ class Controler
 				$this->isAuth();
 				$this->admin();
 				break;
+=======
+				break;  
+            case 'nouveauAdminUtilisateur':
+                $this->isAuth();
+				$this->nouveauAdminUtilisateur();	
+				break;	    
+            case 'modificationUtilisateur':
+				$this->isAuth();
+				$body = json_decode(file_get_contents('php://input'));
+				$this->modificationUtilisateur($body->id);	
+				break;	
+            case 'admin':
+                $this->isAuth();
+                $this->admin();
+				break;    
+>>>>>>> 73f398bc7ec856893f5f8f6e149192411943fa77
 			default:
 				$this->authentification();
 				break;
@@ -459,12 +485,25 @@ class Controler
 			include("vues/modifier_bouteille.php");
 			include("vues/pied.php");
 		}
+		
+		
 	}
+<<<<<<< HEAD
 
 	private function modifierBouteille($id_bouteille, $id_cellier, $date_achat, $garde_jusqua, $notes, $prix, $quantite, $millesime)
 	{
 		$bte = new Bouteille();
 		$data = $bte->modifierBouteille($id_bouteille, $id_cellier, $date_achat, $garde_jusqua, $notes, $prix, $quantite, $millesime);
+=======
+	private function modifierBouteilleInfos($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,$quantite,$millesime){
+		//checker si l'utilisateur à le droit de modifier
+		$bte = new Bouteille();
+		$body = json_decode(file_get_contents('php://input'));
+		$data = $bte->modifierBouteille($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,$quantite,$millesime);
+		
+>>>>>>> 73f398bc7ec856893f5f8f6e149192411943fa77
 		return $data;
 	}
+
+	
 }
