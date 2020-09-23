@@ -176,7 +176,8 @@ window.addEventListener('load', function() {
                 fetch(requete)
                     .then(response => {
                         if (response.status === 200) {
-                            //console.log('1');
+                            location.reload();
+                            alert('Bouteille ajoutée au cellier avec succès');
                             return response.json();
                         } else {
                             throw new Error('Erreur');
@@ -200,20 +201,18 @@ window.addEventListener('load', function() {
     };
     //selectionner un cellier
     let selectCellier = document.querySelectorAll(".tri_cellier");
-    /**/
-    // console.log(selectCellier);
     selectCellier.forEach(function(elem) {
-
         elem.addEventListener("change", function(e) {
             e.preventDefault();
             e.stopPropagation();
-            let choice = bouteille.cellier.selectedIndex;
-            let idCellier = bouteille.cellier.options[choice].value;
-            let paysChoisi = bouteille.pays.selectedIndex;
-            let paysOption = bouteille.pays.options[paysChoisi].value;
-            let typeChoisi = bouteille.type.selectedIndex;
-            let typeOption = bouteille.type.options[typeChoisi].value;
+            let choice = bouteille.cellier.selectedIndex; //selection cellier
+            let idCellier = bouteille.cellier.options[choice].value; //valeur cellier choisi
+            let paysChoisi = bouteille.pays.selectedIndex; //selection pays
+            let paysOption = bouteille.pays.options[paysChoisi].value; //valeur pays choisi
+            let typeChoisi = bouteille.type.selectedIndex; //type choisi
+            let typeOption = bouteille.type.options[typeChoisi].value; //valeur type choisi
 
+            //test des selects selectionnées pour les rediriger vers le bon resultat
             console.log('choice ', choice, ' paysChoisi ', paysChoisi, ' typeChoisi ', typeChoisi,
                 ' idCellier ', idCellier, ' paysOption ', paysOption, ' typeOption ', typeOption)
             if (choice > 0 && paysChoisi > 0 && typeChoisi > 0) { //tous les param
@@ -261,7 +260,7 @@ window.addEventListener('load', function() {
                 .then(response => {
                     if (response.status === 200) {
                         location.reload();
-                        alert('Cellier correctement créé'); 
+                        alert('Cellier correctement créé');
                         return response.json();
                     } else {
                         throw new Error('Erreur');
@@ -288,7 +287,7 @@ window.addEventListener('load', function() {
                 .then(response => {
                     if (response.status === 200) {
                         location.reload();
-                        alert('Modification du cellier effectuée'); 
+                        alert('Modification du cellier effectuée');
                         return response.json();
                     } else {
                         throw new Error('Erreur');
@@ -316,7 +315,7 @@ window.addEventListener('load', function() {
                     .then(response => {
                         if (response.status === 200) {
                             location.reload();
-                            alert('Suppression du cellier effectuée'); 
+                            alert('Suppression du cellier effectuée');
                             return response.json();
                         } else {
                             //Refuser d'effacer le cellier parce qu'il y a des bouteilles dedans
@@ -331,6 +330,7 @@ window.addEventListener('load', function() {
             }
         });
     });
+    //Modifier une bouteille dans le cellier
     document.querySelectorAll("[name='modifierBouteille']").forEach(item => {
         item.addEventListener('click', event => {
             let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
@@ -341,26 +341,27 @@ window.addEventListener('load', function() {
     });
 
     let modifier_bouteille = document.querySelectorAll("[name='modifier_bouteille']")[0];
-    console.log(modifier_bouteille);
     if (modifier_bouteille) {
         modifier_bouteille.addEventListener("click", function(e) {
             let row = e.target.parentElement.parentElement;
             let param = {
-                "id_bouteille": row.querySelectorAll("[name='bouteille_id']")[0].value,
-                "id_cellier": row.querySelectorAll("[name='cellierSelect']")[0].value,
-                "quantite": row.querySelectorAll("[name='quantite']")[0].value,
+                "id_bouteille": parseInt(row.querySelectorAll("[name='bouteille_id']")[0].value),
+                "id_cellier": parseInt(row.querySelectorAll("[name='id_cellier']")[0].value),
+                "quantite": JSON.parse(row.querySelectorAll("[name='quantite']")[0].value),
                 "date_achat": row.querySelectorAll("[name='date_achat']")[0].value,
-                "millesime": row.querySelectorAll("[name='millesime']")[0].value,
-                "garde_jusqua": row.querySelectorAll("[name='garde_jusqua']")[0].value,
+                "millesime": JSON.parse(row.querySelectorAll("[name='millesime']")[0].value),
+                "garde_jusqua": JSON.parse(row.querySelectorAll("[name='garde_jusqua']")[0].value),
                 "notes": row.querySelectorAll("[name='notes']")[0].value,
-                "prix": row.querySelectorAll("[name='prix']")[0].value
+                "prix": JSON.parse(row.querySelectorAll("[name='prix']")[0].value)
 
             };
-
+            //console.log('param', param);
             let requete = new Request(URLSansR + "index.php?requete=modifierBouteille", { method: 'POST', body: JSON.stringify(param) });
             fetch(requete)
                 .then(response => {
                     if (response.status === 200) {
+                        location.reload();
+                        alert('Modification de la bouteille effectuée avec succès');
                         return response.json();
                     } else {
                         throw new Error('Erreur');
@@ -371,7 +372,7 @@ window.addEventListener('load', function() {
                 }).catch(error => {
                     console.error(error);
                 });
-        });
+        })
 
     }
 });
