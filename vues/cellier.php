@@ -91,6 +91,8 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
                 <li class="pays">Pays : <?php echo $bouteille['pays'] ?></li>
                 <li class="type">Type : <?php echo $bouteille['type'] ?></li>
                 <li class="millesime">Millesime : <?php echo $bouteille['millesime'] ?></li>
+                <li class="millesime">Prix : <?php echo $bouteille['prix'] ?></li>
+                <li class="millesime">Date d'achat : <?php echo $bouteille['date_achat'] ?></li>
                 <li><a href="<?php echo $bouteille['url_saq'] ?>">Voir SAQ</a></li>
             </ul>
             <div class="options" data-id_bouteille="<?php echo $bouteille['id_bouteille'] ?>" data-id_cellier="<?php echo $bouteille['id_cellier'] ?>">

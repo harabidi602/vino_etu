@@ -60,6 +60,13 @@ header {
     flex: 1;
 }
 
+/*Styles du message de bienvenu(e)*/
+.menu>span {
+    color: lightgray; 
+    padding: 10px;
+    font-style: inherit;
+}
+
 
 /*-----------------------------le menu principal----------------------*/
 
@@ -449,7 +456,7 @@ footer p {
 }
 
 
-/*Styles Table*/
+/*Styles Tables Gestion des celliers et des utilisateurs*/
 
 table {
     width: 100%;
@@ -494,7 +501,7 @@ Responsive adapté aux appareils mobiles
     tr {
         display: block;
     }
-    /* Hide table headers (but not display: none;, for accessibility) */
+   
     thead tr {
         position: absolute;
         top: -9999px;
@@ -504,25 +511,24 @@ Responsive adapté aux appareils mobiles
         border: 1px solid #ccc;
     }
     td {
-        /* Behave  like a "row" */
         border: none;
         border-bottom: 1px solid #eee;
         position: relative;
         padding-left: 50%;
     }
     td:before {
-        /* Now like a table header */
         position: absolute;
-        /* Top/left values mimic padding */
         top: 6px;
-        left: 6px;
+        left: 0px;
         width: 45%;
         padding-right: 10px;
         white-space: nowrap;
-        /* Label the data */
         content: attr(data-column);
         color: #000;
         font-weight: bold;
+    }
+    input {
+        width: 100%;
     }
 }
 

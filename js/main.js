@@ -170,7 +170,8 @@ window.addEventListener('load', function() {
                     "quantite": bouteille.quantite.value,
                     "millesime": bouteille.millesime.value,
                 };
-                let requete = new Request(BaseURL + "index.php?requete=ajouterNouvelleBouteilleCellier", { method: 'POST', body: JSON.stringify(param) });
+                let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+                let requete = new Request(URLSansR + "index.php?requete=ajouterNouvelleBouteilleCellier", { method: 'POST', body: JSON.stringify(param) });
                 //console.log(requete);
                 fetch(requete)
                     .then(response => {
@@ -249,7 +250,6 @@ window.addEventListener('load', function() {
     let buttonAjouterCellier = document.getElementById("buttonAjouterCellier");
     let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
 
-
     if (inputAjouterCellier) {
         buttonAjouterCellier.addEventListener("click", function(evt) {
             var param = {
@@ -260,6 +260,7 @@ window.addEventListener('load', function() {
                 .then(response => {
                     if (response.status === 200) {
                         location.reload();
+                        alert('Cellier correctement créé');
                         return response.json();
                     } else {
                         throw new Error('Erreur');
@@ -272,7 +273,7 @@ window.addEventListener('load', function() {
                 });
         })
     }
-    //modifier cellier
+    //Fonctionnalités pour modifier un cellier existant
     document.querySelectorAll("[name='modifierButton']").forEach(item => {
         item.addEventListener('click', event => {
             var row = event.target.parentElement.parentElement.parentElement;
@@ -286,6 +287,7 @@ window.addEventListener('load', function() {
                 .then(response => {
                     if (response.status === 200) {
                         location.reload();
+                        alert('Modification du cellier effectuée');
                         return response.json();
                     } else {
                         throw new Error('Erreur');
@@ -298,7 +300,7 @@ window.addEventListener('load', function() {
                 });
         });
     });
-    //supprimer cellier
+    //Fonctionnalités pour supprimer un cellier existant
     document.querySelectorAll("[name='suprimmerButton']").forEach(item => {
         item.addEventListener('click', event => {
             var choice = confirm('Êtes-vous sûr de vouloir supprimer ce cellier?');
@@ -313,8 +315,10 @@ window.addEventListener('load', function() {
                     .then(response => {
                         if (response.status === 200) {
                             location.reload();
+                            alert('Suppression du cellier effectuée');
                             return response.json();
                         } else {
+                            //Refuser d'effacer le cellier parce qu'il y a des bouteilles dedans
                             alert("Le cellier n'a pas pu être effacé. Vérifier la présence de bouteilles dans le cellier");
                         }
                     })

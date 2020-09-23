@@ -152,11 +152,7 @@ class SAQ extends Modele
 			if ($node->getAttribute('class') == 'price') {
 				//var_dump($node);
 				$info->prix = trim($node->textContent);
-				//$test = substr(($info -> prix), 0,5);
-				//var_dump($test);	
-				//var_dump( implode( ',', $info -> prix ) ); 
-				//var_dump($test);
-
+				
 			}
 		}
 		//var_dump($info);
@@ -177,19 +173,7 @@ class SAQ extends Modele
 		//str_replace(',', '.', $price);
 		$t = str_replace(',', '.', $price);
 		$a = (float) $t;
-		//var_dump((float)$t);
-
-
-		//var_dump(str_replace(',', '.', $price));
-		//var_dump(floatval(substr(($t), 0,5)));
-		// Récupère le type
-		//$float = (float)$bte -> prix;
-
-
-		//echo gettype($float); // Outputs: double
-		//var_dump($float); // Outputs: 2.75
-
-
+		
 		$rows = $this->_db->query("select id from vino__bouteille_type where type = '" . $bte->desc->type . "'");
 
 		if ($rows->num_rows == 1) {
