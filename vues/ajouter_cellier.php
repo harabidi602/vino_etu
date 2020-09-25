@@ -11,8 +11,7 @@
     </div>
     
     <?php
-        //Transformer le résultat de Json en array 
-        $arr = json_decode($data, true);
+        $arr = json_decode(json_encode($data),true);
     ?>
     <table>
         <thead>
