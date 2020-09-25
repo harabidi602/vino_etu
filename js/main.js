@@ -343,37 +343,88 @@ window.addEventListener('load', function() {
     });
 
     let modifier_bouteille = document.querySelectorAll("[name='modifier_bouteille']")[0];
+
     if (modifier_bouteille) {
         modifier_bouteille.addEventListener("click", function(e) {
             let row = e.target.parentElement.parentElement;
-            let param = {
-                "id_bouteille": parseInt(row.querySelectorAll("[name='bouteille_id']")[0].value),
-                "id_cellier": parseInt(row.querySelectorAll("[name='id_cellier']")[0].value),
-                "quantite": JSON.parse(row.querySelectorAll("[name='quantite']")[0].value),
-                "date_achat": row.querySelectorAll("[name='date_achat']")[0].value,
-                "millesime": JSON.parse(row.querySelectorAll("[name='millesime']")[0].value),
-                "garde_jusqua": JSON.parse(row.querySelectorAll("[name='garde_jusqua']")[0].value),
-                "notes": row.querySelectorAll("[name='notes']")[0].value,
-                "prix": JSON.parse(row.querySelectorAll("[name='prix']")[0].value)
-
+            let isvalid = true;
+            let bouteille = {
+                cellier: document.getElementById('cellier'),
+                nom: document.querySelector(".nom_bouteille"),
+                millesime: document.querySelector("[name='millesime']"),
+                quantite: document.querySelector("[name='quantite']"),
+                date_achat: document.querySelector("[name='date_achat']"),
+                prix: document.querySelector("[name='prix']"),
+                garde_jusqua: document.querySelector("[name='garde_jusqua']"),
+                notes: document.querySelector("[name='notes']"),
             };
 
-            let requete = new Request(URLSansR + "index.php?requete=modifierBouteille", { method: 'POST', body: JSON.stringify(param) });
-            fetch(requete)
-                .then(response => {
-                    if (response.status === 200) {
-                        location.reload();
-                        alert('Modification de la bouteille effectuée avec succès');
-                        return response.json();
-                    } else {
-                        throw new Error('Erreur');
-                    }
-                })
-                .then(response => {
-                    console.debug(response);
-                }).catch(error => {
-                    console.error(error);
-                });
+            if (!Number.isInteger(+bouteille.millesime.value)) {
+                let erreurMillesime = document.getElementById('erreurMil');
+                erreurMillesime.innerHTML = 'Millesime non valide, la valeur doit être un nombre entier';
+                isvalid = false;
+            }
+
+            if (!Number.isInteger(+bouteille.quantite.value) || (bouteille.quantite.value == '')) {
+                let erreurQuantite = document.getElementById('erreurQuan');
+                erreurQuantite.innerHTML = 'Quantité non valide, la valeur doit être un nombre entier';
+                isvalid = false;
+            }
+
+            if (Number.isNaN(+bouteille.prix.value) || bouteille.prix.value == '') {
+                let erreurPrix = document.getElementById('erreurPrix');
+                erreurPrix.innerHTML = 'Prix non valide, la valeur doit être un nombre entier ou décimal';
+                isvalid = false;
+            }
+
+            if (bouteille.garde_jusqua.value == "") {
+                let erreurGarde = document.getElementById('erreurGarde');
+                erreurGarde.innerHTML = 'Champ obligatoire (Garde jusqua), ne peut être vide';
+                isvalid = false;
+            }
+
+            if (bouteille.notes.value == "") {
+                let erreurNotes = document.getElementById('erreurNotes');
+                erreurNotes.innerHTML = 'Champ obligatoire (Notes), ne peut être vide';
+                isvalid = false;
+            }
+
+            if (isvalid) {
+                let param = {
+                    "id_bouteille": parseInt(row.querySelectorAll("[name='bouteille_id']")[0].value),
+                    "id_cellier": parseInt(row.querySelectorAll("[name='id_cellier']")[0].value),
+                    "quantite": JSON.parse(row.querySelectorAll("[name='quantite']")[0].value),
+                    "date_achat": row.querySelectorAll("[name='date_achat']")[0].value,
+                    "millesime": JSON.parse(row.querySelectorAll("[name='millesime']")[0].value),
+                    "garde_jusqua": JSON.parse(row.querySelectorAll("[name='garde_jusqua']")[0].value),
+                    "notes": row.querySelectorAll("[name='notes']")[0].value,
+                    "prix": JSON.parse(row.querySelectorAll("[name='prix']")[0].value)
+
+                };
+
+                let requete = new Request(URLSansR + "index.php?requete=modifierBouteille", { method: 'POST', body: JSON.stringify(param) });
+                fetch(requete)
+                    .then(response => {
+                        if (response.status === 200) {
+                            location.reload();
+                            alert('Modification de la bouteille effectuée avec succès');
+                            return response.json();
+                        } else {
+                            throw new Error('Erreur');
+                        }
+                    })
+                    .then(response => {
+                        console.log(response);
+                        if (response == false) {
+                            alert("La bouteille n'a pas été ajoutée, vérifiez que cette bouteille n'est pas déjà dans le cellier");
+                        } else {
+                            location.reload();
+                            alert('Bouteille ajoutée au cellier avec succès');
+                        }
+                    }).catch(error => {
+                        console.error(error);
+                    });
+            }
         })
 
     }
