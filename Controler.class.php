@@ -108,6 +108,11 @@ class Controler
 				$this->isAuth();
 				$this->admin();
 				break;
+			case 'supprimerUtilisateur':
+				$this->isAuth();
+				$body = json_decode(file_get_contents('php://input'));
+				$this->supprimerUtilisateur($body->id_util);
+				break;
 			default:
 				$this->authentification();
 				break;
@@ -378,6 +383,10 @@ class Controler
 	// La fonction redirige l'utilisateur vers la page gestion d'administration    
 	private function admin()
 	{
+		$admin = new Admin();
+		$data = $admin->getListeUtilisateurs();
+		$data = json_encode($data);
+
 		include("vues/entete.php");
 		include("vues/admin.php");
 		include("vues/pied.php");
@@ -474,6 +483,7 @@ class Controler
 			include("vues/pied.php");
 		}
 	}
+
 	private function modifierBouteilleInfos($id_bouteille, $id_cellier, $date_achat, $garde_jusqua, $notes, $prix, $quantite, $millesime)
 	{
 		//checker si l'utilisateur à le droit de modifier
@@ -482,5 +492,18 @@ class Controler
 		$data = $bte->modifierBouteille($id_bouteille, $id_cellier, $date_achat, $garde_jusqua, $notes, $prix, $quantite, $millesime);
 
 		return $data;
+	}
+
+	//Fonction pour supprimer un cellier
+	private function supprimerUtilisateur($id_util)
+	{
+		$admin = new Admin();
+
+		if ($id_util != $_SESSION['utilisateur_id']) {
+			$data = $admin->supprimerUtilisateur($id_util);
+			if (!$data) {
+				http_response_code(417);
+			}
+		}
 	}
 }
