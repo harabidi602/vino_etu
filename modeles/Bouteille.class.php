@@ -79,7 +79,6 @@ class Bouteille extends Modele
 			}
 			return $rows;
 	}
-	
 	/**
 	 * Cette méthode permet de retourner les résultats de recherche pour la fonction d'autocomplete de l'ajout des bouteilles dans le cellier
 	 * 
@@ -139,7 +138,7 @@ class Bouteille extends Modele
 			"'" . $data->prix . "'," .
 			"'" . $data->quantite . "'," .
 			"'" . $data->millesime . "')";
-		
+
 		$res = $this->_db->query($requete);
 
 		return $res;
@@ -173,7 +172,7 @@ class Bouteille extends Modele
 		return $row;
 	}
 
-	
+
 	/**
 	 * Cette méthode récupère la liste des ids des celliers par utilisateurs
 	 *  
@@ -182,9 +181,9 @@ class Bouteille extends Modele
 	public function lireCelliers($id_utilisateur = NULL)
 	{
 		$rows = array();
-	
-		if($id_utilisateur === NULL) {
-			$requete = 'SELECT * FROM vino__cellier'; 
+
+		if ($id_utilisateur === NULL) {
+			$requete = 'SELECT * FROM vino__cellier';
 		} else {
 			$requete = 'SELECT * FROM vino__cellier WHERE id_utilisateur = ' . $id_utilisateur;
 		}
@@ -203,14 +202,16 @@ class Bouteille extends Modele
 	}
 
 	//Fonction pour ajouter un nouveau cellier
-	public function ajouterCellier($id_utilisateur, $nom_cellier) {
+	public function ajouterCellier($id_utilisateur, $nom_cellier)
+	{
 		$requete = "INSERT INTO vino__cellier (id_utilisateur, nom_cellier) VALUES (" . $id_utilisateur . "," . "'" . $nom_cellier . "')";
 		$res = $this->_db->query($requete);
-		return $res; 
+		return $res;
 	}
 
 	//Fontion pour modifier le nom d'un cellier
-	public function modifierCellier($nom_cellier, $id_cellier) {
+	public function modifierCellier($nom_cellier, $id_cellier)
+	{
 		$requete = "UPDATE vino__cellier SET nom_cellier ='" . $nom_cellier . "' WHERE id = " . $id_cellier;
 		//echo $requete;
 		$res = $this->_db->query($requete);
@@ -218,14 +219,16 @@ class Bouteille extends Modele
 	}
 
 	//Fontion pour supprimer le cellier
-	public function supprimerCellier($id_cellier) {
+	public function supprimerCellier($id_cellier)
+	{
 		$requete = "DELETE FROM vino__cellier WHERE id = " . $id_cellier;
 		$res = $this->_db->query($requete);
 		return $res;
 	}
 	//recuperer les infos de la bouteille avant de la modifier
-	public function lireBouteille($id_bouteille,$id_cellier){
-		$requete ="SELECT * FROM `vino__cellier_bouteille` AS v_c_b
+	public function lireBouteille($id_bouteille, $id_cellier)
+	{
+		$requete = "SELECT * FROM `vino__cellier_bouteille` AS v_c_b
 		LEFT JOIN vino__bouteille v_b ON v_c_b.id_bouteille = v_b.id WHERE v_c_b.id_bouteille = " . $id_bouteille . " AND v_c_b.id_cellier = " . $id_cellier;
 		$res = $this->_db->query($requete);
 		if ($res->num_rows) {
@@ -237,18 +240,18 @@ class Bouteille extends Modele
 		return $rows;
 	}
 	//modifier une bouteille
-	public function modifierBouteille($id_bouteille,$id_cellier,$date_achat,$garde_jusqua,$notes,$prix,$quantite,$millesime){
+	public function modifierBouteille($id_bouteille, $id_cellier, $date_achat, $garde_jusqua, $notes, $prix, $quantite, $millesime)
+	{
 
 		$requete = "UPDATE vino__cellier_bouteille 
 		SET date_achat ='" . $date_achat . "',
-		garde_jusqua='".$garde_jusqua."',
-		notes= '".$notes."',
-		prix= '".$prix."',
-		quantite= '".$quantite."',
-		millesime= '".$millesime."'
-		WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = ".$id_cellier;
+		garde_jusqua='" . $garde_jusqua . "',
+		notes= '" . $notes . "',
+		prix= '" . $prix . "',
+		quantite= '" . $quantite . "',
+		millesime= '" . $millesime . "'
+		WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = " . $id_cellier;
 		$res = $this->_db->query($requete);
 		return $res;
 	}
 }
-
