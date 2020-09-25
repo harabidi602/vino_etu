@@ -1,7 +1,8 @@
 <?php
 
 $arr = json_decode(json_encode($data),true);
-$arrCelliers = json_decode(json_encode($tousCelliers),true);
+//$arrCelliers = json_decode(json_encode($tousCelliers),true);
+$arrayCelliers = json_decode($dataCellier, true);
 
 $arrayId =[];
 $arrayC=[];
@@ -13,9 +14,8 @@ foreach($arr as $key => $cellier) {
     array_push($arrayP, $cellier['pays']);
     array_push($arrayType, $cellier['type']);
 }
-foreach($arrCelliers as $key =>$tousCelliers){
+foreach($arrayCelliers as $key =>$tousCelliers){
     array_push($arrayC, $tousCelliers['id']);
-
 }
 
 $arrayP = array_unique($arrayP) ;
@@ -44,6 +44,7 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
             <li><label for="tri_cellier">Choisir un cellier</label>
               <select id="cellier" name="tri_cellier" class="tri_cellier"> 
                   <option  selected value="-1"> -- selectionner une option -- </option>
+                  
                   <?php 
                   foreach ($arrayC as $cellier) { 
                       ?> //Récupérer les différents id_cellier de la BD

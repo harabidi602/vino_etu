@@ -160,15 +160,38 @@ window.addEventListener('load', function() {
 
                 let choice = bouteille.cellier.selectedIndex;
                 let idCellier = bouteille.cellier.options[choice].value;
-                //console.log(idCellier);
                 let isvalid = true;
-                let erreurMessage = ''; 
-                if (!Number.isInteger(bouteille.prix.value)) {
-                    let erreurPrix = document.getElementById('erreurPrix');
-                    erreurPrix.innerHTML = 'Prix non valide LLL';
-                    erreurMessage += 'prix non valide'; 
+           
+                if (!Number.isInteger(+bouteille.millesime.value) || !bouteille.millesime.value) {
+                    let erreurMillesime = document.getElementById('erreurMil');
+                    erreurMillesime.innerHTML = 'Millesime non valide, la valeur doit être un nombre entier';
                     isvalid = false; 
                 }
+
+                if (!Number.isInteger(+bouteille.quantite.value) || !bouteille.quantite.value) {
+                    let erreurQuantite = document.getElementById('erreurQuan');
+                    erreurQuantite.innerHTML = 'Quantité non valide, la valeur doit être un nombre entier';
+                    isvalid = false; 
+                }
+
+                if (Number.isNaN(+bouteille.prix.value) || !bouteille.prix.value) {
+                    let erreurPrix = document.getElementById('erreurPrix');
+                    erreurPrix.innerHTML = 'Prix non valide, la valeur doit être un nombre entier ou décimal';
+                    isvalid = false; 
+                }
+                
+                if (bouteille.garde_jusqua.value == "") {
+                    let erreurGarde = document.getElementById('erreurGarde');
+                    erreurGarde.innerHTML = 'Champ obligatoire (Garde jusqua), ne peut être vide';
+                    isvalid = false; 
+                }
+
+                if (bouteille.notes.value == "") {
+                    let erreurNotes = document.getElementById('erreurNotes');
+                    erreurNotes.innerHTML = 'Champ obligatoire (Notes), ne peut être vide';
+                    isvalid = false; 
+                }
+                
                 if (isvalid) {
                     var param = {
                         "id_bouteille": bouteille.nom.dataset.id,
@@ -186,7 +209,6 @@ window.addEventListener('load', function() {
                     fetch(requete)
                         .then(response => {
                             if (response.status === 200) {
-                                //console.log('1');
                                 return response.json();
                             } else {
                                 throw new Error('Erreur');
@@ -194,15 +216,17 @@ window.addEventListener('load', function() {
                         })
                         .then(response => {
                             console.log(response);
-    
+                            if(response == false) {
+                                alert("La bouteille n'a pas été ajoutée, vérifiez que cette bouteille n'est pas déjà dans le cellier");
+                            } else {
+                                location.reload();
+                                alert('Bouteille ajoutée au cellier avec succès');
+                            }
                         }).catch(error => {
                             console.error(error);
                         });
     
-                } else {
-                    console.log(erreurMessage); 
-                }
-               
+                } 
             });
         }
     }

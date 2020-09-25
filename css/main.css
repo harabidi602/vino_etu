@@ -138,10 +138,15 @@ header {
     margin-top: 60px;
     display: flex;
     justify-content: center;
+    /* justify-content: center; */
+    /* display: flex; */
+    /* flex-direction: column; */
+    align-items: center;
 }
 
 .content {
     display: flex;
+    margin: 0 auto;
 }
 
 
@@ -154,6 +159,7 @@ header {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 50px;
+    /* width: 80%;*/
 }
 
 .cellier>nav {
@@ -161,6 +167,10 @@ header {
     width: 100%;
     padding: 5px;
     justify-content: center;
+}
+
+.cellier>nav>* {
+    padding: 10px;
 }
 
 .cellier nav ul {
@@ -172,12 +182,12 @@ header {
 }
 
 .cellier nav ul>* {
+    text-align: center;
     padding: 10px;
 }
 
 .cellier nav ul li label {
     display: block;
-    width: 200px;
 }
 
 .cellier .bouteille {
@@ -195,6 +205,52 @@ header {
     justify-content: center;
     flex: 1 1 100px;
     text-align: center;
+    margin-top: 60px;
+}
+
+
+/********************************************/
+
+
+/* AJOUTER UNE BOUTEILLE à UN CELLIER*/
+
+
+/*------------------------------------------*/
+
+.ajoutBouteille {
+    display: inline-block;
+    padding: 10px;
+    width: 400px;
+    justify-content: left;
+    flex: 1 1 100px;
+    text-align: center;
+}
+
+.ajoutBouteille p {
+    margin: 0px;
+    /* padding: 4px; */
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.ajoutBouteille input {
+    width: 183px;
+}
+
+.ajoutBouteille p select {
+    width: 183px;
+}
+
+.ajouterBouteilleCellier {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    padding: 3px 2px;
+    border: none;
+    cursor: pointer;
+    width: 40%;
+    border-radius: 4px;
+    margin: 5px auto;
 }
 
 .bouteille .description {
@@ -240,20 +296,11 @@ header {
 /**********************************************************************************/
 
 
-/*--------------------------PAGE AJOUTER UN NOUVEAU CELLIER------------------------*/
+/*--------------------------PAGE AJOUTER UN NOUVELLE BOUTEILLE------------------------*/
 
-.ajouter {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 100%;
-    margin: auto;
-    flex-wrap: wrap;
-    margin-top: 60px;
+.recherche_nom_bouteille>input {
+    width: 50%;
 }
-
-
-/* les champs d'ajout*/
 
 .nouvelleBouteille {
     display: flex;
@@ -261,8 +308,63 @@ header {
     flex-direction: row;
 }
 
-.nouvelleBouteille>div {
-    width: 400px;
+.nouvelleBouteille h4 {
+    flex: 0 0 100%;
+    text-align: center;
+}
+
+.nouvelleBouteille .recherche_nom_bouteille {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    margin: 0px;
+}
+
+@media only screen and (min-width: 414px) {
+    .recherche_nom_bouteille {
+        align-items: center;
+    }
+    .ajoutBouteille {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-width: 736px) {
+    .content {
+        justify-content: center;
+        margin: 0px;
+    }
+    body {
+        width: 100%;
+    }
+    .nouvelleBouteille {
+        display: flex;
+        justify-content: center;
+        width: 80%;
+    }
+    .cellier nav ul {
+        flex-direction: column;
+    }
+    .nouvelleBouteille h4 {
+        font-size: small;
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 1078px) {
+    .nouvelleBouteille {
+        display: flex;
+        padding: 10px;
+    }
+    .recherche_nom_bouteille {
+        flex: 0 0 100%;
+    }
+    .ajoutBouteille {
+        flex: 1;
+    }
 }
 
 .infoBouteille {
@@ -273,12 +375,12 @@ header {
     flex-direction: column;
 }
 
-.infoBouteille p {
-    margin: 0px;
+.infoBouteille>p>* {
+    text-align: center;
 }
 
-.erreur {
-    color: red; 
+.infoBouteille p {
+    margin: 0px;
 }
 
 .infoBouteille p:first-child {
@@ -304,12 +406,6 @@ header {
     border-radius: 4px;
     cursor: pointer;
     width: 100%;
-}
-
-@media all and (max-width:816px) {
-    .ajouter {
-        margin: 10px;
-    }
 }
 
 
@@ -371,6 +467,8 @@ header {
 
 /*-------------------------MODIFIER UNE BOUTEILLE----------------------------*/
 
+
+/*
 .modifierBouteille {
     list-style-type: none;
     margin: 0 auto;
@@ -408,6 +506,61 @@ header {
     border-radius: 4px;
     cursor: pointer;
     width: 100%;
+}
+
+*/
+
+.modifier_bouteille {
+    /* width: 400px; */
+    /* background-color: lightgrey; */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.modifier_bouteille p {
+    /**/
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+}
+
+.modifier_bouteille p span {
+    margin-bottom: 0;
+    flex: 0 0 100px;
+}
+
+.modifier_bouteille p input {
+    flex: 0 0 200px;
+}
+
+.modifier_bouteille p:last-child {
+    justify-content: center;
+    width: 100%;
+}
+
+.modifier_bouteille p button {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    padding: 3px 2px;
+    border: none;
+    cursor: pointer;
+    width: 50%;
+    border-radius: 4px;
+    align-items: center;
+}
+
+.erreur {
+    color: red;
+    font-size: 0.8em;
+    text-align: left;
+}
+
+.ajoutBouteille span {
+    text-align: lefts;
 }
 
 
@@ -498,7 +651,7 @@ th {
 
 
 /* 
-Responsive adapté aux appareils mobiles - Tables
+Responsive adapté aux appareils mobiles
 */
 
 @media all and (max-width:640px) {

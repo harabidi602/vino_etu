@@ -49,7 +49,7 @@ class Controler
 				break;
 			case 'accueil':
                 $this->isAuth();
-				$this->accueil();
+				$this->accueil($_SESSION['utilisateur_id']);
 				break;	
 			case 'nouveauUtilisateur':
 				$this->nouveauUtilisateur();
@@ -108,11 +108,14 @@ class Controler
 		}
 	}
 
-	private function accueil(){
+	private function accueil($id_utilisateur){
 		$bte = new Bouteille();
 		if(empty($_GET['idCellier']) && empty($_GET['paysOption'])  && empty($_GET['typeOption'])){ //tous les param sont vide
-			$data = $bte->getListeBouteilleCellier();
-			
+			if($_SESSION['utilisateur_type'] == 2) {
+				$data = $bte->getListeBouteilleCellier('', '', '', $id_utilisateur);
+			} else {
+				$data = $bte->getListeBouteilleCellier();
+			}
 		}elseif(empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])){ //pays+type
 			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption'],$_GET['typeOption']);
 			
@@ -135,8 +138,9 @@ class Controler
 			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption'],$_GET['typeOption']);
 			
 		}
-			$tousCelliers = $bte->lireCelliers();
-
+		//$tousCelliers = $bte->lireCelliers();
+		$listeCelliers = $bte->lireCelliers($id_utilisateur);
+		$dataCellier = json_encode($listeCelliers);
 		include("vues/entete.php");
 		include("vues/cellier.php");
 		include("vues/pied.php");
@@ -224,7 +228,7 @@ class Controler
 				//var_dump($_SESSION['utilisateur_identifiant']);   
 								
 				if ($type == 1){
-					$this->accueil();
+					$this->accueil($_SESSION['utilisateur_id']);
 					exit;    
 				} 
 				elseif ($type == 2){
@@ -344,7 +348,7 @@ class Controler
 	//Fonction pour récupérer la liste des celliers 
     private function getListeCelliers($id_utilisateur) {
 		if ($_SESSION['utilisateur_type'] == 1){
-			$this->accueil();
+			$this->accueil($id_utilisateur);
 			exit;    
 		} 
 		$bte = new Bouteille();

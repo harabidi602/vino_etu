@@ -29,7 +29,7 @@ class Bouteille extends Modele
 		return $rows;
 	}
 
-	public function getListeBouteilleCellier($id_cellier='',$pays='',$type =''/*,$quantite ='',$millesime=''*/)
+	public function getListeBouteilleCellier($id_cellier='',$pays='',$type ='', $id_utilisateur=''/*,$quantite ='',$millesime=''*/)
 	{
 
 		$rows = array();
@@ -59,6 +59,10 @@ class Bouteille extends Modele
 		if(!empty($pays)){ 
 			$requete.=" AND v_b.pays ='".$pays."'";
 		}
+		if(!empty($id_utilisateur)){ 
+			$requete.=" AND  v_c.id_utilisateur ='".$id_utilisateur."'";
+		}
+
 		if(!empty($millesime)){ 
 			$requete.=" AND v_b.millesime ='".$millesime."'";
 		}
