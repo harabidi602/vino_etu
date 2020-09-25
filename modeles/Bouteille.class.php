@@ -29,7 +29,7 @@ class Bouteille extends Modele
 		return $rows;
 	}
 
-	public function getListeBouteilleCellier($id_cellier = '', $pays = '', $type = ''/*,$quantite ='',$millesime=''*/)
+	public function getListeBouteilleCellier($id_cellier='',$pays='',$type ='',$id_utilisateur=''/*,$quantite ='',$millesime=''*/)
 	{
 
 		$rows = array();
@@ -44,39 +44,41 @@ class Bouteille extends Modele
 		INNER JOIN vino__bouteille_type v_b_t ON v_b_t.id = v_b.id_type
 		INNER JOIN vino__utilisateur v_u ON v_u.id = v_c.id_utilisateur
 		
+		
 		';
-		if (!empty($id_cellier)) {
-			$requete .= " WHERE v_c_b.id_cellier ='" . $id_cellier . "'";
+		if(!empty($id_cellier)){ 
+		$requete.=" WHERE v_c_b.id_cellier ='".$id_cellier."'";
 		}
-		if (!empty($type)) {
-			$requete .= " AND v_b_t.type ='" . $type . "'";
+		if(!empty($type)){ 
+			$requete.=" AND v_b_t.type ='".$type."'";
 		}
-		/*if (!empty($quantite)) {
-			$requete .= " AND v_c_b.quantite ='" . $quantite . "'";
-		}*/
-		if (!empty($pays)) {
-			$requete .= " AND v_b.pays ='" . $pays . "'";
+		if(!empty($quantite)){ 
+			
+			$requete.=" AND v_c_b.quantite ='".$quantite."'";
+			
 		}
-		/*if (!empty($millesime)) {
-			$requete .= " AND v_b.millesime ='" . $millesime . "'";
-		}*/
-		if ($_SESSION['utilisateur_type']) {
-			$requete .= " AND v_u.id ='" . $_SESSION['utilisateur_type'] . "'";
+		if(!empty($pays)){ 
+			$requete.=" AND v_b.pays ='".$pays."'";
 		}
-		if (($res = $this->_db->query($requete)) ==	 true) {
-			if ($res->num_rows) {
-				while ($row = $res->fetch_assoc()) {
-					$row['nom'] = trim(utf8_encode($row['nom']));
-					$rows[] = $row;
+		if(!empty($millesime)){ 
+			$requete.=" AND v_b.millesime ='".$millesime."'";
+		}
+		if(!empty($id_utilisateur)){
+			$requete.=" AND v_c.id_utilisateur ='".$id_utilisateur."'";
+		}
+			if (($res = $this->_db->query($requete)) ==	 true) {
+				if ($res->num_rows) {
+					while ($row = $res->fetch_assoc()) {
+						$row['nom'] = trim(utf8_encode($row['nom']));
+						$rows[] = $row;
+					}
 				}
+			} else {
+				throw new Exception("Erreur de requête sur la base de donnée", 1);
+				//$this->_db->error;
 			}
-		} else {
-			throw new Exception("Erreur de requête sur la base de donnée", 1);
-			//$this->_db->error;
-		}
-		return $rows;
+			return $rows;
 	}
-
 	/**
 	 * Cette méthode permet de retourner les résultats de recherche pour la fonction d'autocomplete de l'ajout des bouteilles dans le cellier
 	 * 

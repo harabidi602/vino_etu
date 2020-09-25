@@ -29,7 +29,11 @@
                 <td data-column="Nom Cellier"><input type="text" class="nomCellier" value="<?php echo $cellier['nom_cellier'] ?>"></td>
                 <td data-column="Actions">
                     <button class="btn"><i class="fa fa-wrench" aria-hidden="true" name="modifierButton"></i></button>
-                    <button class="btn"><i class="fa fa-trash" aria-hidden="true" name="suprimmerButton" ></i></button>
+                    <?php
+                    //quand il n'y a qu'un seul cellier, on ne peut pas l'effacer 
+                    if(count($arr) !== 1) { ?>
+                        <button class="btn"><i class="fa fa-trash" aria-hidden="true" name="suprimmerButton" ></i></button>
+                    <?php } ?>
                 </td>
             </tr>
          <?php endforeach; ?>

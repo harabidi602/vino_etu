@@ -11,11 +11,11 @@
 //const BaseURL = "https://e1995654.webdev.cmaisonneuve.qc.ca/vino_etu/";
 const BaseURL = document.baseURI;
 //console.log(BaseURL);
-window.addEventListener('load', function () {
+window.addEventListener('load', function() {
     console.log("load");
-    document.querySelectorAll(".btnBoire").forEach(function (element) {
+    document.querySelectorAll(".btnBoire").forEach(function(element) {
         //console.log(element);
-        element.addEventListener("click", function (evt) {
+        element.addEventListener("click", function(evt) {
             let id_bouteille = evt.target.parentElement.dataset.id_bouteille;
             let id_cellier = evt.target.parentElement.dataset.id_cellier;
             let requete = new Request(BaseURL + "index.php?requete=boireBouteilleCellier", { method: 'POST', body: '{"id_bouteille": ' + id_bouteille + ', "id_cellier": ' + id_cellier + ' }' });
@@ -55,9 +55,9 @@ window.addEventListener('load', function () {
 
     });
 
-    document.querySelectorAll(".btnAjouter").forEach(function (element) {
+    document.querySelectorAll(".btnAjouter").forEach(function(element) {
         //console.log(element);
-        element.addEventListener("click", function (evt) {
+        element.addEventListener("click", function(evt) {
             let id_bouteille = evt.target.parentElement.dataset.id_bouteille;
             let id_cellier = evt.target.parentElement.dataset.id_cellier;
             let requete = new Request(BaseURL + "index.php?requete=ajouterBouteilleCellier", { method: 'POST', body: '{"id_bouteille": ' + id_bouteille + ', "id_cellier": ' + id_cellier + ' }' });
@@ -100,7 +100,7 @@ window.addEventListener('load', function () {
     let liste = document.querySelector('.listeAutoComplete');
 
     if (inputNomBouteille) {
-        inputNomBouteille.addEventListener("keyup", function (evt) {
+        inputNomBouteille.addEventListener("keyup", function(evt) {
             console.log(evt);
             let nom = inputNomBouteille.value;
             liste.innerHTML = "";
@@ -118,7 +118,7 @@ window.addEventListener('load', function () {
                         console.log(response);
 
 
-                        response.forEach(function (element) {
+                        response.forEach(function(element) {
                             liste.innerHTML += "<li data-id='" + element.id + "'>" + element.nom + "</li>";
                         })
                     }).catch(error => {
@@ -140,7 +140,7 @@ window.addEventListener('load', function () {
         };
 
         //choisir un nom d'une bouteile
-        liste.addEventListener("click", function (evt) {
+        liste.addEventListener("click", function(evt) {
             //console.dir(evt.target)
             if (evt.target.tagName == "LI") {
                 bouteille.nom.dataset.id = evt.target.dataset.id;
@@ -153,42 +153,77 @@ window.addEventListener('load', function () {
 
         let btnAjouter = document.querySelector("[name='ajouterBouteilleCellier']");
         if (btnAjouter) {
-            btnAjouter.addEventListener("click", function (evt) {
+            btnAjouter.addEventListener("click", function(evt) {
 
                 let choice = bouteille.cellier.selectedIndex;
                 let idCellier = bouteille.cellier.options[choice].value;
-                //console.log(idCellier);
+                let isvalid = true;
 
-                var param = {
-                    "id_bouteille": bouteille.nom.dataset.id,
-                    "id_cellier": idCellier,
-                    "date_achat": bouteille.date_achat.value,
-                    "garde_jusqua": bouteille.garde_jusqua.value,
-                    "notes": bouteille.notes.value,
-                    "prix": bouteille.prix.value,
-                    "quantite": bouteille.quantite.value,
-                    "millesime": bouteille.millesime.value,
-                };
-                let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
-                let requete = new Request(URLSansR + "index.php?requete=ajouterNouvelleBouteilleCellier", { method: 'POST', body: JSON.stringify(param) });
-                //console.log(requete);
-                fetch(requete)
-                    .then(response => {
-                        if (response.status === 200) {
-                            location.reload();
-                            alert('Bouteille ajoutée au cellier avec succès');
-                            return response.json();
-                        } else {
-                            throw new Error('Erreur');
-                        }
-                    })
-                    .then(response => {
-                        console.log(response);
+                if (!Number.isInteger(+bouteille.millesime.value) || !bouteille.millesime.value) {
+                    let erreurMillesime = document.getElementById('erreurMil');
+                    erreurMillesime.innerHTML = 'Millesime non valide, la valeur doit être un nombre entier';
+                    isvalid = false;
+                }
 
-                    }).catch(error => {
-                        console.error(error);
-                    });
+                if (!Number.isInteger(+bouteille.quantite.value) || !bouteille.quantite.value) {
+                    let erreurQuantite = document.getElementById('erreurQuan');
+                    erreurQuantite.innerHTML = 'Quantité non valide, la valeur doit être un nombre entier';
+                    isvalid = false;
+                }
 
+                if (Number.isNaN(+bouteille.prix.value) || !bouteille.prix.value) {
+                    let erreurPrix = document.getElementById('erreurPrix');
+                    erreurPrix.innerHTML = 'Prix non valide, la valeur doit être un nombre entier ou décimal';
+                    isvalid = false;
+                }
+
+                if (bouteille.garde_jusqua.value == "") {
+                    let erreurGarde = document.getElementById('erreurGarde');
+                    erreurGarde.innerHTML = 'Champ obligatoire (Garde jusqua), ne peut être vide';
+                    isvalid = false;
+                }
+
+                if (bouteille.notes.value == "") {
+                    let erreurNotes = document.getElementById('erreurNotes');
+                    erreurNotes.innerHTML = 'Champ obligatoire (Notes), ne peut être vide';
+                    isvalid = false;
+                }
+
+                if (isvalid) {
+                    var param = {
+                        "id_bouteille": bouteille.nom.dataset.id,
+                        "id_cellier": idCellier,
+                        "date_achat": bouteille.date_achat.value,
+                        "garde_jusqua": bouteille.garde_jusqua.value,
+                        "notes": bouteille.notes.value,
+                        "prix": bouteille.prix.value,
+                        "quantite": bouteille.quantite.value,
+                        "millesime": bouteille.millesime.value,
+                    };
+                    let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+                    let requete = new Request(URLSansR + "index.php?requete=ajouterNouvelleBouteilleCellier", { method: 'POST', body: JSON.stringify(param) });
+                    //console.log(requete);
+                    fetch(requete)
+                        .then(response => {
+                            if (response.status === 200) {
+                                return response.json();
+                            } else {
+                                throw new Error('Erreur');
+                            }
+                        })
+                        .then(response => {
+                            console.log(response);
+                            if (response == false) {
+                                alert("La bouteille n'a pas été ajoutée, vérifiez que cette bouteille n'est pas déjà dans le cellier");
+                            } else {
+                                location.reload();
+                                alert('Bouteille ajoutée au cellier avec succès');
+                            }
+                        }).catch(error => {
+                            console.error(error);
+                        });
+
+                }
             });
         }
     }
@@ -200,8 +235,8 @@ window.addEventListener('load', function () {
     };
     //selectionner un cellier
     let selectCellier = document.querySelectorAll(".tri_cellier");
-    selectCellier.forEach(function (elem) {
-        elem.addEventListener("change", function (e) {
+    selectCellier.forEach(function(elem) {
+        elem.addEventListener("change", function(e) {
             e.preventDefault();
             e.stopPropagation();
             let choice = bouteille.cellier.selectedIndex; //selection cellier
@@ -252,7 +287,7 @@ window.addEventListener('load', function () {
     let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
 
     if (inputAjouterCellier) {
-        buttonAjouterCellier.addEventListener("click", function (evt) {
+        buttonAjouterCellier.addEventListener("click", function(evt) {
             var param = {
                 "nom_cellier": inputAjouterCellier.value
             };
@@ -342,36 +377,88 @@ window.addEventListener('load', function () {
     });
 
     let modifier_bouteille = document.querySelectorAll("[name='modifier_bouteille']")[0];
+
     if (modifier_bouteille) {
-        modifier_bouteille.addEventListener("click", function (e) {
+        modifier_bouteille.addEventListener("click", function(e) {
             let row = e.target.parentElement.parentElement;
-            let param = {
-                "id_bouteille": parseInt(row.querySelectorAll("[name='bouteille_id']")[0].value),
-                "id_cellier": parseInt(row.querySelectorAll("[name='id_cellier']")[0].value),
-                "quantite": JSON.parse(row.querySelectorAll("[name='quantite']")[0].value),
-                "date_achat": row.querySelectorAll("[name='date_achat']")[0].value,
-                "millesime": JSON.parse(row.querySelectorAll("[name='millesime']")[0].value),
-                "garde_jusqua": JSON.parse(row.querySelectorAll("[name='garde_jusqua']")[0].value),
-                "notes": row.querySelectorAll("[name='notes']")[0].value,
-                "prix": JSON.parse(row.querySelectorAll("[name='prix']")[0].value)
+            let isvalid = true;
+            let bouteille = {
+                cellier: document.getElementById('cellier'),
+                nom: document.querySelector(".nom_bouteille"),
+                millesime: document.querySelector("[name='millesime']"),
+                quantite: document.querySelector("[name='quantite']"),
+                date_achat: document.querySelector("[name='date_achat']"),
+                prix: document.querySelector("[name='prix']"),
+                garde_jusqua: document.querySelector("[name='garde_jusqua']"),
+                notes: document.querySelector("[name='notes']"),
             };
 
-            let requete = new Request(URLSansR + "index.php?requete=modifierBouteille", { method: 'POST', body: JSON.stringify(param) });
-            fetch(requete)
-                .then(response => {
-                    if (response.status === 200) {
-                        location.reload();
-                        alert('Modification de la bouteille effectuée avec succès');
-                        return response.json();
-                    } else {
-                        throw new Error('Erreur');
-                    }
-                })
-                .then(response => {
-                    console.debug(response);
-                }).catch(error => {
-                    console.error(error);
-                });
+            if (!Number.isInteger(+bouteille.millesime.value)) {
+                let erreurMillesime = document.getElementById('erreurMil');
+                erreurMillesime.innerHTML = 'Millesime non valide, la valeur doit être un nombre entier';
+                isvalid = false;
+            }
+
+            if (!Number.isInteger(+bouteille.quantite.value) || (bouteille.quantite.value == '')) {
+                let erreurQuantite = document.getElementById('erreurQuan');
+                erreurQuantite.innerHTML = 'Quantité non valide, la valeur doit être un nombre entier';
+                isvalid = false;
+            }
+
+            if (Number.isNaN(+bouteille.prix.value) || bouteille.prix.value == '') {
+                let erreurPrix = document.getElementById('erreurPrix');
+                erreurPrix.innerHTML = 'Prix non valide, la valeur doit être un nombre entier ou décimal';
+                isvalid = false;
+            }
+
+            if (bouteille.garde_jusqua.value == "") {
+                let erreurGarde = document.getElementById('erreurGarde');
+                erreurGarde.innerHTML = 'Champ obligatoire (Garde jusqua), ne peut être vide';
+                isvalid = false;
+            }
+
+            if (bouteille.notes.value == "") {
+                let erreurNotes = document.getElementById('erreurNotes');
+                erreurNotes.innerHTML = 'Champ obligatoire (Notes), ne peut être vide';
+                isvalid = false;
+            }
+
+            if (isvalid) {
+                let param = {
+                    "id_bouteille": parseInt(row.querySelectorAll("[name='bouteille_id']")[0].value),
+                    "id_cellier": parseInt(row.querySelectorAll("[name='id_cellier']")[0].value),
+                    "quantite": JSON.parse(row.querySelectorAll("[name='quantite']")[0].value),
+                    "date_achat": row.querySelectorAll("[name='date_achat']")[0].value,
+                    "millesime": JSON.parse(row.querySelectorAll("[name='millesime']")[0].value),
+                    "garde_jusqua": JSON.parse(row.querySelectorAll("[name='garde_jusqua']")[0].value),
+                    "notes": row.querySelectorAll("[name='notes']")[0].value,
+                    "prix": JSON.parse(row.querySelectorAll("[name='prix']")[0].value)
+
+                };
+
+                let requete = new Request(URLSansR + "index.php?requete=modifierBouteille", { method: 'POST', body: JSON.stringify(param) });
+                fetch(requete)
+                    .then(response => {
+                        if (response.status === 200) {
+                            location.reload();
+                            alert('Modification de la bouteille effectuée avec succès');
+                            return response.json();
+                        } else {
+                            throw new Error('Erreur');
+                        }
+                    })
+                    .then(response => {
+                        console.log(response);
+                        if (response == false) {
+                            alert("La bouteille n'a pas été ajoutée, vérifiez que cette bouteille n'est pas déjà dans le cellier");
+                        } else {
+                            location.reload();
+                            alert('Bouteille ajoutée au cellier avec succès');
+                        }
+                    }).catch(error => {
+                        console.error(error);
+                    });
+            }
         })
     }
 
@@ -380,7 +467,7 @@ window.addEventListener('load', function () {
 
     //suppression d'un utilisateur
     btnSupprUtil.forEach(elem => {
-        elem.parentElement.addEventListener('click', function (e) {
+        elem.parentElement.addEventListener('click', function(e) {
 
             let id_util = e.target.parentElement.nextElementSibling.value;
             let requete = new Request(BaseURL + "index.php?requete=supprimerUtilisateur", { method: 'DELETE', body: '{"id_util": ' + id_util + ' }' });
@@ -406,7 +493,7 @@ window.addEventListener('load', function () {
 
     //Modification d'un utilisateur
     btnModifUtil.forEach(elem => {
-        elem.parentElement.addEventListener('click', function (e) {
+        elem.parentElement.addEventListener('click', function(e) {
             console.log("modifier");
             let id_util = e.target.parentElement.nextElementSibling.value;
             console.log(id_util);
