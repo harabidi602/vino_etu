@@ -11,11 +11,11 @@
 //const BaseURL = "https://e1995654.webdev.cmaisonneuve.qc.ca/vino_etu/";
 const BaseURL = document.baseURI;
 //console.log(BaseURL);
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     console.log("load");
-    document.querySelectorAll(".btnBoire").forEach(function(element) {
+    document.querySelectorAll(".btnBoire").forEach(function (element) {
         //console.log(element);
-        element.addEventListener("click", function(evt) {
+        element.addEventListener("click", function (evt) {
             let id_bouteille = evt.target.parentElement.dataset.id_bouteille;
             let id_cellier = evt.target.parentElement.dataset.id_cellier;
             let requete = new Request(BaseURL + "index.php?requete=boireBouteilleCellier", { method: 'POST', body: '{"id_bouteille": ' + id_bouteille + ', "id_cellier": ' + id_cellier + ' }' });
@@ -55,9 +55,9 @@ window.addEventListener('load', function() {
 
     });
 
-    document.querySelectorAll(".btnAjouter").forEach(function(element) {
+    document.querySelectorAll(".btnAjouter").forEach(function (element) {
         //console.log(element);
-        element.addEventListener("click", function(evt) {
+        element.addEventListener("click", function (evt) {
             let id_bouteille = evt.target.parentElement.dataset.id_bouteille;
             let id_cellier = evt.target.parentElement.dataset.id_cellier;
             let requete = new Request(BaseURL + "index.php?requete=ajouterBouteilleCellier", { method: 'POST', body: '{"id_bouteille": ' + id_bouteille + ', "id_cellier": ' + id_cellier + ' }' });
@@ -100,7 +100,7 @@ window.addEventListener('load', function() {
     let liste = document.querySelector('.listeAutoComplete');
 
     if (inputNomBouteille) {
-        inputNomBouteille.addEventListener("keyup", function(evt) {
+        inputNomBouteille.addEventListener("keyup", function (evt) {
             console.log(evt);
             let nom = inputNomBouteille.value;
             liste.innerHTML = "";
@@ -118,14 +118,13 @@ window.addEventListener('load', function() {
                         console.log(response);
 
 
-                        response.forEach(function(element) {
+                        response.forEach(function (element) {
                             liste.innerHTML += "<li data-id='" + element.id + "'>" + element.nom + "</li>";
                         })
                     }).catch(error => {
                         console.error(error);
                     });
             }
-
 
         });
 
@@ -141,7 +140,7 @@ window.addEventListener('load', function() {
         };
 
         //choisir un nom d'une bouteile
-        liste.addEventListener("click", function(evt) {
+        liste.addEventListener("click", function (evt) {
             //console.dir(evt.target)
             if (evt.target.tagName == "LI") {
                 bouteille.nom.dataset.id = evt.target.dataset.id;
@@ -154,7 +153,7 @@ window.addEventListener('load', function() {
 
         let btnAjouter = document.querySelector("[name='ajouterBouteilleCellier']");
         if (btnAjouter) {
-            btnAjouter.addEventListener("click", function(evt) {
+            btnAjouter.addEventListener("click", function (evt) {
 
                 let choice = bouteille.cellier.selectedIndex;
                 let idCellier = bouteille.cellier.options[choice].value;
@@ -201,8 +200,8 @@ window.addEventListener('load', function() {
     };
     //selectionner un cellier
     let selectCellier = document.querySelectorAll(".tri_cellier");
-    selectCellier.forEach(function(elem) {
-        elem.addEventListener("change", function(e) {
+    selectCellier.forEach(function (elem) {
+        elem.addEventListener("change", function (e) {
             e.preventDefault();
             e.stopPropagation();
             let choice = bouteille.cellier.selectedIndex; //selection cellier
@@ -253,7 +252,7 @@ window.addEventListener('load', function() {
     let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
 
     if (inputAjouterCellier) {
-        buttonAjouterCellier.addEventListener("click", function(evt) {
+        buttonAjouterCellier.addEventListener("click", function (evt) {
             var param = {
                 "nom_cellier": inputAjouterCellier.value
             };
@@ -279,7 +278,7 @@ window.addEventListener('load', function() {
     document.querySelectorAll("[name='modifierButton']").forEach(item => {
         item.addEventListener('click', event => {
             var row = event.target.parentElement.parentElement.parentElement;
-            console.log('row cellier ', row);
+            //console.log('row cellier ', row);
             var param = {
                 "nom_cellier": row.getElementsByClassName('nomCellier')[0].value,
                 "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
@@ -344,7 +343,7 @@ window.addEventListener('load', function() {
 
     let modifier_bouteille = document.querySelectorAll("[name='modifier_bouteille']")[0];
     if (modifier_bouteille) {
-        modifier_bouteille.addEventListener("click", function(e) {
+        modifier_bouteille.addEventListener("click", function (e) {
             let row = e.target.parentElement.parentElement;
             let param = {
                 "id_bouteille": parseInt(row.querySelectorAll("[name='bouteille_id']")[0].value),
@@ -355,7 +354,6 @@ window.addEventListener('load', function() {
                 "garde_jusqua": JSON.parse(row.querySelectorAll("[name='garde_jusqua']")[0].value),
                 "notes": row.querySelectorAll("[name='notes']")[0].value,
                 "prix": JSON.parse(row.querySelectorAll("[name='prix']")[0].value)
-
             };
 
             let requete = new Request(URLSansR + "index.php?requete=modifierBouteille", { method: 'POST', body: JSON.stringify(param) });
@@ -375,6 +373,43 @@ window.addEventListener('load', function() {
                     console.error(error);
                 });
         })
-
     }
+
+    let btnSupprUtil = document.getElementsByName("supprimerUtil");
+    let btnModifUtil = document.getElementsByName("modifierUtil");
+
+    //suppression d'un utilisateur
+    btnSupprUtil.forEach(elem => {
+        elem.parentElement.addEventListener('click', function (e) {
+
+            let id_util = e.target.parentElement.nextElementSibling.value;
+            let requete = new Request(BaseURL + "index.php?requete=supprimerUtilisateur", { method: 'DELETE', body: '{"id_util": ' + id_util + ' }' });
+
+            fetch(requete)
+                .then(response => {
+                    if (response.status === 200) {
+                        location.reload();
+                        alert('Suppression de l\'utilisateur est effectuée');
+                        return response.json();
+                    } else {
+                        //Refus de suppression de l'utilisateur parce qu'il y a des celliers qui lui sont associés
+                        alert("L'utilsateur n'a pas pu être effacé. Vérifier la présence de celliers à son compte");
+                    }
+                })
+                .then(response => {
+                    console.debug(response);
+                }).catch(error => {
+                    console.error(error);
+                });
+        });
+    });
+
+    //Modification d'un utilisateur
+    btnModifUtil.forEach(elem => {
+        elem.parentElement.addEventListener('click', function (e) {
+            console.log("modifier");
+            let id_util = e.target.parentElement.nextElementSibling.value;
+            console.log(id_util);
+        });
+    });
 });
