@@ -116,20 +116,11 @@ header {
     color: rgb(101, 138, 53);
 }
 
-@media all and (max-width:640px) {
-    .menu-item a {
-        font-size: 10px;
-    }
-}
-
 
 /*---------------------------------Fin entête-----------------------------*/
 
 
 /*************************************************************************/
-
-
-/**************************************************************************/
 
 
 /*---------------------------------Contenu des pages---------------------*/
@@ -153,13 +144,12 @@ header {
 /******************************************************************************/
 
 
-/*---------------------------------page Cellier------------------------------*/
+/*-------------page d'accueil (listes des bouteilles par tri)-----------------*/
 
 .cellier {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 50px;
-    /* width: 80%;*/
 }
 
 .cellier>nav {
@@ -186,6 +176,10 @@ header {
     padding: 10px;
 }
 
+.cellier nav ul li:first-child {
+    text-align: center;
+}
+
 .cellier nav ul li label {
     display: block;
 }
@@ -197,6 +191,10 @@ header {
     margin: 1em 0.5em;
 }
 
+.cellier .bouteille img {
+    height: auto;
+}
+
 .bouteille {
     display: inline-block;
     padding: 10px;
@@ -206,165 +204,6 @@ header {
     flex: 1 1 100px;
     text-align: center;
     margin-top: 60px;
-}
-
-
-/********************************************/
-
-
-/* AJOUTER UNE BOUTEILLE à UN CELLIER*/
-
-
-/*------------------------------------------*/
-
-.ajoutBouteille {
-    display: inline-block;
-    padding: 10px;
-    width: 400px;
-    justify-content: left;
-    flex: 1 1 100px;
-    text-align: center;
-}
-
-.ajoutBouteille p {
-    margin: 0px;
-    /* padding: 4px; */
-    display: flex;
-    justify-content: space-between;
-    width: 60%;
-}
-
-.ajoutBouteille input {
-    width: 183px;
-}
-
-.ajoutBouteille p select {
-    width: 183px;
-}
-
-.ajouterBouteilleCellier {
-    background-color: rgb(101, 138, 53);
-    color: white;
-    padding: 3px 2px;
-    border: none;
-    cursor: pointer;
-    width: 40%;
-    border-radius: 4px;
-    margin: 5px auto;
-}
-
-.bouteille .description {
-    max-width: 50%;
-    text-align: center;
-}
-
-.cellier .bouteille img {
-    height: auto;
-}
-
-.description {
-    align-self: flex-start;
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.description p {
-    padding: 0px;
-    margin: 0px;
-    text-align: center;
-    font-size: 0.9em;
-}
-
-.options button {
-    /**/
-    background-color: rgb(101, 138, 53);
-    color: white;
-    padding: 3px 2px;
-    border: none;
-    cursor: pointer;
-    width: 100px;
-    border-radius: 4px;
-}
-
-.options button:hover {
-    background-color: rgba(119, 4, 4, 100%);
-    color: white;
-}
-
-
-/**********************************************************************************/
-
-
-/*--------------------------PAGE AJOUTER UN NOUVELLE BOUTEILLE------------------------*/
-
-.recherche_nom_bouteille>input {
-    width: 50%;
-}
-
-.nouvelleBouteille {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-}
-
-.nouvelleBouteille h4 {
-    flex: 0 0 100%;
-    text-align: center;
-}
-
-.nouvelleBouteille .recherche_nom_bouteille {
-    width: 600px;
-    display: flex;
-    flex-direction: column;
-    padding: 0px;
-    margin: 0px;
-}
-
-@media only screen and (min-width: 414px) {
-    .recherche_nom_bouteille {
-        align-items: center;
-    }
-    .ajoutBouteille {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-    }
-}
-
-@media only screen and (max-width: 736px) {
-    .content {
-        justify-content: center;
-        margin: 0px;
-    }
-    body {
-        width: 100%;
-    }
-    .nouvelleBouteille {
-        display: flex;
-        justify-content: center;
-        width: 80%;
-    }
-    .cellier nav ul {
-        flex-direction: column;
-    }
-    .nouvelleBouteille h4 {
-        font-size: small;
-        text-align: center;
-    }
-}
-
-@media only screen and (max-width: 1078px) {
-    .nouvelleBouteille {
-        display: flex;
-        padding: 10px;
-    }
-    .recherche_nom_bouteille {
-        flex: 0 0 100%;
-    }
-    .ajoutBouteille {
-        flex: 1;
-    }
 }
 
 .infoBouteille {
@@ -409,16 +248,90 @@ header {
 }
 
 
-/**************************************************************************/
+/********************************************/
 
 
-/*---------------------------------Fin entête-----------------------------*/
+/* AJOUTER UNE BOUTEILLE à UN CELLIER*/
 
 
-/*---------------------------------Contenu des pages---------------------*/
+/*------------------------------------------*/
 
+.ajoutBouteille {
+    display: inline-block;
+    padding: 10px;
+    width: 400px;
+    justify-content: left;
+    flex: 1 1 100px;
+    text-align: center;
+}
 
-/*--------------PAGE AJOUTER UNE NOUVELLE BOUTEILLE à UN CELLIER---------*/
+.ajoutBouteille p {
+    margin: 0px;
+    padding: 4px;
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.ajoutBouteille input {
+    width: 183px;
+}
+
+.ajoutBouteille p select {
+    width: 183px;
+}
+
+.ajoutBouteille span {
+    text-align: left;
+}
+
+.ajouterBouteilleCellier {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    padding: 3px 2px;
+    border: none;
+    cursor: pointer;
+    width: 40%;
+    border-radius: 4px;
+    margin: 5px auto;
+}
+
+.options button {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    border-radius: 4px;
+}
+
+.options button:hover {
+    background-color: rgba(119, 4, 4, 100%);
+    color: white;
+}
+
+.recherche_nom_bouteille>input {
+    width: 50%;
+}
+
+.nouvelleBouteille {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.nouvelleBouteille h4 {
+    flex: 0 0 100%;
+    text-align: center;
+}
+
+.nouvelleBouteille .recherche_nom_bouteille {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    margin: 0px;
+}
 
 .liste {
     display: block;
@@ -455,91 +368,39 @@ header {
     cursor: pointer;
 }
 
-@media all and (max-width:640px) {
-    footer {
-        display: none;
-    }
-}
 
-
-/********************************************************************************/
+/**************************************************************************/
 
 
 /*-------------------------MODIFIER UNE BOUTEILLE----------------------------*/
 
-
-/*
-.modifierBouteille {
-    list-style-type: none;
-    margin: 0 auto;
-    padding: 0px;
-    display: flex;
-    flex-direction: column;
-    width: 400px;
-}
-
-.modifierBouteille p {
-    margin: 0px;
-}
-
-.modifierBouteille p:first-child {
-    text-align: left;
-    width: 50%;
-}
-
-.modifierBouteille p:not(:first-child) {
-    width: 50%;
-}
-
-.modifierBouteille button {
-    width: 50%;
-    margin: 0;
-}
-
-.modifierBouteille input {
-    padding-right: 20px;
-    margin-right: 0px;
-}
-
-.modifierBouteille select {
-    background-color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%;
-}
-
-*/
-
 .modifier_bouteille {
-    /* width: 400px; */
-    /* background-color: lightgrey; */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
     padding: 10px;
 }
 
 .modifier_bouteille p {
-    /**/
     margin-bottom: 10px;
     display: flex;
     flex-direction: row;
     text-align: left;
+    flex-wrap: wrap;
+}
+
+.modifier_bouteille>p>* {
+    text-align: center;
 }
 
 .modifier_bouteille p span {
     margin-bottom: 0;
-    flex: 0 0 100px;
+    flex: 0 0 100%;
 }
 
 .modifier_bouteille p input {
-    flex: 0 0 200px;
-}
-
-.modifier_bouteille p:last-child {
-    justify-content: center;
-    width: 100%;
+    flex: 0 0 100%;
+    margin-bottom: 0;
 }
 
 .modifier_bouteille p button {
@@ -548,10 +409,18 @@ header {
     padding: 3px 2px;
     border: none;
     cursor: pointer;
-    width: 50%;
+    width: 40%;
     border-radius: 4px;
+    margin: 5px auto;
     align-items: center;
 }
+
+.modifier_bouteille p button:hover {
+    background-color: rgba(119, 4, 4, 100%);
+}
+
+
+/*erreur pour l ajout et la modif d'une bouteille*/
 
 .erreur {
     color: red;
@@ -559,36 +428,8 @@ header {
     text-align: left;
 }
 
-.ajoutBouteille span {
-    text-align: lefts;
-}
-
 
 /********************************************************************************/
-
-
-/*---------------------------PIED DE PAGE--------------------------------------*/
-
-footer {
-    display: flex;
-    align-content: flex-end;
-    justify-content: center;
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
-    width: 100%;
-    padding-top: 3px;
-    text-align: center;
-    background-color: #2C0000;
-    opacity: 80%;
-    color: #FFFFFF;
-}
-
-footer p {
-    display: inline;
-    padding-right: 50px;
-    font-size: 10px;
-}
 
 
 /*------------------------Boutons Ajouter Cellier-------------------------*/
@@ -651,10 +492,54 @@ th {
 
 
 /* 
-Responsive adapté aux appareils mobiles
+création d'un nouveau compte utilisateur
 */
 
+.inputForm {
+    height: 35px;
+    width: 200px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+
+/*******************************************************************************/
+
+
+/*---------------------------PIED DE PAGE--------------------------------------*/
+
+footer {
+    display: flex;
+    align-content: flex-end;
+    justify-content: center;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    padding-top: 3px;
+    text-align: center;
+    background-color: #2C0000;
+    opacity: 80%;
+    color: #FFFFFF;
+}
+
+footer p {
+    display: inline;
+    padding-right: 50px;
+    font-size: 10px;
+}
+
+
+/*****************************************************************************/
+
+
+/*-------------------------------MEDIA QUERIES---------------------------------*/
+
 @media all and (max-width:640px) {
+    /*LE MENU */
+    .menu-item a {
+        font-size: 10px;
+    }
     table {
         width: 100%;
     }
@@ -694,11 +579,102 @@ Responsive adapté aux appareils mobiles
     input {
         width: 100%;
     }
+    /*FOOTER*/
+    footer {
+        display: none;
+    }
 }
 
-.inputForm {
-    height: 35px;
-    width: 200px;
-    margin-bottom: 5px;
+
+/* media query recherche bouteille/ajoutBouteille*/
+
+@media only screen and (min-width: 414px) {
+    .recherche_nom_bouteille {
+        align-items: center;
+    }
+    .ajoutBouteille {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+/**media query  du contenu/body/nouvellebouteille/cellier*/
+
+@media only screen and (max-width: 736px) {
+    .content {
+        justify-content: center;
+        margin: 0px;
+    }
+    body {
+        width: 100%;
+    }
+    .nouvelleBouteille {
+        justify-content: center;
+        width: 80%;
+    }
+    .cellier nav ul {
+        flex-direction: column;
+    }
+    .nouvelleBouteille h4 {
+        font-size: small;
+        text-align: center;
+    }
+}
+
+
+/* media query page ajouter bouteille au cellier max 1078px*/
+
+@media only screen and (max-width: 1078px) {
+    .nouvelleBouteille {
+        display: flex;
+        padding: 10px;
+    }
+    .recherche_nom_bouteille {
+        flex: 0 0 100%;
+    }
+    .ajoutBouteille {
+        flex: 1;
+    }
+}
+
+
+/* les boites de messages (alert)*/
+
+#center_container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    z-index: 20;
+}
+
+#center {
+    position: relative;
+    width: 320px;
+    height: 160px;
+    margin: 50px auto;
     text-align: center;
+    border-radius: 10px;
+    color: white;
+    background-color: rgba(119, 4, 4, 100%);
+}
+
+#center>div {
+    line-height: 160px;
+}
+
+#close_center {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 3px 5px;
+    background-color: black;
+    border-radius: 20px;
+    cursor: pointer;
 }

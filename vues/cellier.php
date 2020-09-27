@@ -1,9 +1,7 @@
 <?php
 
 $arr = json_decode(json_encode($data),true);
-//$arrCelliers = json_decode(json_encode($tousCelliers),true);
 $arrayCelliers = json_decode($dataCellier, true);
-
 $arrayId =[];
 $arrayC=[];
 $arrayP=[];
@@ -17,9 +15,9 @@ foreach($arr as $key => $cellier) {
 foreach($arrayCelliers as $key =>$tousCelliers){
     array_push($arrayC, $tousCelliers['id']);
 }
-
 $arrayP = array_unique($arrayP) ;
 $arrayT = array_unique($arrayType);
+$arrayC = array_unique($arrayC);
 
 $id = null;
 $p = null;
@@ -42,7 +40,7 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
         <ul>		
             <li><a href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></li>
             <li><label for="tri_cellier">Choisir un cellier</label>
-              <select id="cellier" name="tri_cellier" class="tri_cellier"> 
+            <select id="cellier" name="tri_cellier" class="tri_cellier"> 
                   <option  selected value="-1"> -- selectionner une option -- </option>
                   
                   <?php 
@@ -78,22 +76,21 @@ if ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
 		</ul>
     </nav>
     <?php
-    foreach ($data as $cle => $bouteille) {
+    foreach ($arr as $cle => $bouteille) {
     ?>
         <article class="bouteille" data-quantite="">
             <div class="img">
                 <img src="https:<?php echo $bouteille['image'] ?>">
             </div>
             <ul class="infoBouteille">
-                <li><?php echo $bouteille['id_bouteille'] ?></li>
-                <li class="nom">Numéro du cellier : <?php echo $bouteille['id_cellier'] ?></li>
+                <li class="id_cellier">Numéro du cellier : <?php echo $bouteille['id_cellier'] ?></li>
                 <li class="nom">Nom : <?php echo $bouteille['nom'] ?></li>
                 <li class="quantite">Quantité : <?php echo $bouteille['quantite'] ?></li>
                 <li class="pays">Pays : <?php echo $bouteille['pays'] ?></li>
                 <li class="type">Type : <?php echo $bouteille['type'] ?></li>
                 <li class="millesime">Millesime : <?php echo $bouteille['millesime'] ?></li>
-                <li class="millesime">Prix : <?php echo $bouteille['prix'] ?></li>
-                <li class="millesime">Date d'achat : <?php echo $bouteille['date_achat'] ?></li>
+                <li class="prix">Prix : <?php echo $bouteille['prix'] ?></li>
+                <li class="date_achat">Date d'achat : <?php echo $bouteille['date_achat'] ?></li>
                 <li><a href="<?php echo $bouteille['url_saq'] ?>">Voir SAQ</a></li>
             </ul>
             <div class="options" data-id_bouteille="<?php echo $bouteille['id_bouteille'] ?>" data-id_cellier="<?php echo $bouteille['id_cellier'] ?>">
