@@ -186,9 +186,9 @@ window.addEventListener('load', function() {
                 if (bouteille.notes.value == "") {
                     let erreurNotes = document.getElementById('erreurNotes');
                     erreurNotes.innerHTML = 'Champ obligatoire (Notes), ne peut être vide';
-                    isvalid = false;
+                    isvalid = false; 
                 }
-
+                
                 if (isvalid) {
                     var param = {
                         "id_bouteille": bouteille.nom.dataset.id,
