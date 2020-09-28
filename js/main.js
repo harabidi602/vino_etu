@@ -245,7 +245,6 @@ window.addEventListener('load', function() {
             let paysOption = bouteille.pays.options[paysChoisi].value; //valeur pays choisi
             let typeChoisi = bouteille.type.selectedIndex; //type choisi
             let typeOption = bouteille.type.options[typeChoisi].value; //valeur type choisi
-
             //test des selects selectionnées pour les rediriger vers le bon resultat
             console.log('choice ', choice, ' paysChoisi ', paysChoisi, ' typeChoisi ', typeChoisi,
                 ' idCellier ', idCellier, ' paysOption ', paysOption, ' typeOption ', typeOption)
@@ -312,28 +311,38 @@ window.addEventListener('load', function() {
     //Fonctionnalités pour modifier un cellier existant
     document.querySelectorAll("[name='modifierButton']").forEach(item => {
         item.addEventListener('click', event => {
+            let x = document.getElementById("center_container"),
+                y = document.getElementById('close_center');
+            x.style.display === "none";
             var row = event.target.parentElement.parentElement.parentElement;
-            //console.log('row cellier ', row);
             var param = {
                 "nom_cellier": row.getElementsByClassName('nomCellier')[0].value,
                 "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
             };
             let requete = new Request(URLSansR + "index.php?requete=actualiserCellier", { method: 'POST', body: JSON.stringify(param) });
-            fetch(requete)
-                .then(response => {
-                    if (response.status === 200) {
-                        location.reload();
-                        alert('Modification du cellier effectuée');
-                        return response.json();
-                    } else {
-                        throw new Error('Erreur');
-                    }
-                })
-                .then(response => {
-                    console.log(response);
-                }).catch(error => {
-                    console.error(error);
-                });
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                fetch(requete)
+                    .then(response => {
+                        if (response.status === 200) {
+                            y.addEventListener('click', function(e) {
+                                location.reload();
+                            })
+                            return response.json();
+                        } else {
+                            throw new Error('Erreur');
+                        }
+                    })
+                    .then(response => {
+                        console.log(response);
+                    }).catch(error => {
+                        console.error(error);
+                    });
+            } else {
+                x.style.display = "none";
+
+            }
+
         });
     });
     //Fonctionnalités pour supprimer un cellier existant
@@ -393,19 +402,13 @@ window.addEventListener('load', function() {
                 notes: document.querySelector("[name='notes']"),
             };
 
-            if (!Number.isInteger(+bouteille.millesime.value)) {
-                let erreurMillesime = document.getElementById('erreurMil');
-                erreurMillesime.innerHTML = 'Millesime non valide, la valeur doit être un nombre entier';
-                isvalid = false;
-            }
-
             if (!Number.isInteger(+bouteille.quantite.value) || (bouteille.quantite.value == '')) {
                 let erreurQuantite = document.getElementById('erreurQuan');
                 erreurQuantite.innerHTML = 'Quantité non valide, la valeur doit être un nombre entier';
                 isvalid = false;
             }
 
-            if (Number.isNaN(+bouteille.prix.value) || bouteille.prix.value == '') {
+            if (Number.isNaN(+bouteille.prix.value) /* || bouteille.prix.value == ''*/ ) {
                 let erreurPrix = document.getElementById('erreurPrix');
                 erreurPrix.innerHTML = 'Prix non valide, la valeur doit être un nombre entier ou décimal';
                 isvalid = false;
@@ -414,12 +417,6 @@ window.addEventListener('load', function() {
             if (bouteille.garde_jusqua.value == "") {
                 let erreurGarde = document.getElementById('erreurGarde');
                 erreurGarde.innerHTML = 'Champ obligatoire (Garde jusqua), ne peut être vide';
-                isvalid = false;
-            }
-
-            if (bouteille.notes.value == "") {
-                let erreurNotes = document.getElementById('erreurNotes');
-                erreurNotes.innerHTML = 'Champ obligatoire (Notes), ne peut être vide';
                 isvalid = false;
             }
 
@@ -440,8 +437,8 @@ window.addEventListener('load', function() {
                 fetch(requete)
                     .then(response => {
                         if (response.status === 200) {
-                            location.reload();
                             alert('Modification de la bouteille effectuée avec succès');
+                            location.reload();
                             return response.json();
                         } else {
                             throw new Error('Erreur');
