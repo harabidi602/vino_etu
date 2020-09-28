@@ -29,7 +29,7 @@
 			</div>
 			<nav class="menu">
 				<ul>
-					<li class="logo"><a href=""?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
+					<li class="logo"><a href="?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
 					<li class="menu-item"><a href="?requete=accueil">Accueil</a></li>
 					<?php if ($_SESSION['utilisateur_type'] == 2){ ?><li class="menu-item"><a href="?requete=getListeCelliers">Gestion des celliers</a></li><?php } ?>
 					<?php if ($_SESSION['utilisateur_type'] == 1){ ?>
