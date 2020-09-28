@@ -9,8 +9,8 @@
  */
 
 //const BaseURL = "https://e1995654.webdev.cmaisonneuve.qc.ca/vino_etu/";
-//const BaseURL = document.baseURI;
-const BaseURL = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+const BaseURL = document.baseURI;
+
 //console.log(BaseURL);
 window.addEventListener('load', function() {
     console.log("load");
