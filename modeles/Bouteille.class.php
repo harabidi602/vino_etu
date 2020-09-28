@@ -183,10 +183,18 @@ class Bouteille extends Modele
 		$rows = array();
 
 		if ($id_utilisateur === NULL) {
-			$requete = 'SELECT * FROM vino__cellier';
+			$requete = 'SELECT `id`, `id_utilisateur`, `nom_cellier`, IFNULL(SUM(quantite),0) AS totalBouteilles, IFNULL(AVG(prix),0) AS AvgPrix  FROM `vino__cellier` 
+						LEFT JOIN vino__cellier_bouteille
+						ON vino__cellier.id = vino__cellier_bouteille.id_cellier 
+						GROUP BY id;';
 		} else {
-			$requete = 'SELECT * FROM vino__cellier WHERE id_utilisateur = ' . $id_utilisateur;
+			$requete = 'SELECT `id`, `id_utilisateur`, `nom_cellier`, IFNULL(SUM(quantite),0) AS totalBouteilles, IFNULL(AVG(prix),0) AS AvgPrix  FROM `vino__cellier` 
+						LEFT JOIN vino__cellier_bouteille
+						ON vino__cellier.id = vino__cellier_bouteille.id_cellier 
+						WHERE id_utilisateur = ' . $id_utilisateur . 
+						' GROUP BY id';
 		}
+		
 		if (($res = $this->_db->query($requete)) ==	 true) {
 			if ($res->num_rows) {
 				while ($row = $res->fetch_assoc()) {

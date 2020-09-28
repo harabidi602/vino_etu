@@ -124,15 +124,12 @@ class Controler
 		
 		if(empty($_GET['idCellier']) && empty($_GET['paysOption'])  && empty($_GET['typeOption'])){ //tous les param sont vide
             if($_SESSION['utilisateur_type'] == 2) {
-                $data = $bte->getListeBouteilleCellier('', '', '', $id_utilisateur);
+                $data = $bte->getListeBouteilleCellier($_GET['idCellier']='', $_GET['paysOption']='',$_GET['typeOption']='', $id_utilisateur);
             } else {
-                $data = $bte->getListeBouteilleCellier();
+				$data = $bte->getListeBouteilleCellier();
             }
-            
-            
         }elseif(empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])){ //pays+type
 			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption'],$_GET['typeOption']);
-			
 			
 		}elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])){//pays+cellier
 			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption'],$_GET['typeOption']='');
@@ -366,12 +363,16 @@ class Controler
 			$this->accueil($id_utilisateur);
 			exit;    
 		} else{
-			$data = $bte->lireCelliers();
+			$data = $bte->lireCelliers($id_utilisateur);
+			$data = json_encode($data);
 		}
 		
 		include("vues/entete.php");
 		include("vues/ajouter_cellier.php");
 		include("vues/pied.php");
+		/*if(!empty($_GET['id'])){
+			include("vues/cellier.php");
+		}*/
 	}
 
 //$resultat = $bte->lireCelliers($_GET['id_utilisateur']);
