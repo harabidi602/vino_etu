@@ -11,7 +11,7 @@
     </div>
     
     <?php
-        $arr = json_decode(json_encode($data),true);
+      $arr = json_decode($data, true);
     ?>
     <table>
         <thead>
@@ -38,4 +38,10 @@
          <?php endforeach; ?>
         </tbody>
     </table>
+    <div id="center_container">
+        <div id="center">
+            <div>Modification effectuée avec succès</div>
+            <span id="close_center">X</span>
+        </div>
+    </div>
 </div>
