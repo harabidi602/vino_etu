@@ -9,7 +9,8 @@
  */
 
 //const BaseURL = "https://e1995654.webdev.cmaisonneuve.qc.ca/vino_etu/";
-const BaseURL = document.baseURI;
+//const BaseURL = document.baseURI;
+const BaseURL = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
 //console.log(BaseURL);
 window.addEventListener('load', function() {
     console.log("load");
@@ -315,34 +316,54 @@ window.addEventListener('load', function() {
                 y = document.getElementById('close_center');
             x.style.display === "none";
             var row = event.target.parentElement.parentElement.parentElement;
-            var param = {
-                "nom_cellier": row.getElementsByClassName('nomCellier')[0].value,
-                "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
-            };
-            let requete = new Request(URLSansR + "index.php?requete=actualiserCellier", { method: 'POST', body: JSON.stringify(param) });
-            if (x.style.display === "none") {
-                x.style.display = "block";
-                fetch(requete)
-                    .then(response => {
-                        if (response.status === 200) {
-                            y.addEventListener('click', function(e) {
-                                location.reload();
+
+            let valeurNomCellier = row.getElementsByClassName('nomCellier')[0].innerHTML;
+
+            row.getElementsByClassName('nomCellier')[0].innerHTML = '';
+
+            var input = document.createElement("input");
+            input.type = "text";
+            input.value = valeurNomCellier; 
+
+            input.addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+
+                    event.preventDefault();
+                   
+                    var param = {
+                        "nom_cellier": event.target.value, 
+                        "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
+                    };  
+
+                    let requete = new Request(URLSansR + "index.php?requete=actualiserCellier", { method: 'POST', body: JSON.stringify(param) });
+                   
+                    if (x.style.display === "none" || x.style.display === '') {
+                        x.style.display = "block";
+                        fetch(requete)
+                            .then(response => {
+                                if (response.status === 200) {
+                                    y.addEventListener('click', function(e) {
+                                        location.reload();
+                                    });
+                                    return response.json();
+                                } else {
+                                    throw new Error('Erreur');
+                                }
                             })
-                            return response.json();
-                        } else {
-                            throw new Error('Erreur');
-                        }
-                    })
-                    .then(response => {
-                        console.log(response);
-                    }).catch(error => {
-                        console.error(error);
-                    });
-            } else {
-                x.style.display = "none";
+                            .then(response => {
+                                console.log(response);
+                            }).catch(error => {
+                                console.error(error);
+                            });
+                    } else {
+                        x.style.display = "none";
+                    }
 
-            }
+                    //alert(event.target.value); 
+                }
+            });
 
+            row.getElementsByClassName('nomCellier')[0].appendChild(input);
         });
     });
     //Fonctionnalités pour supprimer un cellier existant
