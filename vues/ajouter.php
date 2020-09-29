@@ -20,18 +20,10 @@
                 <p>Notes <input name="notes"></p>
                 <p><button name="ajouterBouteilleCellier" class="ajouterBouteilleCellier">Ajouter</button></p>
             </div>
-            <div id="center_container">
-                <div id="center">
-                    <div id="messagePer">Ajout effectuée avec succès</div>
-                    <span id="close_center">X</span>
-                </div>
-            </div>
 </div>
-<div id="center_container">
-        <div id="center">
-            <div>Ajout effectué avec succès</div>
-            <span id="close_center">X</span>
-        </div>
-</div> 
-
-
+ <div id="center_container">
+    <div id="center">
+        <div id="messagePer">Ajout effectuée avec succès</div>
+        <span id="close_center">X</span>
+    </div>
+ </div>
