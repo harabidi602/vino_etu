@@ -248,7 +248,7 @@ class Bouteille extends Modele
 		return $rows;
 	}
 	//modifier une bouteille
-	public function modifierBouteille($id_bouteille, $id_cellier, $date_achat, $garde_jusqua, $notes, $prix, $quantite, $millesime)
+	public function modifierBouteille($id_bouteille, $id_cellier, $date_achat='', $garde_jusqua='', $notes='', $prix='', $quantite='', $millesime='')
 	{
 
 		$requete = "UPDATE vino__cellier_bouteille 
@@ -259,6 +259,13 @@ class Bouteille extends Modele
 		quantite= '" . $quantite . "',
 		millesime= '" . $millesime . "'
 		WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = " . $id_cellier;
+		$res = $this->_db->query($requete);
+		return $res;
+	}
+
+	public function retirerBouteille($id_bouteille,$id_cellier){
+		$requete ="DELETE FROM vino__cellier_bouteille 
+		WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = ".$id_cellier;
 		$res = $this->_db->query($requete);
 		return $res;
 	}
