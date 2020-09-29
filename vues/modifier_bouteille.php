@@ -34,5 +34,11 @@ foreach ($arrInfosBouteille as $cle => $bouteille) {?>
                 <button class="modifier_bouteille" id='modifier_bouteille' data-id="modifier_bouteille" name='modifier_bouteille'>Modifier</button>
             </p>
     </div> 
-</div>   
+</div>  
+<div id="center_container">
+        <div id="center">
+            <div>Modification effectuée avec succès</div>
+            <span id="close_center">X</span>
+        </div>
+    </div>
 <?php }?>
