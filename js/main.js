@@ -9,8 +9,8 @@
  */
 
 //const BaseURL = "https://e1995654.webdev.cmaisonneuve.qc.ca/vino_etu/";
-const BaseURL = document.baseURI;
-
+//const BaseURL = document.baseURI;
+const BaseURL = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
 //console.log(BaseURL);
 window.addEventListener('load', function() {
     console.log("load");
@@ -156,40 +156,33 @@ window.addEventListener('load', function() {
         if (btnAjouter) {
             btnAjouter.addEventListener("click", function(evt) {
 
+                let x = document.getElementById("center_container"),
+                y = document.getElementById('close_center');
+                x.style.display === "none";
+
                 let choice = bouteille.cellier.selectedIndex;
                 let idCellier = bouteille.cellier.options[choice].value;
                 let isvalid = true;
 
-                if (!Number.isInteger(+bouteille.millesime.value) || !bouteille.millesime.value) {
+                if (!Number.isInteger(+bouteille.millesime.value)) {
                     let erreurMillesime = document.getElementById('erreurMil');
                     erreurMillesime.innerHTML = 'Millesime non valide, la valeur doit être un nombre entier';
                     isvalid = false;
                 }
 
-                if (!Number.isInteger(+bouteille.quantite.value) || !bouteille.quantite.value) {
+                if (!Number.isInteger(+bouteille.quantite.value)) {
                     let erreurQuantite = document.getElementById('erreurQuan');
                     erreurQuantite.innerHTML = 'Quantité non valide, la valeur doit être un nombre entier';
                     isvalid = false;
                 }
 
-                if (Number.isNaN(+bouteille.prix.value) || !bouteille.prix.value) {
+                if (Number.isNaN(+bouteille.prix.value)) {
                     let erreurPrix = document.getElementById('erreurPrix');
                     erreurPrix.innerHTML = 'Prix non valide, la valeur doit être un nombre entier ou décimal';
                     isvalid = false;
                 }
 
-                if (bouteille.garde_jusqua.value == "") {
-                    let erreurGarde = document.getElementById('erreurGarde');
-                    erreurGarde.innerHTML = 'Champ obligatoire (Garde jusqua), ne peut être vide';
-                    isvalid = false;
-                }
-
-                if (bouteille.notes.value == "") {
-                    let erreurNotes = document.getElementById('erreurNotes');
-                    erreurNotes.innerHTML = 'Champ obligatoire (Notes), ne peut être vide';
-                    isvalid = false; 
-                }
-                
+               
                 if (isvalid) {
                     var param = {
                         "id_bouteille": bouteille.nom.dataset.id,
@@ -204,25 +197,40 @@ window.addEventListener('load', function() {
                     let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
                     let requete = new Request(URLSansR + "index.php?requete=ajouterNouvelleBouteilleCellier", { method: 'POST', body: JSON.stringify(param) });
                     //console.log(requete);
-                    fetch(requete)
-                        .then(response => {
-                            if (response.status === 200) {
-                                return response.json();
-                            } else {
-                                throw new Error('Erreur');
-                            }
-                        })
-                        .then(response => {
-                            console.log(response);
-                            if (response == false) {
-                                alert("La bouteille n'a pas été ajoutée, vérifiez que cette bouteille n'est pas déjà dans le cellier");
-                            } else {
-                                location.reload();
-                                alert('Bouteille ajoutée au cellier avec succès');
-                            }
-                        }).catch(error => {
-                            console.error(error);
-                        });
+
+                    if (x.style.display === "none" || x.style.display === '') {
+                        x.style.display = "block";
+
+                        fetch(requete)
+                            .then(response => {
+                                if (response.status === 200) {
+                                  
+                                    return response.json();
+                                } else {
+                                    throw new Error('Erreur');
+                                }
+                            })
+                            .then(response => {
+                                console.log(response);
+                                if (response == false) {
+                                    document.getElementById('messagePer').innerHTML = "La bouteille n'a pas été ajoutée, vérifiez que cette bouteille n'est pas déjà dans le cellier";
+                                    y.addEventListener('click', function(e) {
+                                        location.reload();
+                                    });
+                                    //alert("La bouteille n'a pas été ajoutée, vérifiez que cette bouteille n'est pas déjà dans le cellier");
+                                } else {
+                                    y.addEventListener('click', function(e) {
+                                        location.reload();
+                                    });
+                                    // location.reload();
+                                    // alert('Bouteille ajoutée au cellier avec succès');
+                                }
+                            }).catch(error => {
+                                console.error(error);
+                            });
+                    } else {
+                            x.style.display = "none";
+                    }       
 
                 }
             });
@@ -288,25 +296,37 @@ window.addEventListener('load', function() {
 
     if (inputAjouterCellier) {
         buttonAjouterCellier.addEventListener("click", function(evt) {
+            let x = document.getElementById("center_container"),
+                y = document.getElementById('close_center');
+            x.style.display === "none";
             var param = {
                 "nom_cellier": inputAjouterCellier.value
             };
             let requete = new Request(URLSansR + "index.php?requete=ajouterNouveauCellier", { method: 'POST', body: JSON.stringify(param) });
-            fetch(requete)
-                .then(response => {
-                    if (response.status === 200) {
-                        location.reload();
-                        alert('Cellier correctement créé');
-                        return response.json();
-                    } else {
-                        throw new Error('Erreur');
-                    }
-                })
-                .then(response => {
-                    console.log(response);
-                }).catch(error => {
-                    console.error(error);
-                });
+            
+            if (x.style.display === "none" || x.style.display === '') {
+                x.style.display = "block";
+            
+                fetch(requete)
+                    .then(response => {
+                        if (response.status === 200) {
+                            document.getElementById('messagePer').innerHTML = "Cellier correctement créé";
+                            y.addEventListener('click', function(e) {
+                                location.reload();
+                            });
+                            // location.reload();
+                            // alert('Cellier correctement créé');
+                            return response.json();
+                        } else {
+                            throw new Error('Erreur');
+                        }
+                    })
+                    .then(response => {
+                        console.log(response);
+                    }).catch(error => {
+                        console.error(error);
+                    });
+                }        
         })
     }
     //Fonctionnalités pour modifier un cellier existant

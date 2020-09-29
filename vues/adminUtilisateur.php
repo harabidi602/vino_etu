@@ -8,17 +8,23 @@
                 <?php if(!empty($message)):?>
                 <p><?php echo $message;?></p>
                 <?php endif; ?>
-                <p><input class="inputForm" name="nom" placeholder="Nom" required> </p>
+                <label>Nom</label>
+                <p><input class="inputForm" name="nom" required> </p>
                 <p><?= isset($erreurs['nom']) ? $erreurs['nom'] : "" ?></p>
-                <p><input class="inputForm" name="prenom" placeholder="Prénom" required></p>
+                <label>Prénom</label>
+                <p><input class="inputForm" name="prenom" required></p>
                 <p><?= isset($erreurs['prenom']) ? $erreurs['prenom'] : "" ?></p>
-                <p><input class="inputForm" name="identifiant" placeholder="Identifiant" required> </p>
+                <label>Identifiant</label>
+                <p><input class="inputForm" name="identifiant" required> </p>
                 <p><?= isset($erreurs['identifiant']) ? $erreurs['identifiant'] : "" ?></p>
-                <p><input class="inputForm" type="password" name="mdp" placeholder="Mot de passe" required></p>
+                <label>Mot de passe</label>
+                <p><input class="inputForm" type="password" name="mdp" required></p>
                 <p><?= isset($erreurs['mdp']) ? $erreurs['mdp'] : "" ?></p>
-                <p><input class="inputForm" type="email" name="courriel" placeholder="Email" required> </p>
+                <label>Email</label>
+                <p><input class="inputForm" type="email" name="courriel" required> </p>
                 <p><?= isset($erreurs['courriel']) ? $erreurs['courriel'] : "" ?></p>
-                <p><input class="inputForm" name="telephone" placeholder="Téléphone" required></p>
+                <label>Téléphone</label>
+                <p><input class="inputForm" name="telephone" required></p>
                 <p><?= isset($erreurs['telephone']) ? $erreurs['telephone'] : "" ?></p>
                 <select name="type">
                 <option value="">--Veuillez choisir une option--</option>
