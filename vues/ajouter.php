@@ -9,7 +9,7 @@
                 <p>Nom: <span data-id_bouteille="" class="nom_bouteille"></span></p>
                 <p>Num Cellier<select id="cellier"> 
                     <?php foreach ($arrayCelliers as $cellier) { ?> //Récupérer les différents id_cellier de la BD
-                        <option value="<?php echo $cellier['id'];?>"><?php echo $cellier['id'] ; ?></option>
+                        <option value="<?php echo $cellier['id'];?>"><?php echo $cellier['nom_cellier'] ; ?></option>
                     <?php } ?>
                 </select></p>  
                 <p>Millesime <input name="millesime"></p>
@@ -21,5 +21,11 @@
                 <p><button name="ajouterBouteilleCellier" class="ajouterBouteilleCellier">Ajouter</button></p>
             </div>
 </div>
+<div id="center_container">
+        <div id="center">
+            <div>Ajout effectué avec succès</div>
+            <span id="close_center">X</span>
+        </div>
+</div> 
 
 
