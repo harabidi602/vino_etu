@@ -10,7 +10,7 @@
 
 //const BaseURL = "https://e1995654.webdev.cmaisonneuve.qc.ca/vino_etu/";
 const BaseURL = document.baseURI;
-
+//const BaseURL = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
 //console.log(BaseURL);
 window.addEventListener('load', function() {
     console.log("load");
@@ -156,6 +156,10 @@ window.addEventListener('load', function() {
         if (btnAjouter) {
             btnAjouter.addEventListener("click", function(evt) {
 
+                let boite_alert = document.getElementById("center_container"),
+                    fermer_boite = document.getElementById('close_center');
+                boite_alert.style.display === "none";
+
                 let choice = bouteille.cellier.selectedIndex;
                 let idCellier = bouteille.cellier.options[choice].value;
                 let isvalid = true;
@@ -211,7 +215,17 @@ window.addEventListener('load', function() {
                             .then(response => {
                                 console.log(response);
                                 if (response == false) {
-                                    alert("La bouteille n'a pas été ajoutée, vérifiez que cette bouteille n'est pas déjà dans le cellier");
+                                    document.getElementById('messagePer').innerHTML = "La bouteille n'a pas été ajoutée, vérifiez que cette bouteille n'est pas déjà dans le cellier";
+                                    fermer_boite.addEventListener('click', function(e) {
+                                        location.reload();
+                                    });
+                                    //alert("La bouteille n'a pas été ajoutée, vérifiez que cette bouteille n'est pas déjà dans le cellier");
+                                } else {
+                                    fermer_boite.addEventListener('click', function(e) {
+                                        location.reload();
+                                    });
+                                    // location.reload();
+                                    // alert('Bouteille ajoutée au cellier avec succès');
                                 }
                             }).catch(error => {
                                 console.error(error);
@@ -282,25 +296,37 @@ window.addEventListener('load', function() {
 
     if (inputAjouterCellier) {
         buttonAjouterCellier.addEventListener("click", function(evt) {
+            let boite_alert = document.getElementById("center_container"),
+                fermer_boite = document.getElementById('close_center');
+            boite_alert.style.display === "none";
             var param = {
                 "nom_cellier": inputAjouterCellier.value
             };
             let requete = new Request(URLSansR + "index.php?requete=ajouterNouveauCellier", { method: 'POST', body: JSON.stringify(param) });
-            fetch(requete)
-                .then(response => {
-                    if (response.status === 200) {
-                        location.reload();
-                        alert('Cellier correctement créé');
-                        return response.json();
-                    } else {
-                        throw new Error('Erreur');
-                    }
-                })
-                .then(response => {
-                    console.log(response);
-                }).catch(error => {
-                    console.error(error);
-                });
+
+            if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
+                boite_alert.style.display = "block";
+
+                fetch(requete)
+                    .then(response => {
+                        if (response.status === 200) {
+                            document.getElementById('messagePer').innerHTML = "Cellier correctement créé";
+                            fermer_boite.addEventListener('click', function(e) {
+                                location.reload();
+                            });
+                            // location.reload();
+                            // alert('Cellier correctement créé');
+                            return response.json();
+                        } else {
+                            throw new Error('Erreur');
+                        }
+                    })
+                    .then(response => {
+                        console.log(response);
+                    }).catch(error => {
+                        console.error(error);
+                    });
+            }
         })
     }
     //Fonctionnalités pour modifier un cellier existant
