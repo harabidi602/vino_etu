@@ -1,5 +1,4 @@
 <?php
-
 $arr = json_decode(json_encode($data),true);
 $arrayCelliers = json_decode($dataCellier, true);
 $arrayId =[];
@@ -22,8 +21,6 @@ $arrayC = array_unique($arrayC);
 $id = null;
 $p = null;
 $t=null;
-
-         
 if ( isset( $_GET['idCellier'] ) && !empty( $_GET['idCellier'] ) ){
    $id = trim($_GET['idCellier']);
 }
@@ -63,7 +60,7 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
                   <option   selected value="-1"> -- selectionner une option -- </option>
                   <?php 
                   foreach ($arrayT as $type) { 
-                      ?> //Récupérer les différents id_cellier de la BD
+                      ?>
                   <option value="<?php echo $type; ?>"<?php echo $t === $type ? "selected" : "" ?>><?php echo $type; ?></option>
 
                   <?php } ?>
@@ -90,11 +87,12 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
                 <li><a href="<?php echo $bouteille['url_saq'] ?>">Voir SAQ</a></li>
             </ul>
             <div class="options" data-id_bouteille="<?php echo $bouteille['id_bouteille'] ?>" data-id_cellier="<?php echo $bouteille['id_cellier'] ?>">
+          <?php  if($_SESSION['utilisateur_id']){ ?>
                 <button class="btnModifierBouteille" id='modifierBouteille' name="modifierBouteille">Modifier</button>
                 <button class='btnAjouter'>Ajouter</button>
                 <button class='btnBoire'>Boire</button>
                 <button class="btnRetirerBouteille" id='retirerBouteille' name="retirerBouteille">Retirer</button>
-
+           <?php  } ?>
             </div>
         </article>
     <?php
