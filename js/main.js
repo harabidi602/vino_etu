@@ -467,6 +467,12 @@ window.addEventListener('load', function() {
         })
     }
 
+    document.querySelectorAll("[name='retirerBouteille']").forEach(item => {
+        item.addEventListener('click', event => {
+            alert('vous êtes sures de vouloir retirer cette bouteille');
+        });
+    });
+
     let btnSupprUtil = document.getElementsByName("supprimerUtil");
     let btnModifUtil = document.getElementsByName("modifierUtil");
 
