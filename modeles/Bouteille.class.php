@@ -248,7 +248,7 @@ class Bouteille extends Modele
 		return $rows;
 	}
 	//modifier une bouteille
-	public function modifierBouteille($id_bouteille, $id_cellier, $date_achat, $garde_jusqua, $notes, $prix, $quantite, $millesime)
+	public function modifierBouteille($id_bouteille, $id_cellier, $date_achat='', $garde_jusqua='', $notes='', $prix='', $quantite='', $millesime='')
 	{
 
 		$requete = "UPDATE vino__cellier_bouteille 
