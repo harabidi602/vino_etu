@@ -262,4 +262,11 @@ class Bouteille extends Modele
 		$res = $this->_db->query($requete);
 		return $res;
 	}
+
+	public function retirerBouteille($id_bouteille,$id_cellier){
+		$requete ="DELETE FROM vino__cellier_bouteille 
+		WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = ".$id_cellier;
+		$res = $this->_db->query($requete);
+		return $res;
+	}
 }
