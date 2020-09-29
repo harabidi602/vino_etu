@@ -660,6 +660,7 @@ footer p {
     height: 160px;
     margin: 50px auto;
     text-align: center;
+    padding: 5px;
     border-radius: 10px;
     color: white;
     background-color: rgba(119, 4, 4, 100%);
@@ -677,4 +678,14 @@ footer p {
     background-color: black;
     border-radius: 20px;
     cursor: pointer;
+}
+
+/*CSS SPAN*/
+
+.ajoutBouteille span {
+    color: red;
+}
+
+#nomB {
+    color: #000;
 }
