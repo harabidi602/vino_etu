@@ -37,7 +37,7 @@
                     <td data-column="teleUti"><span><?php echo $item['telephone']; ?></span></td>
                     <td data-column="typeUti"><span><?php echo $item['type']; ?></span></td>
                     <td data-column="Actions">
-                        <button class="btn"><i class="fa fa-wrench" aria-hidden="true" name="modifierUtil"></i></button>
+                      <!--  <button class="btn"><i class="fa fa-wrench" aria-hidden="true" name="modifierUtil"></i></button>-->
                         <button class="btn"><i class="fa fa-trash" aria-hidden="true" name="supprimerUtil"></i></button>
                         <input type="hidden" class="nomCellier" value="<?php echo $item['id']; ?>">
                     </td>
@@ -45,31 +45,4 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </div>
