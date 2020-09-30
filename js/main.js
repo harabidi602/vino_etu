@@ -150,6 +150,7 @@ window.addEventListener('load', function() {
             }
         });
 
+        //Fonctionnalites pour ajouter une bouteille 
         let btnAjouter = document.querySelector("[name='ajouterBouteilleCellier']");
         document.getElementById('dateActuelle').valueAsDate = new Date();
         if (btnAjouter) {
