@@ -5,7 +5,10 @@
     </div>
     <div class="gestionCellier">
         <div class="formCellier" >
-            <p><input class="inputForm" name="nomCellier" placeholder="Nom du nouveau Cellier"> </p>
+            <p><input class="inputForm" name="nomCellier" placeholder="Nom du nouveau Cellier"></p>
+            <div>
+                <span id="erreurNouveauCellier"></span>
+            </div>
             <button type="button" id="buttonAjouterCellier" class="ajouterCellierButton">Ajouter</button>
         </div>
     </div>
