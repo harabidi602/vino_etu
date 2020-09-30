@@ -117,8 +117,6 @@ window.addEventListener('load', function() {
                     })
                     .then(response => {
                         console.log(response);
-
-
                         response.forEach(function(element) {
                             liste.innerHTML += "<li data-id='" + element.id + "'>" + element.nom + "</li>";
                         })
@@ -152,7 +150,9 @@ window.addEventListener('load', function() {
             }
         });
 
+        //Fonctionnalites pour ajouter une bouteille 
         let btnAjouter = document.querySelector("[name='ajouterBouteilleCellier']");
+        document.getElementById('dateActuelle').valueAsDate = new Date();
         if (btnAjouter) {
             btnAjouter.addEventListener("click", function(evt) {
 
@@ -164,15 +164,21 @@ window.addEventListener('load', function() {
                 let idCellier = bouteille.cellier.options[choice].value;
                 let isvalid = true;
 
+                if (!bouteille.nom.dataset.id) {
+                    let erreurNomBouteille = document.getElementById('erreurNomB');
+                    erreurNomBouteille.innerHTML = "Vous devez sélectionner le nom d'une bouteille";
+                    isvalid = false;
+                }
+
                 if (!Number.isInteger(+bouteille.millesime.value)) {
                     let erreurMillesime = document.getElementById('erreurMil');
                     erreurMillesime.innerHTML = 'Millesime non valide, la valeur doit être un nombre entier';
                     isvalid = false;
                 }
 
-                if (!Number.isInteger(+bouteille.quantite.value)) {
-                    let erreurQuantite = document.getElementById('erreurQuan');
-                    erreurQuantite.innerHTML = 'Quantité non valide, la valeur doit être un nombre entier';
+                if (bouteille.quantite.value < 1) {
+                    let erreurQuantite = document.getElementById('erreurQuant');
+                    erreurQuantite.innerHTML = 'Le nombre de bouteilles doit être au moins égal à 1';
                     isvalid = false;
                 }
 
@@ -200,13 +206,10 @@ window.addEventListener('load', function() {
                         fermer_boite = document.getElementById('close_center');
                     boite_alert.style.display === "none";
                     if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
-                        boite_alert.style.display = "block";
+                        
                         fetch(requete)
                             .then(response => {
                                 if (response.status === 200) {
-                                    fermer_boite.addEventListener('click', function(e) {
-                                        location.reload();
-                                    });
                                     return response.json();
                                 } else {
                                     throw new Error('Erreur');
@@ -215,17 +218,17 @@ window.addEventListener('load', function() {
                             .then(response => {
                                 console.log(response);
                                 if (response == false) {
-                                    document.getElementById('messagePer').innerHTML = "La bouteille n'a pas été ajoutée, vérifiez que cette bouteille n'est pas déjà dans le cellier";
+                                    boite_alert.style.display = "block";
+                                    document.getElementById('messagePer').innerHTML = "Echec de l'ajout, Bouteille déjà dans le cellier.";
                                     fermer_boite.addEventListener('click', function(e) {
                                         location.reload();
                                     });
-                                    //alert("La bouteille n'a pas été ajoutée, vérifiez que cette bouteille n'est pas déjà dans le cellier");
                                 } else {
+                                    boite_alert.style.display = "block";
                                     fermer_boite.addEventListener('click', function(e) {
-                                        location.reload();
+                                        window.location = BaseURL + "index.php?requete=accueil";
+                                        //location.reload();
                                     });
-                                    // location.reload();
-                                    // alert('Bouteille ajoutée au cellier avec succès');
                                 }
                             }).catch(error => {
                                 console.error(error);
@@ -299,34 +302,45 @@ window.addEventListener('load', function() {
             let boite_alert = document.getElementById("center_container"),
                 fermer_boite = document.getElementById('close_center');
             boite_alert.style.display === "none";
-            var param = {
-                "nom_cellier": inputAjouterCellier.value
-            };
-            let requete = new Request(URLSansR + "index.php?requete=ajouterNouveauCellier", { method: 'POST', body: JSON.stringify(param) });
 
-            if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
-                boite_alert.style.display = "block";
+            let isvalid = true;
 
-                fetch(requete)
-                    .then(response => {
-                        if (response.status === 200) {
-                            document.getElementById('messagePer').innerHTML = "Cellier correctement créé";
-                            fermer_boite.addEventListener('click', function(e) {
-                                location.reload();
-                            });
-                            // location.reload();
-                            // alert('Cellier correctement créé');
-                            return response.json();
-                        } else {
-                            throw new Error('Erreur');
-                        }
-                    })
-                    .then(response => {
-                        console.log(response);
-                    }).catch(error => {
-                        console.error(error);
-                    });
+            if (!inputAjouterCellier.value) {
+                let erreurNomCellier = document.getElementById('erreurNouveauCellier');
+                erreurNomCellier.innerHTML = "Vous devez saisir le nom du nouveau cellier";
+                isvalid = false;
             }
+
+            if (isvalid) {
+
+                var param = {
+                    "nom_cellier": inputAjouterCellier.value
+                };
+                let requete = new Request(URLSansR + "index.php?requete=ajouterNouveauCellier", { method: 'POST', body: JSON.stringify(param) });
+
+                if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
+                    boite_alert.style.display = "block";
+
+                    fetch(requete)
+                        .then(response => {
+                            if (response.status === 200) {
+                                //Message confirmant la création d'un cellier 
+                                document.getElementById('messagePer').innerHTML = "Cellier correctement créé";
+                                fermer_boite.addEventListener('click', function(e) {
+                                    location.reload();
+                                });
+                                return response.json();
+                            } else {
+                                throw new Error('Erreur');
+                            }
+                        })
+                        .then(response => {
+                            console.log(response);
+                        }).catch(error => {
+                            console.error(error);
+                        });
+                }
+            }    
         })
     }
     //Fonctionnalités pour modifier un cellier existant
@@ -364,7 +378,6 @@ window.addEventListener('load', function() {
                             .then(response => {
                                 if (response.status === 200) {
                                     fermer_boite.addEventListener('click', function(e) {
-
                                         location.reload();
                                     });
                                     return response.json();
