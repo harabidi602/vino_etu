@@ -296,33 +296,45 @@ window.addEventListener('load', function() {
             let boite_alert = document.getElementById("center_container"),
                 fermer_boite = document.getElementById('close_center');
             boite_alert.style.display === "none";
-            var param = {
-                "nom_cellier": inputAjouterCellier.value
-            };
-            let requete = new Request(URLSansR + "index.php?requete=ajouterNouveauCellier", { method: 'POST', body: JSON.stringify(param) });
 
-            if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
-                boite_alert.style.display = "block";
+            let isvalid = true;
 
-                fetch(requete)
-                    .then(response => {
-                        if (response.status === 200) {
-                            //Message confirmant la création d'un cellier 
-                            document.getElementById('messagePer').innerHTML = "Cellier correctement créé";
-                            fermer_boite.addEventListener('click', function(e) {
-                                location.reload();
-                            });
-                            return response.json();
-                        } else {
-                            throw new Error('Erreur');
-                        }
-                    })
-                    .then(response => {
-                        console.log(response);
-                    }).catch(error => {
-                        console.error(error);
-                    });
+            if (!inputAjouterCellier.value) {
+                let erreurNomCellier = document.getElementById('erreurNouveauCellier');
+                erreurNomCellier.innerHTML = "Vous devez saisir le nom du nouveau cellier";
+                isvalid = false;
             }
+
+            if (isvalid) {
+
+                var param = {
+                    "nom_cellier": inputAjouterCellier.value
+                };
+                let requete = new Request(URLSansR + "index.php?requete=ajouterNouveauCellier", { method: 'POST', body: JSON.stringify(param) });
+
+                if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
+                    boite_alert.style.display = "block";
+
+                    fetch(requete)
+                        .then(response => {
+                            if (response.status === 200) {
+                                //Message confirmant la création d'un cellier 
+                                document.getElementById('messagePer').innerHTML = "Cellier correctement créé";
+                                fermer_boite.addEventListener('click', function(e) {
+                                    location.reload();
+                                });
+                                return response.json();
+                            } else {
+                                throw new Error('Erreur');
+                            }
+                        })
+                        .then(response => {
+                            console.log(response);
+                        }).catch(error => {
+                            console.error(error);
+                        });
+                }
+            }    
         })
     }
     //Fonctionnalités pour modifier un cellier existant
