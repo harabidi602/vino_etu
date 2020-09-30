@@ -71,6 +71,10 @@ class Controler
 				$body = json_decode(file_get_contents('php://input'));
 				$this->supprimerCellier($body->id_cellier);
 				break;
+			case 'getListeUtilisateursById':
+				$this->isAuth();
+				$this->getListeUtilisateursById($_GET['id']);
+				break;
 			case 'getInfosBouteille':
 				$this->isAuth();
 				$this->getInfosBouteille($_GET['id_bouteille'], $_GET['id_cellier']);
@@ -434,7 +438,7 @@ class Controler
 				$type = 1;
 			} else $type = 2;
 
-			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel'], $_POST['telephone']);
+			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel']='', $_POST['telephone']='');
 			$erreurs = $oUtilisateur->erreurs;
 
 			if (count($erreurs) === 0) {
@@ -495,7 +499,20 @@ class Controler
 		include("vues/entete.php");
 		include("vues/pied.php");
 	}
+/*	private function getListeUtilisateursById($id_utilisateur){
 
+		$admin = new Admin();
+		if (!empty($body)) {
+			$resultat = $admin->getListeUtilisateursById($id_utilisateur);
+			//echo json_encode($resultat);
+			$data_admin = json_encode($resultat);
+		}
+		
+		include("vues/entete.php");
+			include("vues/cellier.php");
+			include("vues/pied.php");
+
+	}*/
 	private function getInfosBouteille($id_bouteille, $id_cellier)
 	{
 		$bte = new Bouteille();

@@ -495,11 +495,40 @@ th {
 création d'un nouveau compte utilisateur
 */
 
-.inputForm {
+
+/*.inputForm {
     height: 35px;
     width: 200px;
     margin-bottom: 5px;
     text-align: center;
+}*/
+
+.usager {
+    padding: 10px;
+    border: 2px solid rgba(0, 0, 0, 10%);
+    width: 350px;
+    justify-content: center;
+    flex: 1 1 100px;
+    text-align: center;
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.usager form p {
+    display: flex;
+    flex-direction: column;
+}
+
+.creationButton {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    padding: 3px 2px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+    margin: 5px auto;
 }
 
 
