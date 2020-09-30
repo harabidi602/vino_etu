@@ -1,15 +1,20 @@
 <?php
+echo "<pre>";
+var_dump($_SESSION['utilisateur_id']);
+echo "</pre>";
 $arr = json_decode(json_encode($data),true);
 $arrayCelliers = json_decode($dataCellier, true);
 $arrayId =[];
 $arrayC=[];
 $arrayP=[];
 $arrayType =[]; 
+$arrayUser =[];
 
 foreach($arr as $key => $cellier) {
     array_push($arrayId, $cellier['nom_cellier']);
     array_push($arrayP, $cellier['pays']);
     array_push($arrayType, $cellier['type']);
+    array_push($arrayUser,$cellier['id_utilisateur']);
 }
 foreach($arrayCelliers as $key =>$tousCelliers){
     array_push($arrayC, $tousCelliers['nom_cellier']);
@@ -30,6 +35,9 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
  elseif ( isset( $_GET['typeOption'] ) && !empty( $_GET['typeOption'] ) ){
     $t = trim($_GET['typeOption']);
  }
+
+ 
+ 
 ?>
 <section class="cellier">
     <nav>
@@ -87,12 +95,10 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
                 <li><a href="<?php echo $bouteille['url_saq'] ?>">Voir SAQ</a></li>
             </ul>
             <div class="options" data-id_bouteille="<?php echo $bouteille['id_bouteille'] ?>" data-id_cellier="<?php echo $bouteille['id_cellier'] ?>">
-          <?php  if($_SESSION['utilisateur_id']){ ?>
                 <button class="btnModifierBouteille" id='modifierBouteille' name="modifierBouteille">Modifier</button>
                 <button class='btnAjouter'>Ajouter</button>
                 <button class='btnBoire'>Boire</button>
                 <button class="btnRetirerBouteille" id='retirerBouteille' name="retirerBouteille">Retirer</button>
-           <?php  } ?>
             </div>
         </article>
     <?php

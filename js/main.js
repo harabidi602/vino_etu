@@ -413,6 +413,7 @@ window.addEventListener('load', function() {
             }
         });
     });
+
     //Modifier une bouteille dans le cellier
     document.querySelectorAll("[name='modifierBouteille']").forEach(item => {
         item.addEventListener('click', event => {
@@ -423,8 +424,8 @@ window.addEventListener('load', function() {
         });
     });
 
+    //validation  modification d une bouteille
     let modifier_bouteille = document.querySelectorAll("[name='modifier_bouteille']")[0];
-
     if (modifier_bouteille) {
         modifier_bouteille.addEventListener("click", function(e) {
             let row = e.target.parentElement.parentElement;
@@ -487,13 +488,17 @@ window.addEventListener('load', function() {
             }
         })
     }
-
+    //enlever une bouteille d'un cellier
     document.querySelectorAll("[name='retirerBouteille']").forEach(item => {
         item.addEventListener('click', event => {
             alert('vous êtes sures de vouloir retirer cette bouteille');
         });
     });
 
+
+    /************************************************************** */
+    /**-------------GESTION DES UTILISATEURS---------------------- */
+    /************************************************************* */
     let btnSupprUtil = document.getElementsByName("supprimerUtil");
     let btnModifUtil = document.getElementsByName("modifierUtil");
 
