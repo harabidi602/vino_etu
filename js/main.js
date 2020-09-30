@@ -176,6 +176,12 @@ window.addEventListener('load', function() {
                     isvalid = false;
                 }
 
+                if (bouteille.quantite.value < 1) {
+                    let erreurQuantite = document.getElementById('erreurQuant');
+                    erreurQuantite.innerHTML = 'Le nombre de bouteilles doit être au moins égal à 1';
+                    isvalid = false;
+                }
+
                 if (Number.isNaN(+bouteille.prix.value)) {
                     let erreurPrix = document.getElementById('erreurPrix');
                     erreurPrix.innerHTML = 'Prix non valide, la valeur doit être un nombre entier ou décimal';
