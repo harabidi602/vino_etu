@@ -19,7 +19,7 @@
 	<body>
 		<header>
 			<div class="menu">
-				<span>Bienvenue <?php echo $_SESSION['utilisateur_identifiant']; ?></span>
+				<span>Bienvenue <?php echo $_SESSION['utilisateur_prenom']; ?> <?php echo $_SESSION['utilisateur_nom']; ?></span>
 				<a href="#"><abbr title="Votre compte"><img src="img/user-24.png" alt="profile"></abbr></a>
 				<a href="index.php?requete=quitter">
 					<abbr title="Se deconnecter">
@@ -34,6 +34,7 @@
 					<?php if ($_SESSION['utilisateur_type'] == 2){ ?><li class="menu-item"><a href="?requete=getListeCelliers">Gestion des celliers</a></li><?php } ?>
 					<?php if ($_SESSION['utilisateur_type'] == 1){ ?>
 					<li class="menu-item"><a href="index.php?requete=admin">Gestion d'administration</a></li><?php }?>
+					
 				</ul>
 			</nav>
 		</header>
