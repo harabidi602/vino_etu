@@ -47,7 +47,7 @@ class Admin extends Modele
         return $rows;
     }
 
-    //Fontion pour supprimer le cellier
+    //Fontion pour supprimer un utilisateur
     public function supprimerUtilisateur($id_utilisateur)
     {
         $requete = "DELETE FROM vino__utilisateur WHERE id = " . $id_utilisateur;
