@@ -178,11 +178,11 @@ class Bouteille extends Modele
 	 *  
 	 * 
 	 */
-	public function lireCelliers($id_utilisateur = NULL)
+	public function lireCelliers($id_utilisateur = '')
 	{
 		$rows = array();
 
-		if ($id_utilisateur === NULL) {
+		if ($id_utilisateur === '') {
 			$requete = 'SELECT `id`, `id_utilisateur`, `nom_cellier`, IFNULL(SUM(quantite),0) AS totalBouteilles, IFNULL(AVG(prix),0) AS AvgPrix  FROM `vino__cellier` 
 						LEFT JOIN vino__cellier_bouteille
 						ON vino__cellier.id = vino__cellier_bouteille.id_cellier 

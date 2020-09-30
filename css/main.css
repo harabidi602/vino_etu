@@ -191,9 +191,12 @@ header {
     margin: 1em 0.5em;
 }
 
+
+/*
 .cellier .bouteille img {
     height: auto;
 }
+*/
 
 .bouteille {
     display: inline-block;
@@ -669,7 +672,7 @@ footer p {
 }
 
 
-/* les boites de messages (alert)*/
+/* les boites de messages (alert+confirm)*/
 
 #center_container {
     display: none;
@@ -683,20 +686,17 @@ footer p {
     z-index: 20;
 }
 
-#center {
+#center,
+#confirm_suppression {
     position: relative;
     width: 320px;
-    height: 160px;
     margin: 50px auto;
     text-align: center;
     padding: 5px;
     border-radius: 10px;
     color: white;
     background-color: rgba(119, 4, 4, 100%);
-}
-
-#center>div {
-    line-height: 160px;
+    padding: 10px;
 }
 
 #close_center {

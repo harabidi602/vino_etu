@@ -57,4 +57,18 @@ class Admin extends Modele
             return true;
         }
     }
+    // La fonction récupérer la liste des utilisateurs par id
+    public function getListeUtilisateursById($id)
+    {
+        $requete = "SELECT * FROM vino__utilisateur AS  v_u WHERE v_u.id= ".$id;
+
+        $res = $this->_db->query($requete);
+        if ($res->num_rows) {
+            while ($row = $res->fetch_assoc()) {
+                $rows[] = $row;
+            }
+        }
+
+        return $rows;
+    }
 }

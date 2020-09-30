@@ -1,9 +1,10 @@
 <?php
-echo "<pre>";
-var_dump($_SESSION['utilisateur_id']);
-echo "</pre>";
 $arr = json_decode(json_encode($data),true);
 $arrayCelliers = json_decode($dataCellier, true);
+//$test =json_decode(json_encode($test),true);
+//$arrayB = json_decode($dataRetirerBouteille, true);
+
+//var_dump($arrayB);
 $arrayId =[];
 $arrayC=[];
 $arrayP=[];
@@ -41,8 +42,10 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
 ?>
 <section class="cellier">
     <nav>
-        <ul>		
+        <ul>
+        <?php if($_SESSION['utilisateur_type']==2){?>		
             <li><a href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></li>
+        <?php }?>
             <li><label for="tri_cellier">Choisir un cellier</label>
             <select id="cellier" name="tri_cellier" class="tri_cellier"> 
             <option  selected value="-1"> -- selectionner une option -- </option>
@@ -92,17 +95,35 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
                 <li class="millesime">Millesime : <?php echo $bouteille['millesime'] ?></li>
                 <li class="prix">Prix : <?php echo $bouteille['prix'] ?></li>
                 <li class="date_achat">Date d'achat : <?php echo $bouteille['date_achat'] ?></li>
-                <li><a href="<?php echo $bouteille['url_saq'] ?>">Voir SAQ</a></li>
+                <li><a href="<?php echo $bouteille['url_saq'] ?>" target="_blank">Voir SAQ</a></li>
             </ul>
+            <?php if($_SESSION['utilisateur_type']==2){?>
             <div class="options" data-id_bouteille="<?php echo $bouteille['id_bouteille'] ?>" data-id_cellier="<?php echo $bouteille['id_cellier'] ?>">
                 <button class="btnModifierBouteille" id='modifierBouteille' name="modifierBouteille">Modifier</button>
                 <button class='btnAjouter'>Ajouter</button>
                 <button class='btnBoire'>Boire</button>
                 <button class="btnRetirerBouteille" id='retirerBouteille' name="retirerBouteille">Retirer</button>
             </div>
+            <?php  }
+            else{ ?>
+                <div></div>
+           <?php }
+                ?>
         </article>
     <?php
     }
     ?>
+    <div id="center_container">
+        <div id="center">
+            <div id="confirm_suppression">
+                <p id ='choix_suppression_bouteille'>vous êtes sures de vouloir retirer cette bouteille?</p>
+                        <button  id='confirmerSuppBouteille'>Oui</button>
+                        <button  id='annulerSuppressionBouteille'>Non</button>
+            </div>
+            <div id="msg_success">
+                <p></p>
+            </div>
+            <span id="close_center">X</span>
+        </div>
+    </div>
 </section>
-</div>
