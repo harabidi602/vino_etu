@@ -239,15 +239,21 @@ class Controler
 			if (!empty($auth->sqlIdentificationUtilisateur($identifiant, $mot_de_passe))) {
 				$rows=$auth->sqlVinoUtilisateur($identifiant);
 				$type=$rows['id_type'];  
+                $id = $rows['id']; 
+                $nom=$rows['nom'];  
+                $prenom = $rows['prenom']; 
 				$_SESSION['utilisateur_identifiant'] = $identifiant;
-				$_SESSION['utilisateur_id'] = $rows['id']; 
+				$_SESSION['utilisateur_id'] = $id;
 				$_SESSION['utilisateur_type'] = $type; 
+                $_SESSION['utilisateur_nom'] = $nom;
+				$_SESSION['utilisateur_prenom'] = $prenom; 
+            
 				if ($type == 1){
-					$this->accueil($_SESSION['utilisateur_id']);
+					$this->accueil($id);
 					exit;    
 				} 
 				elseif ($type == 2){
-					$this->ajouterNouvelleBouteilleCellier($_SESSION['utilisateur_id']);
+					$this->ajouterNouvelleBouteilleCellier($id);
 					exit;
 				}
 			} else {
@@ -267,7 +273,7 @@ class Controler
 
 		if (count($_POST) !== 0) {
 
-			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel'], $_POST['telephone']);
+			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp']);
 			$erreurs = $oUtilisateur->erreurs;
 
 			if (count($erreurs) === 0) {
@@ -281,7 +287,7 @@ class Controler
 					unset($_POST);
 				} elseif ($tiden != $iden) {
 
-					$auth->sqlAjouterUtilisateur($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, $oUtilisateur->courriel, $oUtilisateur->telephone, 2);
+					$auth->sqlAjouterUtilisateur($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, 2);
 					$message = "Utilisateur ajouté";
 					unset($_POST);
 				} else {
@@ -313,6 +319,9 @@ class Controler
 	{
 		session_start();
 		unset($_SESSION['identifiant_utilisateur']);
+        unset($_SESSION['utilisateur_id']);
+        unset($_SESSION['utilisateur_type']);
+        session_unset();
 		session_destroy();
 		header('Location: index.php');
 	}
@@ -322,17 +331,14 @@ class Controler
 	{
 		$auth = new Authentication();
 
-		if (isset($_POST['reinitialise']) && isset($_POST['identifiant']) && isset($_POST['courriel'])) {
+		if (isset($_POST['reinitialise']) && isset($_POST['identifiant'])) {
 
 			$iden = trim($_POST['identifiant']);
-			$courriel = trim($_POST['courriel']);
 
 			$rows = $auth->sqlVinoUtilisateur($iden);
 			$tiden = $rows['identifiant'];
-			$tcourriel = $rows['courriel'];
 
-
-			if ($tiden == $iden && $tcourriel == $courriel) {
+			if ($tiden == $iden) {
 				$longueur = 8;
 				$caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 				$mdp = substr(str_shuffle($caracteres), 0, $longueur);

@@ -16,22 +16,19 @@ class Utilisateur
     private $prenom  = null;
     private $identifiant = null;
     private $mdp  = null;
-    private $courriel  = null;
-    private $telephone = null;   
-       
+  
     
     private $erreurs = array();
 	
     
     // Constructeur de la classe 
-    public function __construct($nom  = null, $prenom = null, $identifiant  = null, $mdp  = null, $courriel  = null, $telephone  = null){
+    public function __construct($nom  = null, $prenom = null, $identifiant  = null, $mdp  = null){
         
         $this->setNom($nom);
         $this->setPrenom($prenom);
         $this->setIdentifiant($identifiant);
         $this->setMdp($mdp);
-        $this->setCourriel($courriel);
-        $this->setTelephone($telephone);
+      
     }
     
      
@@ -60,16 +57,7 @@ class Utilisateur
     public function getMdp() {
         return $this->mdp;
     }
-    
-    // Getter courriel 
-    public function getCourriel() {
-        return $this->courriel;
-    }
-    
-    // Getter telephone 
-    public function getTelephone() {
-        return $this->telephone;
-    }
+  
  
 
     
@@ -77,7 +65,7 @@ class Utilisateur
     public function setNom($nom = null) {
         unset($this->erreurs['nom']);
         $nom = trim($nom);
-        $regExp ='/^([a-zA-ZéèêëïôÉ]{2,25})$/'; 
+        $regExp ='/^([a-zA-ZàâéèêôùûçÀÂÉÈÔÙÛÇ0-9]{2,25})$/'; 
         if ($nom!== null && preg_match($regExp, $nom)) {
             $this->nom = ucwords(strtolower($nom));
         } else {
@@ -91,7 +79,7 @@ class Utilisateur
     public function setPrenom($prenom = null) {
         unset($this->erreurs['prenom']);
         $prenom = trim($prenom);
-        $regExp ='/^([a-zA-ZéèêëïôÉ]{2,25})$/'; 
+        $regExp ='/^([a-zA-ZàâéèêôùûçÀÂÉÈÔÙÛÇ0-9]{2,25})$/';  
         if ($prenom !== null && preg_match($regExp, $prenom)) {
             $this->prenom = ucwords(strtolower($prenom));
         } else {
@@ -128,35 +116,7 @@ class Utilisateur
         }
         return $this;
     }        
-
-    
-    // Setter courriel @return this  
-    public function setCourriel($courriel = null) {
-        unset($this->erreurs['courriel']);
-        $courriel = trim($courriel);
-        $regExp ='/^[^@]+@[^@.]+\.[^@]+$/'; 
-        if ($courriel !== null && preg_match($regExp, $courriel)) {
-            $this->courriel = $courriel;
-        } else {
-           $this->erreurs['courriel'] = "Le format de l'e-mail est incorrect";
-        }
-        return $this;
-    }    
-    
-    
-
-    // Setter telephone @return this 
-    public function setTelephone($telephone = null) {
-         unset($this->erreurs['telephone']);
-        $telephone = trim($telephone);
-        $regExp = '/^(\s*)?([- ()]?\d[- ()]?){10,14}(\s*)?$/'; 
-        if ($telephone!== null && preg_match($regExp, $telephone)) {
-            $this->telephone = $telephone;
-        } else {
-           $this->erreurs['telephone'] = "Le numero de telephone doit avoir le format 555-555-5555 ou (555) 555-5555 ou 1-555-555-5555 ou 1 (555) 555-5555";
-        }
-        return $this;
-    }     
+     
     
 }
 
