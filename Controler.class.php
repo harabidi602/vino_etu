@@ -93,6 +93,11 @@ class Controler
 					$body->millesime
 				);
 				break;
+			case 'retirerBouteille':
+				$this->isAuth();
+				$body = json_decode(file_get_contents('php://input'));
+				$this->retirerBouteille($body->id_bouteille, $body->id_cellier);
+				break;
 			case 'reinitialiserMdp':
 				$this->reinitialiserMdp();
 				break;
@@ -159,12 +164,11 @@ class Controler
 			
 		}
 		if($_SESSION['utilisateur_type']==1){
-			$listeCelliers = $bte->lireCelliers($_SESSION['utilisateur_id']=NULL);
+			$listeCelliers = $bte->lireCelliers();
 			$dataCellier = json_encode($listeCelliers);
 		}elseif($_SESSION['utilisateur_type']==2){
-			$listeCelliers = $bte->lireCelliers($_SESSION['utilisateur_id']);
+			$listeCelliers =  $bte->lireCelliers($_SESSION['utilisateur_id']);
 			$dataCellier = json_encode($listeCelliers);
-		
 		}
 		include("vues/entete.php");
 		include("vues/cellier.php");
@@ -380,9 +384,7 @@ class Controler
 		include("vues/entete.php");
 		include("vues/ajouter_cellier.php");
 		include("vues/pied.php");
-		/*if(!empty($_GET['id'])){
-			include("vues/cellier.php");
-		}*/
+
 	}
 
 //$resultat = $bte->lireCelliers($_GET['id_utilisateur']);
@@ -499,20 +501,6 @@ class Controler
 		include("vues/entete.php");
 		include("vues/pied.php");
 	}
-/*	private function getListeUtilisateursById($id_utilisateur){
-
-		$admin = new Admin();
-		if (!empty($body)) {
-			$resultat = $admin->getListeUtilisateursById($id_utilisateur);
-			//echo json_encode($resultat);
-			$data_admin = json_encode($resultat);
-		}
-		
-		include("vues/entete.php");
-			include("vues/cellier.php");
-			include("vues/pied.php");
-
-	}*/
 	private function getInfosBouteille($id_bouteille, $id_cellier)
 	{
 		$bte = new Bouteille();
@@ -539,7 +527,15 @@ class Controler
 
 		return $data;
 	}
-
+	private function retirerBouteille($id_bouteille,$id_cellier){
+		//checker si l'utilisateur à le droit de modifier
+		$bte = new Bouteille();
+		$dataRetirerBouteille = $bte->retirerBouteille($id_bouteille, $id_cellier);
+		if (!$dataRetirerBouteille) {
+			http_response_code(417);
+		}
+	}
+	
 	//Fonction pour supprimer un cellier
 	private function supprimerUtilisateur($id_util)
 	{
