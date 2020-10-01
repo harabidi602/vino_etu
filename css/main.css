@@ -492,6 +492,9 @@ bouton ajouté bouteille
     border-radius: 4px;
 }
 
+.ajouterCellierButton:hover {
+    background-color: rgba(119, 4, 4, 100%);
+}
 .buttonModSup {
     background-color: white;
     color: black;

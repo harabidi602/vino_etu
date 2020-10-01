@@ -443,13 +443,10 @@ window.addEventListener('load', function() {
                             .then(response => {
                                 if (response.status === 200) {
                                     location.reload();
-                                    alert('Suppression du cellier effectuée');
                                     return response.json();
                                 } else {
                                      //Refuser d'effacer le cellier parce qu'il fermer_boite a des bouteilles dedans 
                                      document.getElementById('confirm_suppression').innerHTML = "Le cellier n'a pas pu être effacé. Vérifier la présence de bouteilles dans le cellier";
-                                    //Refuser d'effacer le cellier parce qu'il fermer_boite a des bouteilles dedans
-                                    alert("Le cellier n'a pas pu être effacé. Vérifier la présence de bouteilles dans le cellier");
                                 }
                             })
                             .then(response => {
