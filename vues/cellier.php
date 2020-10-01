@@ -41,11 +41,11 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
  
 ?>
 <section class="cellier">
+<?php if($_SESSION['utilisateur_type']==2){?>		
+            <div><a class="ajouter_bouteille" href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></div>
+        <?php }?>
     <nav>
         <ul>
-        <?php if($_SESSION['utilisateur_type']==2){?>		
-            <li><a href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></li>
-        <?php }?>
             <li><label for="tri_cellier">Choisir un cellier</label>
             <select id="cellier" name="tri_cellier" class="tri_cellier"> 
             <option  selected value="-1"> -- selectionner une option -- </option>
@@ -119,9 +119,6 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
                 <p id ='choix_suppression_bouteille'>vous êtes sures de vouloir retirer cette bouteille?</p>
                         <button  id='confirmerSuppBouteille'>Oui</button>
                         <button  id='annulerSuppressionBouteille'>Non</button>
-            </div>
-            <div id="msg_success">
-                <p></p>
             </div>
             <span id="close_center">X</span>
         </div>
