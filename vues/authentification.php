@@ -1,8 +1,7 @@
-
 <div class="usager" >
     <div class="titre">
         <img src="img/authen.png" alt="Image Authentification">
-        <h1>AUTHENTIFICATION</h1>
+        <h4>AUTHENTIFICATION</h4>
     </div>
     <form id="authentification" action="" method="post">
         <?php if(!empty($erreur)):?>

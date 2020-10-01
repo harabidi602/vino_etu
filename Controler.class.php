@@ -71,10 +71,6 @@ class Controler
 				$body = json_decode(file_get_contents('php://input'));
 				$this->supprimerCellier($body->id_cellier);
 				break;
-			case 'getListeUtilisateursById':
-				$this->isAuth();
-				$this->getListeUtilisateursById($_GET['id']);
-				break;
 			case 'getInfosBouteille':
 				$this->isAuth();
 				$this->getInfosBouteille($_GET['id_bouteille'], $_GET['id_cellier']);

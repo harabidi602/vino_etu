@@ -193,10 +193,19 @@ header {
 
 
 /*
-.cellier .bouteille img {
-    height: auto;
-}
+bouton ajouté bouteille
 */
+
+.ajouter_bouteille,
+.nouveauAdminUtilisateur {
+    display: flex;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: #923636;
+    font-weight: bold;
+    line-height: 25px;
+}
 
 .bouteille {
     display: inline-block;
@@ -639,6 +648,9 @@ footer p {
         justify-content: center;
         margin: 0px;
     }
+    .content .ajouterCel {
+        width: 100%;
+    }
     body {
         width: 100%;
     }
@@ -652,6 +664,9 @@ footer p {
     .nouvelleBouteille h4 {
         font-size: small;
         text-align: center;
+    }
+    .ajouterCel {
+        width: 90%;
     }
 }
 
@@ -692,11 +707,24 @@ footer p {
     width: 320px;
     margin: 50px auto;
     text-align: center;
-    padding: 5px;
     border-radius: 10px;
     color: white;
     background-color: rgba(119, 4, 4, 100%);
-    padding: 10px;
+    height: 100px;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#confirm_suppression>button {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    border-radius: 4px;
+    margin: 2px 2px;
 }
 
 #close_center {
@@ -708,6 +736,7 @@ footer p {
     border-radius: 20px;
     cursor: pointer;
 }
+
 
 /*CSS SPAN*/
 
