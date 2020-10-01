@@ -1,18 +1,13 @@
-<div class="ajouterCel">
-    <div>
+<div class="gestionCel">
+    <div class="contenuCel">
         <img class="imageNC" src="img/cellier.png" alt="Image Cellier">
         <h4>Ajouter un nouveau cellier</h4>
-    </div>
-    <div class="gestionCellier">
-        <div class="formCellier" >
-            <p><input class="inputForm" name="nomCellier" placeholder="Nom du nouveau Cellier"></p>
-            <div>
-                <span id="erreurNouveauCellier"></span>
-            </div>
-            <button type="button" id="buttonAjouterCellier" class="ajouterCellierButton">Ajouter</button>
+        <p><input class="" name="nomCellier" placeholder="Nom du nouveau Cellier"></p>
+        <div>
+            <span id="erreurNouveauCellier"></span>
         </div>
+        <button type="button" id="buttonAjouterCellier" class="ajouterCellierButton">Ajouter</button>
     </div>
-    
     <?php
       $arr = json_decode($data, true);
     ?>
@@ -50,6 +45,16 @@
         <div id="center">
             <div id="messagePer">Modification effectuée avec succès</div>
             <span id="close_center">X</span>
+        </div>
+    </div>
+    <div id="center_container_sup">
+        <div id="center_sup">
+            <div id="confirm_suppression">
+                <p id ='choix_suppression_bouteille'>Vous voulez supprimer la bouteille?</p>
+                        <button  id='confirmerSuppCellier'>Oui</button>
+                        <button  id='annulerSuppressionCellier'>Non</button>
+            </div>
+            <span id="close_center_sup">X</span>
         </div>
     </div>
 </div>
