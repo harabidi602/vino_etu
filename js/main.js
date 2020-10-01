@@ -164,27 +164,31 @@ window.addEventListener('load', function() {
                 let idCellier = bouteille.cellier.options[choice].value;
                 let isvalid = true;
 
+                //Vérification du nom de la bouteille (ne peut être vide)
                 if (!bouteille.nom.dataset.id) {
                     let erreurNomBouteille = document.getElementById('erreurNomB');
                     erreurNomBouteille.innerHTML = "Vous devez sélectionner le nom d'une bouteille";
                     isvalid = false;
                 }
 
+                //Vérification que le millésime est un nombre lorsqu'il est fourni 
                 if (!Number.isInteger(+bouteille.millesime.value)) {
                     let erreurMillesime = document.getElementById('erreurMil');
                     erreurMillesime.innerHTML = 'Millesime non valide, la valeur doit être un nombre entier';
                     isvalid = false;
                 }
 
+                //Vérification que le montant est au moins égal à 1
                 if (bouteille.quantite.value < 1) {
                     let erreurQuantite = document.getElementById('erreurQuant');
                     erreurQuantite.innerHTML = 'Le nombre de bouteilles doit être au moins égal à 1';
                     isvalid = false;
                 }
 
-                if (Number.isNaN(+bouteille.prix.value)) {
+                //Vérification que le prix est un numéro lorsqu'il est fourni 
+                if (Number.isNaN(+bouteille.prix.value) || bouteille.prix.value < 1) {
                     let erreurPrix = document.getElementById('erreurPrix');
-                    erreurPrix.innerHTML = 'Prix non valide, la valeur doit être un nombre entier ou décimal';
+                    erreurPrix.innerHTML = 'Prix non valide, la valeur doit être un nombre (postitif) entier ou décimal';
                     isvalid = false;
                 }
 
@@ -219,6 +223,7 @@ window.addEventListener('load', function() {
                                 console.log(response);
                                 if (response == false) {
                                     boite_alert.style.display = "block";
+                                    //Message lorsque la bouteille existe déjà dans le cellier 
                                     document.getElementById('messagePer').innerHTML = "Echec de l'ajout, Bouteille déjà dans le cellier.";
                                     fermer_boite.addEventListener('click', function(e) {
                                         location.reload();

@@ -31,8 +31,8 @@
             <tr>
                 <td data-column="Id Cellier" class="idCellier" style="display:none;"><?php echo $cellier['id'] ?></td>
                 <td data-column="Nom Cellier" class="nomCellier"><?php echo $cellier['nom_cellier'] ?></td>
-                <td data-column="Bout Cellier" class="boutCellier"><?php echo $cellier['totalBouteilles'] ?></td>
-                <td data-column="Moyenne Prix" class="boutCellier"><?php echo round($cellier['AvgPrix'], 2) ?></td>
+                <td data-column="Total Bouteilles" class="boutCellier"><?php echo $cellier['totalBouteilles'] ?></td>
+                <td data-column="Prix Moyenne" class="boutCellier"><?php echo round($cellier['AvgPrix'], 2) ?></td>
                 <!-- echo number_format((float)$foo, 2, '.', '');  // Outputs -> 105.00 -->
                 <td data-column="Actions">
                     <button class="btn"><i class="fas fa-pencil-alt" name="modifierButton" title="Après avoir modifié, appuyez sur la touche Entrée pour sauvegarder"></i></button>

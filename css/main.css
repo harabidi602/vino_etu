@@ -2,7 +2,7 @@
  * Votre CSS
  ********/
 
-* {
+ * {
     box-sizing: border-box;
 }
 
@@ -332,9 +332,29 @@ bouton ajouté bouteille
     flex-direction: row;
 }
 
+.nouveauUtil {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .nouvelleBouteille h4 {
     flex: 0 0 100%;
     text-align: center;
+}
+
+.nouveauUtil h4 {
+    flex: 0 0 100%;
+    text-align: center;
+}
+
+.nouveauUtil img {
+    padding-top: 15px;
+}
+
+.nouveauUtil a {
+    text-align: left !important;
 }
 
 .nouvelleBouteille .recherche_nom_bouteille {
@@ -467,6 +487,7 @@ bouton ajouté bouteille
 
 .ajouterCel {
     text-align: center;
+    width: 100%;
 }
 
 .imageNC {
@@ -651,6 +672,7 @@ footer p {
     .content .ajouterCel {
         width: 100%;
     }
+    
     body {
         width: 100%;
     }
@@ -658,6 +680,12 @@ footer p {
         justify-content: center;
         width: 80%;
     }
+
+    .nouveauUtil {
+        justify-content: center;
+        width: 85%;
+    }
+
     .cellier nav ul {
         flex-direction: column;
     }
@@ -665,8 +693,19 @@ footer p {
         font-size: small;
         text-align: center;
     }
+
+    .nouveauUtil h4 {
+        font-size: small;
+        text-align: center;
+    }  
+    
+    .nouveauUtil a {
+        font-size: small;
+        text-align: center;
+    }  
+
     .ajouterCel {
-        width: 90%;
+        width: 100%;
     }
 }
 
