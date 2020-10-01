@@ -1,13 +1,8 @@
-<!-- <section class="gestionUti">
-    <nav>
-        <ul>
-            <li><a align="left" href="?requete=nouveauAdminUtilisateur">Ajouter un nouveau utilisateur</a></li>
-        </ul>
-    </nav>
-</section> -->
 
 <div class="nouveauUtil" vertical layout>
-    <img src="img/newUsager.png" alt="Image Utilisateur">
+    <div class="conteneurImg">
+        <img src="img/newUsager.png" alt="">
+    </div>
     <h4>Gestion des utilisateurs </h4>
     <a align="left" href="?requete=nouveauAdminUtilisateur">Ajouter un nouveau utilisateur</a>
     <?php
