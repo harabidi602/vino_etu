@@ -412,27 +412,31 @@ window.addEventListener('load', function() {
     document.querySelectorAll("[name='suprimmerButton']").forEach(item => {
         let boite_alert = document.getElementById("center_container_sup"),
             confirm_suppression = document.getElementById("confirm_suppression"),
-            annulerSuppressionBouteille = document.getElementById("annulerSuppressionCellier"),
-            confirm_suppression_bouteille = document.getElementById("confirm_suppression_bouteille"),
+            annulerSuppressionCellier = document.getElementById("annulerSuppressionCellier"),
             fermer_boite = document.getElementById('close_center_sup'),
             children_confirm_suppression = confirm_suppression.children;
-        let supprimerBtnBouteille = document.getElementById("confirmerSuppCellier");
+        let supprimerBtnCellier = document.getElementById("confirmerSuppCellier");
         boite_alert.style.display === "none";
         item.addEventListener('click', event => {
+            console.log('"' + boite_alert.style.display + '"'); 
             if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
+                console.log('Entro al fin'); 
                 boite_alert.style.display = "block";
                 fermer_boite.addEventListener('click', function(e) {
                     console.log('Cerrar');
                     location.reload();
                 });
-                if (annulerSuppressionBouteille) {
-                    annulerSuppressionBouteille.addEventListener('click', function(e) {
+                if (annulerSuppressionCellier) {
+                    annulerSuppressionCellier.addEventListener('click', function(e) {
                         location.reload();
                     });
                 }
                 //var choice = confirm('Êtes-vous sûr de vouloir supprimer ce cellier?');
-                if (supprimerBtnBouteille) {
-                    supprimerBtnBouteille.addEventListener('click', function(e) {
+                if (supprimerBtnCellier) {
+                    supprimerBtnCellier.addEventListener('click', function(e) {
+                        children_confirm_suppression[0].style.display = "none";
+                        supprimerBtnCellier.style.display = "none";
+                        annulerSuppressionCellier.style.display = "none";
                         var row = event.target.parentElement.parentElement.parentElement;
                         console.log(row);
                         var param = {
@@ -441,8 +445,12 @@ window.addEventListener('load', function() {
                         let requete = new Request(URLSansR + "index.php?requete=supprimerCellier", { method: 'POST', body: JSON.stringify(param) });
                         fetch(requete)
                             .then(response => {
+                                let p = document.createElement('p');
                                 if (response.status === 200) {
-                                    location.reload();
+                                    boite_alert.style.display = "block";
+                                    p.innerHTML += "Suppression effectuée avec succcès";
+                                    p.style.textAlign = "center";
+                                    confirm_suppression.appendChild(p);
                                     return response.json();
                                 } else {
                                      //Refuser d'effacer le cellier parce qu'il fermer_boite a des bouteilles dedans 
@@ -456,7 +464,7 @@ window.addEventListener('load', function() {
                             });
                     });    
                 }
-            }
+            } 
         }); 
     });
 
