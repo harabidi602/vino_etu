@@ -1,4 +1,4 @@
-        <div class="bouteille"><h4>Créez un nouveau usager</h4>
+        <div class="usager"><h4>Créez un nouveau usager</h4>
             <form id="nutilisateur" action="" method="post" >
                 <?php if(!empty($message)):?>
                 <p><?php echo $message;?></p>
