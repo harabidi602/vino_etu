@@ -308,6 +308,14 @@ bouton ajouté bouteille
     margin: 5px auto;
 }
 
+
+/**/
+
+.ajouterBouteilleCellier:hover {
+    background-color: rgba(119, 4, 4, 100%);
+    color: white;
+}
+
 .options button {
     background-color: rgb(101, 138, 53);
     color: white;
@@ -323,6 +331,7 @@ bouton ajouté bouteille
 }
 
 .recherche_nom_bouteille>input {
+    border: 2px red solid;
     width: 50%;
 }
 
