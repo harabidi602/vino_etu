@@ -1,11 +1,6 @@
 <section class="cellier">
-    <nav>
-        <ul>
-            <li><a align="left" href="?requete=nouveauAdminUtilisateur">Ajouter un nouveau utilisateur</a></li>
-        </ul>
-    </nav>
+<div><a class="nouveauAdminUtilisateur" href="?requete=nouveauAdminUtilisateur">Ajouter un nouveau utilisateur</a></div>
 </section>
-
 <div class="ajouterCel">
     <div>
         <img class="imageNC" src="img/newUsager.png" alt="Image Utilisateur">
