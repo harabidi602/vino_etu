@@ -444,6 +444,7 @@ window.addEventListener('load', function() {
             let id_bouteille = event.target.parentElement.dataset.id_bouteille;
             let id_cellier = event.target.parentElement.dataset.id_cellier;
             window.location = URLSansR + "index.php?requete=getInfosBouteille&id_bouteille=" + id_bouteille + "&id_cellier=" + id_cellier;
+
         });
     });
 
@@ -463,14 +464,11 @@ window.addEventListener('load', function() {
                 garde_jusqua: document.querySelector("[name='garde_jusqua']"),
                 notes: document.querySelector("[name='notes']"),
             };
-
-            //alert(bouteille.millesime.value);
             if (!Number.isInteger(+bouteille.quantite.value)) {
                 let erreurQuantite = document.getElementById('erreurQuan');
                 erreurQuantite.innerHTML = 'Quantité non valide, la valeur doit être un nombre entier';
                 isvalid = false;
             }
-
             let param = {
                 "id_bouteille": parseInt(row.querySelectorAll("[name='bouteille_id']")[0].value),
                 "id_cellier": parseInt(row.querySelectorAll("[name='id_cellier']")[0].value),
@@ -480,7 +478,6 @@ window.addEventListener('load', function() {
                 "garde_jusqua": Number(row.querySelectorAll("[name='garde_jusqua']")[0].value),
                 "notes": row.querySelectorAll("[name='notes']")[0].value,
                 "prix": Number(row.querySelectorAll("[name='prix']")[0].value)
-
             };
             let requete = new Request(URLSansR + "index.php?requete=modifierBouteille", {
                 method: 'POST',
@@ -511,10 +508,64 @@ window.addEventListener('load', function() {
             }
         })
     }
-    //enlever une bouteille d'un cellier
+
+    //retirer une bouteille d'un cellier
     document.querySelectorAll("[name='retirerBouteille']").forEach(item => {
+        //la boite de dialogue personnalisé
+        let boite_alert = document.getElementById("center_container"),
+            confirm_suppression = document.getElementById("confirm_suppression"),
+            annulerSuppressionBouteille = document.getElementById("annulerSuppressionBouteille"),
+            confirm_suppression_bouteille = document.getElementById("confirm_suppression_bouteille"),
+            fermer_boite = document.getElementById('close_center'),
+            children_confirm_suppression = confirm_suppression.children;
+        let supprimerBtnBouteille = document.getElementById("confirmerSuppBouteille");
+        boite_alert.style.display === "none";
         item.addEventListener('click', event => {
-            alert('vous êtes sures de vouloir retirer cette bouteille');
+            if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
+                boite_alert.style.display = "block";
+                if (annulerSuppressionBouteille) {
+                    annulerSuppressionBouteille.addEventListener('click', function(e) {
+                        window.location = BaseURL + "index.php?requete=accueil";
+                    });
+                }
+                if (supprimerBtnBouteille) {
+                    supprimerBtnBouteille.addEventListener('click', function(e) {
+                        children_confirm_suppression[0].style.display = "none";
+                        supprimerBtnBouteille.style.visibility = "hidden";
+                        annulerSuppressionBouteille.style.visibility = "hidden";
+                        var param = {
+                            id_bouteille: event.target.parentElement.dataset.id_bouteille,
+                            id_cellier: event.target.parentElement.dataset.id_cellier
+                        };
+                        // console.log(param);
+                        let requete = new Request(URLSansR + "index.php?requete=retirerBouteille", { method: 'POST', body: JSON.stringify(param) });
+                        fetch(requete)
+                            .then(response => {
+                                let p = document.createElement('p');
+                                if (response.status === 200) {
+                                    fermer_boite.addEventListener('click', function(e) {
+                                        location.reload();
+                                    });
+                                    boite_alert.style.display = "block";
+                                    p.innerHTML += "Suppression effectuée avec succcès";
+                                    confirm_suppression.appendChild(p);
+                                    return response.json();
+                                } else {
+                                    p.innerHTML += "Suppression échouée";
+                                    confirm_suppression.appendChild(p);
+                                }
+                            })
+                            .then(response => {
+                                console.log(response);
+                            }).catch(error => {
+                                console.error(error);
+                            });
+                    });
+                }
+
+            } else {
+                boite_alert.style.display = "none";
+            }
         });
     });
 
