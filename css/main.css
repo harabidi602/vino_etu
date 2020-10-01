@@ -717,6 +717,16 @@ footer p {
     justify-content: center;
 }
 
+#confirm_suppression>button {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    border-radius: 4px;
+    margin: 2px 2px;
+}
+
 #close_center {
     position: absolute;
     top: -10px;

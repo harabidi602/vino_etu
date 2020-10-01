@@ -112,7 +112,7 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
     <div id="center_container">
         <div id="center">
             <div id="confirm_suppression">
-                <p id ='choix_suppression_bouteille'>vous êtes sures de vouloir retirer cette bouteille?</p>
+                <p id ='choix_suppression_bouteille'>Vous voulez supprimer la bouteille?</p>
                         <button  id='confirmerSuppBouteille'>Oui</button>
                         <button  id='annulerSuppressionBouteille'>Non</button>
             </div>
