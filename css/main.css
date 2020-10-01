@@ -2,7 +2,7 @@
  * Votre CSS
  ********/
 
-* {
+ * {
     box-sizing: border-box;
 }
 
@@ -341,9 +341,29 @@ bouton ajouté bouteille
     flex-direction: row;
 }
 
+.nouveauUtil {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .nouvelleBouteille h4 {
     flex: 0 0 100%;
     text-align: center;
+}
+
+.nouveauUtil h4 {
+    flex: 0 0 100%;
+    text-align: center;
+}
+
+.nouveauUtil img {
+    padding-top: 15px;
+}
+
+.nouveauUtil a {
+    text-align: left !important;
 }
 
 .nouvelleBouteille .recherche_nom_bouteille {
@@ -352,6 +372,22 @@ bouton ajouté bouteille
     flex-direction: column;
     padding: 0px;
     margin: 0px;
+}
+
+.gestionCel {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+}
+
+.gestionCel span {
+    color: red;
+}
+
+.contenuCel {
+    justify-content: center;
 }
 
 .liste {
@@ -465,6 +501,9 @@ bouton ajouté bouteille
     border-radius: 4px;
 }
 
+.ajouterCellierButton:hover {
+    background-color: rgba(119, 4, 4, 100%);
+}
 .buttonModSup {
     background-color: white;
     color: black;
@@ -473,10 +512,6 @@ bouton ajouté bouteille
 
 
 /*Contenu page Ajouter Cellier*/
-
-.ajouterCel {
-    text-align: center;
-}
 
 .imageNC {
     margin-top: 20px;
@@ -657,9 +692,8 @@ footer p {
         justify-content: center;
         margin: 0px;
     }
-    .content .ajouterCel {
-        width: 100%;
-    }
+  
+    
     body {
         width: 100%;
     }
@@ -667,6 +701,12 @@ footer p {
         justify-content: center;
         width: 80%;
     }
+
+    .nouveauUtil {
+        justify-content: center;
+        width: 85%;
+    }
+
     .cellier nav ul {
         flex-direction: column;
     }
@@ -674,8 +714,36 @@ footer p {
         font-size: small;
         text-align: center;
     }
+
+    .nouvelleBouteille h4 {
+        font-size: small;
+        text-align: center;
+    }
+
+    .nouveauUtil h4 {
+        font-size: small;
+        text-align: center;
+    }
+    
+    .gestionCel h4 {
+        font-size: small;
+    }
+
+    .gestionCel span {
+        font-size: small;
+    }
+    
+    .nouveauUtil a {
+        font-size: small;
+        text-align: center;
+    }  
+
     .ajouterCel {
-        width: 90%;
+        width: 100%;
+    }
+
+    .gestionCel {
+       width: 100%;
     }
 }
 
@@ -710,7 +778,20 @@ footer p {
     z-index: 20;
 }
 
+#center_container_sup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    z-index: 20;
+}
+
 #center,
+#center_sup,
 #confirm_suppression {
     position: relative;
     width: 320px;
@@ -745,6 +826,17 @@ footer p {
     border-radius: 20px;
     cursor: pointer;
 }
+
+#close_center_sup {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 3px 5px;
+    background-color: black;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
 
 
 /*CSS SPAN*/

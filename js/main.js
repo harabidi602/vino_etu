@@ -164,24 +164,28 @@ window.addEventListener('load', function() {
                 let idCellier = bouteille.cellier.options[choice].value;
                 let isvalid = true;
 
+                //Vérification du nom de la bouteille (ne peut être vide)
                 if (!bouteille.nom.dataset.id) {
                     let erreurNomBouteille = document.getElementById('erreurNomB');
                     erreurNomBouteille.innerHTML = "Vous devez sélectionner le nom d'une bouteille";
                     isvalid = false;
                 }
 
+                //Vérification que le millésime est un nombre lorsqu'il est fourni 
                 if (!Number.isInteger(+bouteille.millesime.value)) {
                     let erreurMillesime = document.getElementById('erreurMil');
                     erreurMillesime.innerHTML = 'Millesime non valide, la valeur doit être un nombre entier';
                     isvalid = false;
                 }
 
+                //Vérification que le montant est au moins égal à 1
                 if (bouteille.quantite.value < 1) {
                     let erreurQuantite = document.getElementById('erreurQuant');
                     erreurQuantite.innerHTML = 'Le nombre de bouteilles doit être au moins égal à 1';
                     isvalid = false;
                 }
 
+                //Vérification que le prix est un numéro lorsqu'il est fourni 
                 if (Number.isNaN(+bouteille.prix.value)) {
                     let erreurPrix = document.getElementById('erreurPrix');
                     erreurPrix.innerHTML = 'Prix non valide, la valeur doit être un nombre entier ou décimal';
@@ -219,6 +223,7 @@ window.addEventListener('load', function() {
                                 console.log(response);
                                 if (response == false) {
                                     boite_alert.style.display = "block";
+                                    //Message lorsque la bouteille existe déjà dans le cellier 
                                     document.getElementById('messagePer').innerHTML = "Echec de l'ajout, Bouteille déjà dans le cellier.";
                                     fermer_boite.addEventListener('click', function(e) {
                                         location.reload();
@@ -401,35 +406,58 @@ window.addEventListener('load', function() {
             row.getElementsByClassName('nomCellier')[0].appendChild(input);
         });
     });
+    
+    
     //Fonctionnalités pour supprimer un cellier existant
     document.querySelectorAll("[name='suprimmerButton']").forEach(item => {
+        let boite_alert = document.getElementById("center_container_sup"),
+            confirm_suppression = document.getElementById("confirm_suppression"),
+            annulerSuppressionBouteille = document.getElementById("annulerSuppressionCellier"),
+            confirm_suppression_bouteille = document.getElementById("confirm_suppression_bouteille"),
+            fermer_boite = document.getElementById('close_center_sup'),
+            children_confirm_suppression = confirm_suppression.children;
+        let supprimerBtnBouteille = document.getElementById("confirmerSuppCellier");
+        boite_alert.style.display === "none";
         item.addEventListener('click', event => {
-            var choice = confirm('Êtes-vous sûr de vouloir supprimer ce cellier?');
-            if (choice) {
-                var row = event.target.parentElement.parentElement.parentElement;
-                console.log(row);
-                var param = {
-                    "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
-                };
-                let requete = new Request(URLSansR + "index.php?requete=supprimerCellier", { method: 'POST', body: JSON.stringify(param) });
-                fetch(requete)
-                    .then(response => {
-                        if (response.status === 200) {
-                            location.reload();
-                            alert('Suppression du cellier effectuée');
-                            return response.json();
-                        } else {
-                            //Refuser d'effacer le cellier parce qu'il fermer_boite a des bouteilles dedans
-                            alert("Le cellier n'a pas pu être effacé. Vérifier la présence de bouteilles dans le cellier");
-                        }
-                    })
-                    .then(response => {
-                        console.log(response);
-                    }).catch(error => {
-                        console.error(error);
+            if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
+                boite_alert.style.display = "block";
+                fermer_boite.addEventListener('click', function(e) {
+                    console.log('Cerrar');
+                    location.reload();
+                });
+                if (annulerSuppressionBouteille) {
+                    annulerSuppressionBouteille.addEventListener('click', function(e) {
+                        location.reload();
                     });
+                }
+                //var choice = confirm('Êtes-vous sûr de vouloir supprimer ce cellier?');
+                if (supprimerBtnBouteille) {
+                    supprimerBtnBouteille.addEventListener('click', function(e) {
+                        var row = event.target.parentElement.parentElement.parentElement;
+                        console.log(row);
+                        var param = {
+                            "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
+                        };
+                        let requete = new Request(URLSansR + "index.php?requete=supprimerCellier", { method: 'POST', body: JSON.stringify(param) });
+                        fetch(requete)
+                            .then(response => {
+                                if (response.status === 200) {
+                                    location.reload();
+                                    return response.json();
+                                } else {
+                                     //Refuser d'effacer le cellier parce qu'il fermer_boite a des bouteilles dedans 
+                                     document.getElementById('confirm_suppression').innerHTML = "Le cellier n'a pas pu être effacé. Vérifier la présence de bouteilles dans le cellier";
+                                }
+                            })
+                            .then(response => {
+                                console.log(response);
+                            }).catch(error => {
+                                console.error(error);
+                            });
+                    });    
+                }
             }
-        });
+        }); 
     });
 
     //Modifier une bouteille dans le cellier
