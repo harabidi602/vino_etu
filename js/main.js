@@ -210,7 +210,7 @@ window.addEventListener('load', function() {
                         fermer_boite = document.getElementById('close_center');
                     boite_alert.style.display === "none";
                     if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
-                        
+
                         fetch(requete)
                             .then(response => {
                                 if (response.status === 200) {
@@ -345,7 +345,7 @@ window.addEventListener('load', function() {
                             console.error(error);
                         });
                 }
-            }    
+            }
         })
     }
     //Fonctionnalités pour modifier un cellier existant
@@ -523,6 +523,9 @@ window.addEventListener('load', function() {
         item.addEventListener('click', event => {
             if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
                 boite_alert.style.display = "block";
+                fermer_boite.addEventListener('click', function(e) {
+                    location.reload();
+                });
                 if (annulerSuppressionBouteille) {
                     annulerSuppressionBouteille.addEventListener('click', function(e) {
                         window.location = BaseURL + "index.php?requete=accueil";
@@ -531,8 +534,8 @@ window.addEventListener('load', function() {
                 if (supprimerBtnBouteille) {
                     supprimerBtnBouteille.addEventListener('click', function(e) {
                         children_confirm_suppression[0].style.display = "none";
-                        supprimerBtnBouteille.style.visibility = "hidden";
-                        annulerSuppressionBouteille.style.visibility = "hidden";
+                        supprimerBtnBouteille.style.display = "none";
+                        annulerSuppressionBouteille.style.display = "none";
                         var param = {
                             id_bouteille: event.target.parentElement.dataset.id_bouteille,
                             id_cellier: event.target.parentElement.dataset.id_cellier
@@ -543,11 +546,9 @@ window.addEventListener('load', function() {
                             .then(response => {
                                 let p = document.createElement('p');
                                 if (response.status === 200) {
-                                    fermer_boite.addEventListener('click', function(e) {
-                                        location.reload();
-                                    });
                                     boite_alert.style.display = "block";
                                     p.innerHTML += "Suppression effectuée avec succcès";
+                                    p.style.textAlign = "center";
                                     confirm_suppression.appendChild(p);
                                     return response.json();
                                 } else {

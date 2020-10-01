@@ -1,10 +1,6 @@
 <?php
 $arr = json_decode(json_encode($data),true);
 $arrayCelliers = json_decode($dataCellier, true);
-//$test =json_decode(json_encode($test),true);
-//$arrayB = json_decode($dataRetirerBouteille, true);
-
-//var_dump($arrayB);
 $arrayId =[];
 $arrayC=[];
 $arrayP=[];
@@ -41,11 +37,11 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
  
 ?>
 <section class="cellier">
+<?php if($_SESSION['utilisateur_type']==2){?>		
+            <div><a class="ajouter_bouteille" href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></div>
+        <?php }?>
     <nav>
         <ul>
-        <?php if($_SESSION['utilisateur_type']==2){?>		
-            <li><a href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></li>
-        <?php }?>
             <li><label for="tri_cellier">Choisir un cellier</label>
             <select id="cellier" name="tri_cellier" class="tri_cellier"> 
             <option  selected value="-1"> -- selectionner une option -- </option>
@@ -116,12 +112,9 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
     <div id="center_container">
         <div id="center">
             <div id="confirm_suppression">
-                <p id ='choix_suppression_bouteille'>vous êtes sures de vouloir retirer cette bouteille?</p>
+                <p id ='choix_suppression_bouteille'>Vous voulez supprimer la bouteille?</p>
                         <button  id='confirmerSuppBouteille'>Oui</button>
                         <button  id='annulerSuppressionBouteille'>Non</button>
-            </div>
-            <div id="msg_success">
-                <p></p>
             </div>
             <span id="close_center">X</span>
         </div>
