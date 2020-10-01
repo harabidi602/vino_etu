@@ -320,12 +320,30 @@ header {
     flex-direction: row;
 }
 
+/*Form gestion des utilisateurs*/
+.nouveauUtil {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.nouveauUtil img {
+    flex: 0 0 0;
+    text-align: left;
+    padding: 15px;
+}
+
+.nouveauUtil h4 {
+    flex: 0 0 100%;
+    text-align: center;
+}
+
 .nouvelleBouteille h4 {
     flex: 0 0 100%;
     text-align: center;
 }
 
-.nouvelleBouteille .recherche_nom_bouteille {
+.nouvelleBouteille .recherche_nom_bouteille .nouveauUtil {
     width: 600px;
     display: flex;
     flex-direction: column;
@@ -643,10 +661,16 @@ footer p {
         justify-content: center;
         width: 80%;
     }
+
+    .nouveauUtil {
+        justify-content: center;
+        width: 80%;
+    }
+
     .cellier nav ul {
         flex-direction: column;
     }
-    .nouvelleBouteille h4 {
+    .nouveauUtil h4 {
         font-size: small;
         text-align: center;
     }
@@ -660,6 +684,12 @@ footer p {
         display: flex;
         padding: 10px;
     }
+
+    .nouveauUtil {
+        display: flex;
+        padding: 10px;
+    }
+
     .recherche_nom_bouteille {
         flex: 0 0 100%;
     }

@@ -1,16 +1,15 @@
-<section class="cellier">
+<!-- <section class="gestionUti">
     <nav>
         <ul>
             <li><a align="left" href="?requete=nouveauAdminUtilisateur">Ajouter un nouveau utilisateur</a></li>
         </ul>
     </nav>
-</section>
+</section> -->
 
-<div class="ajouterCel">
-    <div>
-        <img class="imageNC" src="img/newUsager.png" alt="Image Utilisateur">
-        <h4>Gestion des utilisateurs</h4>
-    </div>
+<div class="nouveauUtil" vertical layout>
+    <img src="img/newUsager.png" alt="Image Utilisateur">
+    <h4>Gestion des utilisateurs </h4>
+    <a align="left" href="?requete=nouveauAdminUtilisateur">Ajouter un nouveau utilisateur</a>
     <?php
     //Transformer le résultat de Json en array 
     $arr = json_decode($data, true);
@@ -30,12 +29,12 @@
         <tbody>
             <?php foreach ($arr as $item) :  ?>
                 <tr>
-                    <td data-column="NomUti"><span><?php echo $item['nom']; ?></span></td>
-                    <td data-column="PrenomUti"><span><?php echo $item['prenom']; ?></span></td>
-                    <td data-column="identifiantUti"><span><?php echo $item['identifiant']; ?></span></td>
-                    <td data-column="courrielUti"><span><?php echo $item['courriel']; ?></span></td>
-                    <td data-column="teleUti"><span><?php echo $item['telephone']; ?></span></td>
-                    <td data-column="typeUti"><span><?php echo $item['type']; ?></span></td>
+                    <td data-column="Nom"><span><?php echo $item['nom']; ?></span></td>
+                    <td data-column="Prénom"><span><?php echo $item['prenom']; ?></span></td>
+                    <td data-column="Identifiant"><span><?php echo $item['identifiant']; ?></span></td>
+                    <td data-column="Courriel"><span><?php echo $item['courriel']; ?></span></td>
+                    <td data-column="Téléphone"><span><?php echo $item['telephone']; ?></span></td>
+                    <td data-column="Type"><span><?php echo $item['type']; ?></span></td>
                     <td data-column="Actions">
                       <!--  <button class="btn"><i class="fa fa-wrench" aria-hidden="true" name="modifierUtil"></i></button>-->
                         <button class="btn"><i class="fa fa-trash" aria-hidden="true" name="supprimerUtil"></i></button>
