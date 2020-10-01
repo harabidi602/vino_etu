@@ -1,4 +1,3 @@
-
 <div class="usager" >
     <div class="titre">
         <img src="img/authen.png" alt="Image Authentification">

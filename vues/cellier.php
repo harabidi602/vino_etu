@@ -1,10 +1,6 @@
 <?php
 $arr = json_decode(json_encode($data),true);
 $arrayCelliers = json_decode($dataCellier, true);
-//$test =json_decode(json_encode($test),true);
-//$arrayB = json_decode($dataRetirerBouteille, true);
-
-//var_dump($arrayB);
 $arrayId =[];
 $arrayC=[];
 $arrayP=[];
