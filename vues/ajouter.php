@@ -1,6 +1,6 @@
  <div class="nouvelleBouteille" vertical layout> 
         <h4>Ajouter une nouvelle bouteille au cellier </h4>
-        <div class="recherche_nom_bouteille">Rechercher par nom de bouteille: <input type="text" name="nom_bouteille">
+        <div class="recherche_nom_bouteille">Rechercher par nom de bouteille: <input type="text" name="nom_bouteille" placeholder="saisir le début du nom">
         <ul class="listeAutoComplete"></ul></div>
         <?php
         //Transformer le résultat de Json en array 

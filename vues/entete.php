@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
 	<title>Un petit verre de vino</title>
 	<meta charset="utf-8">
@@ -17,26 +16,39 @@
 		<script src="./js/main.js"></script>
 	</head>
 	<body>
-		<header>
-			<div class="menu">
-				<span>Bienvenue <?php echo $_SESSION['utilisateur_prenom']; ?> <?php echo $_SESSION['utilisateur_nom']; ?></span>
-				<a href="#"><abbr title="Votre compte"><img src="img/user-24.png" alt="profile"></abbr></a>
-				<a href="index.php?requete=quitter">
-					<abbr title="Se deconnecter">
-						<img src="img/logout-24.png" alt="Déconnexion">
-					</abbr>
-				</a>
-			</div>
-			<nav class="menu">
-				<ul>
-					<li class="logo"><a href="?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
-					<li class="menu-item"><a href="?requete=accueil">Accueil</a></li>
-					<?php if ($_SESSION['utilisateur_type'] == 2){ ?><li class="menu-item"><a href="?requete=getListeCelliers">Gestion des celliers</a></li><?php } ?>
+		<nav class="navbar">
+				<span class="navbar-toggle" id="js-navbar-toggle">
+					<i class="fas fa-bars"></i>
+				</span>
+				<span class="welcome">Bienvenue <?php echo $_SESSION['utilisateur_prenom']; ?> <?php echo $_SESSION['utilisateur_nom']; ?></span>
+				
+				<ul class="main-nav" id="js-menu">
+					<li><a href="?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
+					<li class="menu-item">
+						<a href="?requete=accueil">Accueil</a>
+					</li>
+					<?php if ($_SESSION['utilisateur_type'] == 2){ ?>
+						<li class="menu-item">
+							<a href="?requete=getListeCelliers">Gestion des celliers</a>
+						</li>
+					<?php } ?>
 					<?php if ($_SESSION['utilisateur_type'] == 1){ ?>
-					<li class="menu-item"><a href="index.php?requete=admin">Gestion d'administration</a></li><?php }?>
-					
+						<li class="menu-item">
+							<a href="index.php?requete=admin">Gestion d'administration</a></li>
+						</li>
+					<?php }?>
+					<li class="menu-item">
+						<a href="#">Votre compte</a>
+					</li>
+					<li  class="menu-item">
+						<a href="index.php?requete=quitter">
+							<abbr title="Se deconnecter">
+								<img src="img/logout-24.png" alt="Déconnexion">
+							</abbr>
+						</a>
+						
+					</li>
 				</ul>
-			</nav>
-		</header>
+    	</nav>
 	<div class="col-2">
 		<main class="content">
