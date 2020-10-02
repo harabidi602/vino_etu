@@ -2,7 +2,7 @@
  * Votre CSS
  ********/
 
- * {
+* {
     box-sizing: border-box;
 }
 
@@ -331,7 +331,6 @@ bouton ajouté bouteille
 }
 
 .recherche_nom_bouteille>input {
-    border: 2px red solid;
     width: 50%;
 }
 
@@ -504,6 +503,7 @@ bouton ajouté bouteille
 .ajouterCellierButton:hover {
     background-color: rgba(119, 4, 4, 100%);
 }
+
 .buttonModSup {
     background-color: white;
     color: black;
@@ -692,8 +692,6 @@ footer p {
         justify-content: center;
         margin: 0px;
     }
-  
-    
     body {
         width: 100%;
     }
@@ -701,12 +699,10 @@ footer p {
         justify-content: center;
         width: 80%;
     }
-
     .nouveauUtil {
         justify-content: center;
         width: 85%;
     }
-
     .cellier nav ul {
         flex-direction: column;
     }
@@ -714,36 +710,29 @@ footer p {
         font-size: small;
         text-align: center;
     }
-
     .nouvelleBouteille h4 {
         font-size: small;
         text-align: center;
     }
-
     .nouveauUtil h4 {
         font-size: small;
         text-align: center;
     }
-    
     .gestionCel h4 {
         font-size: small;
     }
-
     .gestionCel span {
         font-size: small;
     }
-    
     .nouveauUtil a {
         font-size: small;
         text-align: center;
-    }  
-
+    }
     .ajouterCel {
         width: 100%;
     }
-
     .gestionCel {
-       width: 100%;
+        width: 100%;
     }
 }
 
@@ -836,7 +825,6 @@ footer p {
     border-radius: 20px;
     cursor: pointer;
 }
-
 
 
 /*CSS SPAN*/
