@@ -406,8 +406,8 @@ window.addEventListener('load', function() {
             row.getElementsByClassName('nomCellier')[0].appendChild(input);
         });
     });
-    
-    
+
+
     //Fonctionnalités pour supprimer un cellier existant
     document.querySelectorAll("[name='suprimmerButton']").forEach(item => {
         let boite_alert = document.getElementById("center_container_sup"),
@@ -418,9 +418,9 @@ window.addEventListener('load', function() {
         let supprimerBtnCellier = document.getElementById("confirmerSuppCellier");
         boite_alert.style.display === "none";
         item.addEventListener('click', event => {
-            console.log('"' + boite_alert.style.display + '"'); 
+            console.log('"' + boite_alert.style.display + '"');
             if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
-                console.log('Entro al fin'); 
+                console.log('Entro al fin');
                 boite_alert.style.display = "block";
                 fermer_boite.addEventListener('click', function(e) {
                     console.log('Cerrar');
@@ -453,8 +453,8 @@ window.addEventListener('load', function() {
                                     confirm_suppression.appendChild(p);
                                     return response.json();
                                 } else {
-                                     //Refuser d'effacer le cellier parce qu'il fermer_boite a des bouteilles dedans 
-                                     document.getElementById('confirm_suppression').innerHTML = "Le cellier n'a pas pu être effacé. Vérifier la présence de bouteilles dans le cellier";
+                                    //Refuser d'effacer le cellier parce qu'il fermer_boite a des bouteilles dedans 
+                                    document.getElementById('confirm_suppression').innerHTML = "Le cellier n'a pas pu être effacé. Vérifier la présence de bouteilles dans le cellier";
                                 }
                             })
                             .then(response => {
@@ -462,10 +462,10 @@ window.addEventListener('load', function() {
                             }).catch(error => {
                                 console.error(error);
                             });
-                    });    
+                    });
                 }
-            } 
-        }); 
+            }
+        });
     });
 
     //Modifier une bouteille dans le cellier
@@ -641,5 +641,14 @@ window.addEventListener('load', function() {
             let id_util = e.target.parentElement.nextElementSibling.value;
             console.log(id_util);
         });
+    });
+
+
+    //menu de navigation
+    let mainNav = document.getElementById('js-menu');
+    let navBarToggle = document.getElementById('js-navbar-toggle');
+
+    navBarToggle.addEventListener('click', function() {
+        mainNav.classList.toggle('active');
     });
 });
