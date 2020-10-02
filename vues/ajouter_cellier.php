@@ -30,11 +30,11 @@
                 <td data-column="Prix Moyenne" class="boutCellier"><?php echo round($cellier['AvgPrix'], 2) ?></td>
                 <!-- echo number_format((float)$foo, 2, '.', '');  // Outputs -> 105.00 -->
                 <td data-column="Actions">
-                    <button class="btn"><i class="fas fa-pencil-alt" name="modifierButton" title="Après avoir modifié, appuyez sur la touche Entrée pour sauvegarder"></i></button>
+                    <button class="btn" name="modifierButton"><i class="fas fa-pencil-alt" title="Après avoir modifié, appuyez sur la touche Entrée pour sauvegarder"></i></button>
                     <?php
                     //quand il n'y a qu'un seul cellier, on ne peut pas l'effacer 
                     if(count($arr) !== 1) { ?>
-                        <button class="btn"><i class="fa fa-trash" aria-hidden="true" name="suprimmerButton" ></i></button>
+                        <button class="btn"  name="suprimmerButton"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     <?php } ?>
                 </td>
             </tr>
@@ -50,7 +50,7 @@
     <div id="center_container_sup">
         <div id="center_sup">
             <div id="confirm_suppression">
-                <p id ='choix_suppression_bouteille'>Vous voulez supprimer la bouteille?</p>
+                <p id ='choix_suppression_bouteille'>Vous êtes sûr de vouloir effacer le cellier ?</p>
                         <button  id='confirmerSuppCellier'>Oui</button>
                         <button  id='annulerSuppressionCellier'>Non</button>
             </div>
