@@ -1,7 +1,8 @@
-        <div class="usager"><h4>Créez un nouveau usager</h4>
+<div class="usager"><h4>Créez un nouveau usager</h4>
             <form id="nutilisateur" action="" method="post" >
-                <?php if(!empty($message)):?>
-                <p><?php echo $message;?></p>
+            <?php if(!empty($message)):?>
+                <p class="success-msg">
+                <i class="fa fa-check"><?php echo $message;?></i></p>
                 <?php endif; ?>
                 <p> 
                     <span>Nom</span><input class="inputForm" name="nom" required> 
@@ -29,4 +30,3 @@
                   <p>  <button type="submit" class="creationButton" name="creer">Créez</button></p>
             </form>       
         </div>
-    
