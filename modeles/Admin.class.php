@@ -14,7 +14,7 @@ class Admin extends Modele
      // La fonction ajoute un utilisateur admin/usager
     public function sqlAjouterAdmin($nom, $prenom, $iden, $mdp, $type)
     {
-        $requete = "INSERT INTO vino__utilisateur (nom, prenom, identifiant, mdp,id_type) VALUES ('$nom', '$prenom','$iden', md5('$mdp'),'$type')";
+        $requete = "INSERT INTO vino__utilisateur (nom, prenom, identifiant,date_inscription, mdp,id_type) VALUES ('$nom', '$prenom','$iden',NOW(), md5('$mdp'),'$type')";
 
         if ($this->_db->query($requete)) {
 
@@ -23,9 +23,9 @@ class Admin extends Modele
     }
 
     // La fonction modifie un utilisateur
-    public function sqlModificationUtilisateur($id, $nom, $prenom, $iden, $mdp, $courriel, $telephone, $type)
+    public function sqlModificationUtilisateur($id, $nom, $prenom, $iden, $mdp, $type)
     {
-        $requete = "UPDATE vino__utilisateur SET nom = '$nom', prenom = '$prenom', iden = '$iden', mdp = md5('$mdp'), courriel = '$courriel', telephone = '$telephone', type = '$type' WHERE id='$id'";
+        $requete = "UPDATE vino__utilisateur SET nom = '$nom', prenom = '$prenom', iden = '$iden', mdp = md5('$mdp'), type = '$type' WHERE id='$id'";
 
         if ($this->_db->query($requete)) {
 
