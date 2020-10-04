@@ -11,9 +11,10 @@
 class Admin extends Modele
 {
     // La fonction ajoute un utilisateur admin/usager
-    public function sqlAjouterAdmin($nom, $prenom, $iden, $mdp, $courriel, $telephone, $type)
+     // La fonction ajoute un utilisateur admin/usager
+    public function sqlAjouterAdmin($nom, $prenom, $iden, $mdp, $type)
     {
-        $requete = "INSERT INTO vino__utilisateur (nom, prenom, identifiant, mdp, courriel, telephone,id_type) VALUES ('$nom', '$prenom','$iden', md5('$mdp'),'$courriel','$telephone','$type')";
+        $requete = "INSERT INTO vino__utilisateur (nom, prenom, identifiant, mdp,id_type) VALUES ('$nom', '$prenom','$iden', md5('$mdp'),'$type')";
 
         if ($this->_db->query($requete)) {
 
@@ -68,7 +69,25 @@ class Admin extends Modele
                 $rows[] = $row;
             }
         }
+        return $rows;
+    }
+
+    //récuperer le nombre de nouvels usagers (par mois)
+    public function getNombreNouveauUsagers(){
+        $requete = "SELECT MONTH(date_inscription) 
+        as MONTH ,YEAR(date_inscription) as year, count(id) as nombreUsers ,date_inscription
+        FROM vino__utilisateur GROUP BY MONTH(date_inscription) ,YEAR(date_inscription) 
+        ORDER BY date_inscription DESC
+        ";
+
+        $res = $this->_db->query($requete);
+        if ($res->num_rows) {
+            while ($row = $res->fetch_assoc()) {
+                $rows[] = $row;
+            }
+        }
 
         return $rows;
+
     }
 }
