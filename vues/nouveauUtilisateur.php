@@ -4,7 +4,7 @@
                 <p class="success-msg">
                 <i class="fa fa-check"><?php echo $message;?></i></p>
                 <?php endif; ?>
-                    <p> 
+                    <p> <input name="date_inscription" type="hidden" id="dateActuelle" >
                         <span>Nom</span><input class="inputForm" name="nom" required> 
                         <span class="erreur"><?= isset($erreurs['nom']) ? $erreurs['nom'] : "" ?></span>
                     </p>
