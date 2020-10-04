@@ -37,6 +37,11 @@
 							<a href="index.php?requete=admin">Gestion d'administration</a></li>
 						</li>
 					<?php }?>
+					<?php if ($_SESSION['utilisateur_type'] == 1){ ?>
+						<li class="menu-item">
+							<a href="index.php?requete=getNombreNouveauUsagers">Statistiques</a></li>
+						</li>
+					<?php }?>
 					<li class="menu-item">
 						<a href="#">Votre compte</a>
 					</li>
