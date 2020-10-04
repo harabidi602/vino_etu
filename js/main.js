@@ -232,7 +232,6 @@ window.addEventListener('load', function() {
                                     boite_alert.style.display = "block";
                                     fermer_boite.addEventListener('click', function(e) {
                                         window.location = BaseURL + "index.php?requete=accueil";
-                                        //location.reload();
                                     });
                                 }
                             }).catch(error => {
@@ -356,7 +355,12 @@ window.addEventListener('load', function() {
                 fermer_boite = document.getElementById('close_center');
             boite_alert.style.display === "none";
 
-            var row = event.target.parentElement.parentElement.parentElement;
+            if(event.target.tagName == "BUTTON") {
+                var row = event.target.parentElement.parentElement;
+            } else {
+                var row = event.target.parentElement.parentElement.parentElement;
+            }
+
             let valeurNomCellier = row.getElementsByClassName('nomCellier')[0].innerHTML;
 
             row.getElementsByClassName('nomCellier')[0].innerHTML = '';
@@ -418,12 +422,9 @@ window.addEventListener('load', function() {
         let supprimerBtnCellier = document.getElementById("confirmerSuppCellier");
         boite_alert.style.display === "none";
         item.addEventListener('click', event => {
-            console.log('"' + boite_alert.style.display + '"');
             if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
-                console.log('Entro al fin');
                 boite_alert.style.display = "block";
                 fermer_boite.addEventListener('click', function(e) {
-                    console.log('Cerrar');
                     location.reload();
                 });
                 if (annulerSuppressionCellier) {
@@ -437,8 +438,13 @@ window.addEventListener('load', function() {
                         children_confirm_suppression[0].style.display = "none";
                         supprimerBtnCellier.style.display = "none";
                         annulerSuppressionCellier.style.display = "none";
-                        var row = event.target.parentElement.parentElement.parentElement;
-                        console.log(row);
+
+                        if(event.target.tagName == "BUTTON") {
+                            var row = event.target.parentElement.parentElement;
+                        } else {
+                            var row = event.target.parentElement.parentElement.parentElement;
+                        }
+                        
                         var param = {
                             "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
                         };
@@ -571,7 +577,7 @@ window.addEventListener('load', function() {
                             id_bouteille: event.target.parentElement.dataset.id_bouteille,
                             id_cellier: event.target.parentElement.dataset.id_cellier
                         };
-                        // console.log(param);
+                        
                         let requete = new Request(URLSansR + "index.php?requete=retirerBouteille", { method: 'POST', body: JSON.stringify(param) });
                         fetch(requete)
                             .then(response => {
