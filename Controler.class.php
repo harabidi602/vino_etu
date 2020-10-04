@@ -397,7 +397,7 @@ class Controler
 				$type = 1;
 			} else $type = 2;
 
-			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel']='', $_POST['telephone']='');
+			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp']);
 			$erreurs = $oUtilisateur->erreurs;
 
 			if (count($erreurs) === 0) {
@@ -411,7 +411,7 @@ class Controler
 					unset($_POST);
 				} elseif ($tiden != $iden) {
 
-					$admin->sqlAjouterAdmin($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, $oUtilisateur->courriel, $oUtilisateur->telephone, $type);
+					$admin->sqlAjouterAdmin($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, $type);
 					$message = "L'utilisateur bien ajouté";
 					unset($_POST);
 				} else {
