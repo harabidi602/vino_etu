@@ -642,57 +642,6 @@ window.addEventListener('load', function() {
             console.log(id_util);
         });
     });
-    //Ajout d'un nouveau usager
-    /*let creerUsager = document.getElementById('creerUsager'),
-        nom = document.querySelector("[name='nom']"),
-        prenom = document.querySelector("[name='prenom']"),
-        identifiant = document.querySelector("[name='identifiant']"),
-        mdp = document.querySelector("[name='mdp']");
-    if (creerUsager) {
-        creerUsager.addEventListener('click', function(e) {
-            let boite_alert = document.getElementById("center_container"),
-                fermer_boite = document.getElementById('close_center');
-            boite_alert.style.display === "none";
-
-
-            var param = {
-                "nom": nom.value,
-                "prenom": prenom.value,
-                "identifiant": identifiant.value,
-                "mdp": mdp.value
-            };
-            let requete = new Request(URLSansR + "index.php?requete=nouveauAdminUtilisateur", { method: 'POST', body: JSON.stringify(param) });
-
-            if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
-                boite_alert.style.display = "block";
-
-                fetch(requete)
-                    .then(response => {
-                        let p = document.createElement('p');
-                        if (response.status === 200) {
-                            boite_alert.style.display = "block";
-                             p.innerHTML += "ajout";
-                             confirm_suppression.appendChild(p); 
-                            fermer_boite.addEventListener('click', function(e) {
-                                //window.location = BaseURL + "index.php?requete=accueil";
-                                location.reload();
-                            });
-                        } else {
-                            p.innerHTML += "echec";
-                            fermer_boite.addEventListener('click', function(e) {
-                                location.reload();
-                            });
-                        }
-                    })
-                    .then(response => {
-                        console.log(response);
-                    }).catch(error => {
-                        console.error(error);
-                    });
-            }
-
-        });
-    }*/
     //menu de navigation
     let mainNav = document.getElementById('js-menu');
     let navBarToggle = document.getElementById('js-navbar-toggle');
