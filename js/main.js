@@ -648,8 +648,6 @@ window.addEventListener('load', function() {
             console.log(id_util);
         });
     });
-
-
     //menu de navigation
     let mainNav = document.getElementById('js-menu');
     let navBarToggle = document.getElementById('js-navbar-toggle');

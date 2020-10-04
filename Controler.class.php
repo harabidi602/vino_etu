@@ -118,6 +118,10 @@ class Controler
 				$body = json_decode(file_get_contents('php://input'));
 				$this->supprimerUtilisateur($body->id_util);
 				break;
+			case 'getNombreNouveauUsagers':
+				 $this->isAuth();
+				 $this->getNombreNouveauUsagers();
+			break;
 			default:
 				$this->authentification();
 				break;
@@ -240,6 +244,8 @@ class Controler
 		if (isset($_POST['envoi'])) {
 			$identifiant = trim($_POST['identifiant']);
 			$mot_de_passe = trim($_POST['mdp']); 
+			$bte = new Bouteille();
+			
 			if (!empty($auth->sqlIdentificationUtilisateur($identifiant, $mot_de_passe))) {
 				$rows=$auth->sqlVinoUtilisateur($identifiant);
 				$type=$rows['id_type'];  
@@ -251,13 +257,16 @@ class Controler
 				$_SESSION['utilisateur_type'] = $type; 
                 $_SESSION['utilisateur_nom'] = $nom;
 				$_SESSION['utilisateur_prenom'] = $prenom; 
-            
+				$celliers = $bte->lireCelliers($id);
 				if ($type == 1){
 					$this->accueil($id);
 					exit;    
 				} 
-				elseif ($type == 2){
+				elseif (empty($celliers)){
 					$this->ajouterNouvelleBouteilleCellier($id);
+					exit;
+				}elseif( $type == 2 && !empty($celliers)){
+					$this->accueil($id);
 					exit;
 				}
 			} else {
@@ -287,7 +296,7 @@ class Controler
 				$tiden = $rows['identifiant'];
 
 				if ($tiden == $iden) {
-					$message = "L'utilisateur avec cet identifiant déjà existe dans le système";
+					$message = "identifiant existe dans le système";
 					unset($_POST);
 				} elseif ($tiden != $iden) {
 
@@ -363,7 +372,103 @@ class Controler
 		include("vues/reinitialiserMdp.php");
 		include("vues/pied.php");
 	}
+	// La fonction redirige l'utilisateur vers la page gestion d'administration    
+	private function admin()
+	{
+		$admin = new Admin();
+		$data = $admin->getListeUtilisateurs();
+		$data = json_encode($data);
 
+		include("vues/entete.php");
+		include("vues/admin.php");
+		include("vues/pied.php");
+	}
+
+	
+	// La fonction ajoute un utilisateur
+	private function nouveauAdminUtilisateur()
+	{
+		$admin = new Admin();
+		$util =  new Authentication();
+
+		if (count($_POST) !== 0) {
+			if ($_POST['type'] == 'administrateur') {
+
+				$type = 1;
+			} else $type = 2;
+
+			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp']);
+			$erreurs = $oUtilisateur->erreurs;
+
+			if (count($erreurs) === 0) {
+
+				$iden = trim($_POST['identifiant']);
+				$rows = $util->sqlVinoUtilisateur($iden);
+				$tiden = $rows['identifiant'];
+
+				if ($tiden == $iden) {
+					$message = "L'utilisateur avec cet identifiant déjà existe dans le système";
+					unset($_POST);
+				} elseif ($tiden != $iden) {
+
+					$admin->sqlAjouterAdmin($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, $type);
+					$message = "L'utilisateur bien ajouté";
+					unset($_POST);
+				} else {
+					$message = "L'utilisateur n'est pas ajouté";
+					unset($_POST);
+				}
+			}
+		} else {
+			$erreurs = [];
+			$oUtilisateur = new Utilisateur;
+		}
+
+		include("vues/entete.php");
+		include("vues/adminUtilisateur.php");
+		include("vues/pied.php");
+	}
+	// La fonction modifie un utilisateur
+	private function modificationUtilisateur($id)
+	{
+		$admin = new Admin();
+
+		if (count($_POST) !== 0) {
+
+			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel'], $_POST['telephone']);
+			$erreurs = $oUtilisateur->erreurs;
+
+			if (count($erreurs) === 0) {
+
+				$type = trim($_POST['id_type']);
+
+				$admin->sqlModificationUtilisateur($id, $oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, $oUtilisateur->courriel, $oUtilisateur->telephone, $type);
+				$message = "L'utilisateur bien modifié";
+				unset($_POST);
+			} else {
+				$message = "L'utilisateur n'est pas modifié";
+				unset($_POST);
+			}
+		} else {
+			$erreurs = [];
+			$oUtilisateur = new Utilisateur;
+		}
+
+		include("vues/entete.php");
+		include("vues/pied.php");
+	}
+	//Fonction pour supprimer un cellier
+	private function supprimerUtilisateur($id_util)
+	{
+		$admin = new Admin();
+
+		if ($id_util != $_SESSION['utilisateur_id']) {
+			$data = $admin->supprimerUtilisateur($id_util);
+			if (!$data) {
+				http_response_code(417);
+			}
+		}
+	}
 	//Fonction pour récupérer la liste des celliers 
     private function getListeCelliers($id_utilisateur) {
 		$bte = new Bouteille();
@@ -409,94 +514,7 @@ class Controler
 			http_response_code(417);
 		}
 	}
-
-
-	// La fonction redirige l'utilisateur vers la page gestion d'administration    
-	private function admin()
-	{
-		$admin = new Admin();
-		$data = $admin->getListeUtilisateurs();
-		$data = json_encode($data);
-
-		include("vues/entete.php");
-		include("vues/admin.php");
-		include("vues/pied.php");
-	}
-
-	// La fonction ajoute un utilisateur
-	private function nouveauAdminUtilisateur()
-	{
-		$admin = new Admin();
-		$util =  new Authentication();
-
-		if (count($_POST) !== 0) {
-
-			if ($_POST['type'] == 'administrateur') {
-
-				$type = 1;
-			} else $type = 2;
-
-			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel']='', $_POST['telephone']='');
-			$erreurs = $oUtilisateur->erreurs;
-
-			if (count($erreurs) === 0) {
-
-				$iden = trim($_POST['identifiant']);
-				$rows = $util->sqlVinoUtilisateur($iden);
-				$tiden = $rows['identifiant'];
-
-				if ($tiden == $iden) {
-					$message = "L'utilisateur avec cet identifiant déjà existe dans le système";
-					unset($_POST);
-				} elseif ($tiden != $iden) {
-
-					$admin->sqlAjouterAdmin($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, $oUtilisateur->courriel, $oUtilisateur->telephone, $type);
-					$message = "L'utilisateur bien ajouté";
-					unset($_POST);
-				} else {
-					$message = "L'utilisateur n'est pas ajouté";
-					unset($_POST);
-				}
-			}
-		} else {
-			$erreurs = [];
-			$oUtilisateur = new Utilisateur;
-		}
-
-		include("vues/entete.php");
-		include("vues/adminUtilisateur.php");
-		include("vues/pied.php");
-	}
-
-	// La fonction modifie un utilisateur
-	private function modificationUtilisateur($id)
-	{
-		$admin = new Admin();
-
-		if (count($_POST) !== 0) {
-
-			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel'], $_POST['telephone']);
-			$erreurs = $oUtilisateur->erreurs;
-
-			if (count($erreurs) === 0) {
-
-				$type = trim($_POST['id_type']);
-
-				$admin->sqlModificationUtilisateur($id, $oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, $oUtilisateur->courriel, $oUtilisateur->telephone, $type);
-				$message = "L'utilisateur bien modifié";
-				unset($_POST);
-			} else {
-				$message = "L'utilisateur n'est pas modifié";
-				unset($_POST);
-			}
-		} else {
-			$erreurs = [];
-			$oUtilisateur = new Utilisateur;
-		}
-
-		include("vues/entete.php");
-		include("vues/pied.php");
-	}
+	//infos bouteille par id bouteille et id cellier
 	private function getInfosBouteille($id_bouteille, $id_cellier)
 	{
 		$bte = new Bouteille();
@@ -513,7 +531,7 @@ class Controler
 			include("vues/pied.php");
 		}
 	}
-
+	//modification d une bouteille
 	private function modifierBouteilleInfos($id_bouteille, $id_cellier, $date_achat, $garde_jusqua, $notes, $prix, $quantite, $millesime)
 	{
 		//checker si l'utilisateur à le droit de modifier
@@ -523,6 +541,7 @@ class Controler
 
 		return $data;
 	}
+	//supprimer une bouteille d un cellier
 	private function retirerBouteille($id_bouteille,$id_cellier){
 		//checker si l'utilisateur à le droit de modifier
 		$bte = new Bouteille();
@@ -532,16 +551,17 @@ class Controler
 		}
 	}
 	
-	//Fonction pour supprimer un cellier
-	private function supprimerUtilisateur($id_util)
-	{
-		$admin = new Admin();
+	//statistiques des usagers
+	// fonction qui renvoie le nombre de nouveaux usagers
+	private function getNombreNouveauUsagers(){
+		
 
-		if ($id_util != $_SESSION['utilisateur_id']) {
-			$data = $admin->supprimerUtilisateur($id_util);
-			if (!$data) {
-				http_response_code(417);
-			}
-		}
+		$admin = new Admin();
+		$data = $admin->getNombreNouveauUsagers();
+		$data = json_encode($data);
+
+		include("vues/entete.php");
+		include("vues/statistiques_utilisateurs.php");
+		include("vues/pied.php");
 	}
 }
