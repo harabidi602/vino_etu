@@ -46,9 +46,9 @@ class Controler
 				$this->consulterQuantiteBouteilleCellier($_GET['id_bouteille'], $_GET['id_cellier']);
 				break;
 			case 'accueil':
-                $this->isAuth();
+				$this->isAuth();
 				$this->accueil($_SESSION['utilisateur_id']);
-				break;	
+				break;
 			case 'nouveauUtilisateur':
 				$this->nouveauUtilisateur();
 				break;
@@ -99,10 +99,14 @@ class Controler
 				$this->isAuth();
 				$this->nouveauAdminUtilisateur();
 				break;
+			case 'pageModificationUtilisateur':
+				$this->isAuth();
+				$this->getInfosUtilisateur($_GET['id']);
+				break;
 			case 'modificationUtilisateur':
 				$this->isAuth();
 				$body = json_decode(file_get_contents('php://input'));
-				$this->modificationUtilisateur($body->id);
+				$this->modificationUtilisateur($body->id, $body->nom, $body->prenom, $body->identifiant, $body->activation, $body->id_type);
 				break;
 			case 'admin':
 				$this->isAuth();
@@ -119,53 +123,42 @@ class Controler
 		}
 	}
 
-	private function accueil($id_utilisateur){
+	private function accueil($id_utilisateur)
+	{
 		$bte = new Bouteille();
-		
-		if(empty($_GET['idCellier']) && empty($_GET['paysOption'])  && empty($_GET['typeOption'])){ //tous les param sont vide
-            if($_SESSION['utilisateur_type'] == 2) {
-                $data = $bte->getListeBouteilleCellier($_GET['idCellier']='', $_GET['paysOption']='',$_GET['typeOption']='', $id_utilisateur);
-            } else {
+
+		if (empty($_GET['idCellier']) && empty($_GET['paysOption'])  && empty($_GET['typeOption'])) { //tous les param sont vide
+			if ($_SESSION['utilisateur_type'] == 2) {
+				$data = $bte->getListeBouteilleCellier($_GET['idCellier'] = '', $_GET['paysOption'] = '', $_GET['typeOption'] = '', $id_utilisateur);
+			} else {
 				$data = $bte->getListeBouteilleCellier();
-            }
-        }elseif(empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])){ //pays+type
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption'],$_GET['typeOption']);
-			
-		}elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])){//pays+cellier
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption'],$_GET['typeOption']='');
-			
-		}elseif(!empty($_GET['idCellier']) && empty($_GET['paysOption']) && empty($_GET['typeOption'])){//cellier
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']='',$_GET['typeOption']='');
+			}
+		} elseif (empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])) { //pays+type
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'] = '', $_GET['paysOption'], $_GET['typeOption']);
+		} elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])) { //pays+cellier
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'], $_GET['typeOption'] = '');
+		} elseif (!empty($_GET['idCellier']) && empty($_GET['paysOption']) && empty($_GET['typeOption'])) { //cellier
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'] = '', $_GET['typeOption'] = '');
+		} elseif (empty($_GET['idCellier']) && empty($_GET['paysOption']) && !empty($_GET['typeOption'])) { //type
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'] = '', $_GET['paysOption'] = '', $_GET['typeOption']);
+		} elseif (empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])) { //pays
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'] = '', $_GET['paysOption'], $_GET['typeOption'] = '');
+		} elseif (!empty($_GET['idCellier']) && empty($_GET['paysOption']) && !empty($_GET['typeOption'])) { //cellier+type
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'] = '', $_GET['typeOption']);
+		} elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])) { //pays+cellier+type
 
-		}elseif (empty($_GET['idCellier']) && empty($_GET['paysOption']) && !empty($_GET['typeOption'])){//type
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption']='',$_GET['typeOption']);
-			
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'], $_GET['typeOption']);
 		}
-		elseif (empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])){//pays
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption'],$_GET['typeOption']='');
-			
-		}
-		elseif (!empty($_GET['idCellier']) && empty($_GET['paysOption']) && !empty($_GET['typeOption'])){//cellier+type
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']='',$_GET['typeOption']);
-			
-		}
-		elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])){//pays+cellier+type
-
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption'],$_GET['typeOption']);
-			
-		}
-		if($_SESSION['utilisateur_type']==1){
-			$listeCelliers = $bte->lireCelliers($_SESSION['utilisateur_id']=NULL);
+		if ($_SESSION['utilisateur_type'] == 1) {
+			$listeCelliers = $bte->lireCelliers($_SESSION['utilisateur_id'] = NULL);
 			$dataCellier = json_encode($listeCelliers);
-		}elseif($_SESSION['utilisateur_type']==2){
+		} elseif ($_SESSION['utilisateur_type'] == 2) {
 			$listeCelliers = $bte->lireCelliers($_SESSION['utilisateur_id']);
 			$dataCellier = json_encode($listeCelliers);
-		
 		}
 		include("vues/entete.php");
 		include("vues/cellier.php");
 		include("vues/pied.php");
-		
 	}
 
 
@@ -228,25 +221,25 @@ class Controler
 		$resultat = $bte->getQuantiteById($id_bouteille, $id_cellier);
 		echo json_encode($resultat);
 	}
-    
-    // La fonction contrôle l'authentification 
-	private function authentification() {
+
+	// La fonction contrôle l'authentification 
+	private function authentification()
+	{
 		$auth = new Authentication();
-		
+
 		if (isset($_POST['envoi'])) {
 			$identifiant = trim($_POST['identifiant']);
-			$mot_de_passe = trim($_POST['mdp']); 
+			$mot_de_passe = trim($_POST['mdp']);
 			if (!empty($auth->sqlIdentificationUtilisateur($identifiant, $mot_de_passe))) {
-				$rows=$auth->sqlVinoUtilisateur($identifiant);
-				$type=$rows['id_type'];  
+				$rows = $auth->sqlVinoUtilisateur($identifiant);
+				$type = $rows['id_type'];
 				$_SESSION['utilisateur_identifiant'] = $identifiant;
-				$_SESSION['utilisateur_id'] = $rows['id']; 
-				$_SESSION['utilisateur_type'] = $type; 
-				if ($type == 1){
+				$_SESSION['utilisateur_id'] = $rows['id'];
+				$_SESSION['utilisateur_type'] = $type;
+				if ($type == 1) {
 					$this->accueil($_SESSION['utilisateur_id']);
-					exit;    
-				} 
-				elseif ($type == 2){
+					exit;
+				} elseif ($type == 2) {
 					$this->ajouterNouvelleBouteilleCellier($_SESSION['utilisateur_id']);
 					exit;
 				}
@@ -267,7 +260,7 @@ class Controler
 
 		if (count($_POST) !== 0) {
 
-			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel'], $_POST['telephone']);
+			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp']);
 			$erreurs = $oUtilisateur->erreurs;
 
 			if (count($erreurs) === 0) {
@@ -281,7 +274,7 @@ class Controler
 					unset($_POST);
 				} elseif ($tiden != $iden) {
 
-					$auth->sqlAjouterUtilisateur($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, $oUtilisateur->courriel, $oUtilisateur->telephone, 2);
+					$auth->sqlAjouterUtilisateur($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, 1, 2);
 					$message = "Utilisateur ajouté";
 					unset($_POST);
 				} else {
@@ -355,18 +348,19 @@ class Controler
 	}
 
 	//Fonction pour récupérer la liste des celliers 
-    private function getListeCelliers($id_utilisateur) {
+	private function getListeCelliers($id_utilisateur)
+	{
 		$bte = new Bouteille();
 		$data = $bte->lireCelliers($id_utilisateur);
 		$data = json_encode($data);
-		if ($_SESSION['utilisateur_type'] == 1){
+		if ($_SESSION['utilisateur_type'] == 1) {
 			$this->accueil($id_utilisateur);
-			exit;    
-		} else{
+			exit;
+		} else {
 			$data = $bte->lireCelliers($id_utilisateur);
 			$data = json_encode($data);
 		}
-		
+
 		include("vues/entete.php");
 		include("vues/ajouter_cellier.php");
 		include("vues/pied.php");
@@ -375,7 +369,7 @@ class Controler
 		}*/
 	}
 
-//$resultat = $bte->lireCelliers($_GET['id_utilisateur']);
+	//$resultat = $bte->lireCelliers($_GET['id_utilisateur']);
 	//Fonction pour ajouter un nouveau cellier 
 	private function ajouterNouveauCellier($id_utilisateur, $nom_cellier)
 	{
@@ -428,7 +422,7 @@ class Controler
 				$type = 1;
 			} else $type = 2;
 
-			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel'], $_POST['telephone']);
+			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp']);
 			$erreurs = $oUtilisateur->erreurs;
 
 			if (count($erreurs) === 0) {
@@ -441,8 +435,7 @@ class Controler
 					$message = "L'utilisateur avec cet identifiant déjà existe dans le système";
 					unset($_POST);
 				} elseif ($tiden != $iden) {
-
-					$admin->sqlAjouterAdmin($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, $oUtilisateur->courriel, $oUtilisateur->telephone, $type);
+					$admin->sqlAjouterAdmin($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, 1, $type);
 					$message = "L'utilisateur bien ajouté";
 					unset($_POST);
 				} else {
@@ -460,14 +453,29 @@ class Controler
 		include("vues/pied.php");
 	}
 
-	// La fonction modifie un utilisateur
-	private function modificationUtilisateur($id)
+	// Récupération des informations à changer
+	private function getInfosUtilisateur($id_util)
 	{
 		$admin = new Admin();
+		$data = $admin->getUtilisateurById($id_util);
+		$data = json_encode($data);
 
+		include("vues/entete.php");
+		include("vues/modifier_utilisateur.php");
+		include("vues/pied.php");
+	}
+
+	// La fonction modifie un utilisateur
+	private function modificationUtilisateur($id, $nom, $prenom, $identifiant, $activation, $id_type)
+	{
+		$admin = new Admin();
+		$data = $admin->sqlModificationUtilisateur($id, $nom, $prenom, $identifiant, $activation, $id_type);
+
+		return $data;
+		/*
 		if (count($_POST) !== 0) {
 
-			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel'], $_POST['telephone']);
+			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant']);
 			$erreurs = $oUtilisateur->erreurs;
 
 			if (count($erreurs) === 0) {
@@ -485,7 +493,7 @@ class Controler
 			$erreurs = [];
 			$oUtilisateur = new Utilisateur;
 		}
-
+*/
 		include("vues/entete.php");
 		include("vues/pied.php");
 	}
@@ -498,7 +506,7 @@ class Controler
 			$resultat = $bte->lireBouteille($id_bouteille, $id_cellier);
 			echo json_encode($resultat);
 		} else {
-			$data = $bte->lireBouteille($id_bouteille,$id_cellier);
+			$data = $bte->lireBouteille($id_bouteille, $id_cellier);
 			//$tousCelliers = $bte->lireCelliers();
 			//$dataCellier = json_encode($tousCelliers);
 			include("vues/entete.php");
