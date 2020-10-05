@@ -39,7 +39,7 @@
 					<?php }?>
 					<?php if ($_SESSION['utilisateur_type'] == 1){ ?>
 						<li class="menu-item">
-							<a href="index.php?requete=getNombreNouveauUsagers">Statistiques</a></li>
+							<a href="index.php?requete=getStatistiques">Statistiques</a></li>
 						</li>
 					<?php }?>
 					<li class="menu-item">
