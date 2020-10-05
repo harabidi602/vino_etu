@@ -925,3 +925,9 @@ footer p {
 .success-msg {
     background-color: #DFF2BF;
 }
+
+
+/*Statistiques*/
+.filtreBouteilles {
+    text-align: left;
+}

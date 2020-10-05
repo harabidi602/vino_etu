@@ -122,6 +122,10 @@ class Controler
 				 $this->isAuth();
 				 $this->getNombreNouveauUsagers();
 			break;
+			case 'getNombreBouteilles':
+				$this->isAuth();
+				$this->getNombreBouteilles();
+		   	break;
 			default:
 				$this->authentification();
 				break;
@@ -218,6 +222,7 @@ class Controler
 
 		$bte = new Bouteille();
 		$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, -1, $body->id_cellier);
+		$bte->aditionerStatsBouteille($body->id_bouteille, 1, 1);
 		echo json_encode($resultat);
 	}
 
@@ -227,6 +232,7 @@ class Controler
 
 		$bte = new Bouteille();
 		$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, 1, $body->id_cellier);
+		$bte->aditionerStatsBouteille($body->id_bouteille, 1, 2);
 		echo json_encode($resultat);
 	}
 
@@ -562,6 +568,18 @@ class Controler
 
 		include("vues/entete.php");
 		include("vues/statistiques_utilisateurs.php");
+		include("vues/pied.php");
+	}
+
+	//statistiques des bouteilles prises et ajoutées
+	// fonction qui renvoie le nombre de bouteilles prises et ajoutées
+	private function getNombreBouteilles(){
+		$bte = new Bouteille();
+		$dataBouteilles = $bte->getNombreBouteilles();
+		$dataBouteilles = json_encode($dataBouteilles);
+
+		include("vues/entete.php");
+		include("vues/statistiques_bouteilles.php");
 		include("vues/pied.php");
 	}
 }
