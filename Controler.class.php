@@ -122,6 +122,10 @@ class Controler
 				 $this->isAuth();
 				 $this->getNombreNouveauUsagers();
 			break;
+            case 'getStatistiques':
+				 $this->isAuth();
+				 $this->getStatistiques();
+			break;        
 			default:
 				$this->authentification();
 				break;
@@ -562,6 +566,26 @@ class Controler
 
 		include("vues/entete.php");
 		include("vues/statistiques_utilisateurs.php");
+		include("vues/pied.php");
+	}
+    
+    
+    //Statistiques des nombre d'usager, nombre de cellier,  nombre de cellier par usager,  nombre de bouteille par cellier et par usager
+	private function getStatistiques(){
+		
+
+		$stat = new Statistiques();
+        
+        $nbUsager=$stat->sqlNombreUsager();  
+        $nbCellier=$stat->sqlNombreCellier();
+        $celUsager=$stat->sqlNombreCellierParUsager();
+        $btlCellier=$stat->sqlNombreBouteilleParCellier();
+        $btlUsager=$stat->sqlNombreBouteilleParUsager();
+    
+        // var_dump($btlUsager);
+		
+        include("vues/entete.php");
+		include("vues/statistiques.php");
 		include("vues/pied.php");
 	}
 }
