@@ -593,12 +593,4 @@ class Controler
 		include("vues/statistiques.php");
 		include("vues/pied.php");
 	}
-
-	//statistiques des bouteilles prises et ajoutées
-	// fonction qui renvoie le nombre de bouteilles prises et ajoutées
-	// private function getNombreBouteilles($intervalle){
-		
-	// 	include("vues/entete.php");
-	// 	include("vues/statistiques_bouteilles.php");
-	// }	
 }
