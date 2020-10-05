@@ -247,29 +247,15 @@ header {
     width: 100%;
 }
 
-<<<<<<< HEAD
-
-/********************************************/
-=======
 
 /********************************************/
 
->>>>>>> b52eed44b54be499c9947f178e964df00f442094
 
 /* AJOUTER UNE BOUTEILLE à UN CELLIER*/
 
-<<<<<<< HEAD
-/* AJOUTER UNE BOUTEILLE à UN CELLIER*/
-=======
->>>>>>> b52eed44b54be499c9947f178e964df00f442094
 
 /*------------------------------------------*/
 
-<<<<<<< HEAD
-/*------------------------------------------*/
-
-=======
->>>>>>> b52eed44b54be499c9947f178e964df00f442094
 .ajoutBouteille {
     display: inline-block;
     padding: 10px;
@@ -277,7 +263,6 @@ header {
     justify-content: left;
     flex: 1 1 100px;
     text-align: center;
-<<<<<<< HEAD
 }
 
 .ajoutBouteille p {
@@ -296,26 +281,6 @@ header {
     width: 183px;
 }
 
-=======
-}
-
-.ajoutBouteille p {
-    margin: 0px;
-    padding: 4px;
-    display: flex;
-    justify-content: space-between;
-    width: 60%;
-}
-
-.ajoutBouteille input {
-    width: 183px;
-}
-
-.ajoutBouteille p select {
-    width: 183px;
-}
-
->>>>>>> b52eed44b54be499c9947f178e964df00f442094
 .ajoutBouteille span {
     text-align: left;
 }
@@ -672,8 +637,6 @@ footer p {
     .ajoutBouteille {
         flex: 1;
     }
-<<<<<<< HEAD
-=======
 }
 
 
@@ -714,5 +677,4 @@ footer p {
     background-color: black;
     border-radius: 20px;
     cursor: pointer;
->>>>>>> b52eed44b54be499c9947f178e964df00f442094
 }
