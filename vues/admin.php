@@ -20,26 +20,24 @@
             <tr>
                 <th>Nom</th>
                 <th>Prénom</th>
-                <th>Identifiant</th>
-                <th>Courriel</th>
-                <th>Téléphone</th>
-                <th>Type</th>
+                <th>Identifiant <i>(Unique)</i></th>
+                <th>Type du compte</th>
+                <th>Activation <i>(1:actif, 0:inactif)</i></th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($arr as $item) :  ?>
                 <tr>
-                    <td data-column="NomUti"><span><?php echo $item['nom']; ?></span></td>
-                    <td data-column="PrenomUti"><span><?php echo $item['prenom']; ?></span></td>
-                    <td data-column="identifiantUti"><span><?php echo $item['identifiant']; ?></span></td>
-                    <td data-column="courrielUti"><span><?php echo $item['courriel']; ?></span></td>
-                    <td data-column="teleUti"><span><?php echo $item['telephone']; ?></span></td>
-                    <td data-column="typeUti"><span><?php echo $item['type']; ?></span></td>
+                    <td data-column="NomUti"><?php echo $item['nom']; ?></td>
+                    <td data-column="PrenomUti"><?php echo $item['prenom']; ?></td>
+                    <td data-column="identifiantUti"><?php echo $item['identifiant']; ?></td>
+                    <td data-column="typeUti"><?php echo $item['type']; ?></td>
+                    <td data-column="activationUti"><?php echo $item['activation']; ?></td>
+                    <td data-column="idUtil" style="display:none;"><?php echo $item['id']; ?></td>
                     <td data-column="Actions">
-                      <!--  <button class="btn"><i class="fa fa-wrench" aria-hidden="true" name="modifierUtil"></i></button>-->
+                        <button class="btn"><i class="fa fa-pencil-alt" aria-hidden="true" name="modifierUtil"></i></button>
                         <button class="btn"><i class="fa fa-trash" aria-hidden="true" name="supprimerUtil"></i></button>
-                        <input type="hidden" class="nomCellier" value="<?php echo $item['id']; ?>">
                     </td>
                 </tr>
             <?php endforeach; ?>
