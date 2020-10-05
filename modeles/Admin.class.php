@@ -35,7 +35,7 @@ class Admin extends Modele
     // La fonction récupérer la liste des utilisateurs
     public function getListeUtilisateurs()
     {
-        $requete = "SELECT v_c.id, nom, prenom, identifiant, v_c.activation, v_u_t.type FROM vino__utilisateur v_c JOIN vino__utilisateur_type v_u_t WHERE v_c.id_type = v_u_t.id";
+        $requete = "SELECT v_c.id, nom, prenom, identifiant, v_c.activation, v_u_t.type FROM vino__utilisateur v_c JOIN vino__utilisateur_type v_u_t ON v_c.id_type = v_u_t.id WHERE v_c.id_type != 3";
 
         $res = $this->_db->query($requete);
         if ($res->num_rows) {

@@ -37,7 +37,6 @@
                     <td data-column="idUtil" style="display:none;"><?php echo $item['id']; ?></td>
                     <td data-column="Actions">
                         <button class="btn"><i class="fa fa-pencil-alt" aria-hidden="true" name="modifierUtil"></i></button>
-                        <button class="btn"><i class="fa fa-trash" aria-hidden="true" name="supprimerUtil"></i></button>
                     </td>
                 </tr>
             <?php endforeach; ?>

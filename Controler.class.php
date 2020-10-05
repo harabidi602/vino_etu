@@ -149,7 +149,7 @@ class Controler
 
 			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'], $_GET['typeOption']);
 		}
-		if ($_SESSION['utilisateur_type'] == 1) {
+		if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) {
 			$listeCelliers = $bte->lireCelliers($_SESSION['utilisateur_id'] = NULL);
 			$dataCellier = json_encode($listeCelliers);
 		} elseif ($_SESSION['utilisateur_type'] == 2) {
@@ -233,15 +233,20 @@ class Controler
 			if (!empty($auth->sqlIdentificationUtilisateur($identifiant, $mot_de_passe))) {
 				$rows = $auth->sqlVinoUtilisateur($identifiant);
 				$type = $rows['id_type'];
+				$activation = $rows['activation'];
 				$_SESSION['utilisateur_identifiant'] = $identifiant;
 				$_SESSION['utilisateur_id'] = $rows['id'];
 				$_SESSION['utilisateur_type'] = $type;
-				if ($type == 1) {
-					$this->accueil($_SESSION['utilisateur_id']);
-					exit;
-				} elseif ($type == 2) {
-					$this->ajouterNouvelleBouteilleCellier($_SESSION['utilisateur_id']);
-					exit;
+				if ($activation == 1) {
+					if ($type == 1 || $type == 3) {
+						$this->accueil($_SESSION['utilisateur_id']);
+						exit;
+					} elseif ($type == 2) {
+						$this->ajouterNouvelleBouteilleCellier($_SESSION['utilisateur_id']);
+						exit;
+					}
+				} else {
+					$erreur = "Accès bloqué.";
 				}
 			} else {
 				$erreur = "Identifiant ou mot de passe incorrect.";
