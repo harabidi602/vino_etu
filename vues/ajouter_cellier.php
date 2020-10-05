@@ -4,14 +4,14 @@
         <h4>Ajouter un nouveau cellier</h4>
     </div>
     <div class="gestionCellier">
-        <div class="formCellier" >
+        <div class="formCellier">
             <p><input class="inputForm" name="nomCellier" placeholder="Nom du nouveau Cellier"> </p>
             <button type="button" id="buttonAjouterCellier" class="ajouterCellierButton">Ajouter</button>
         </div>
     </div>
-    
+
     <?php
-      $arr = json_decode($data, true);
+    $arr = json_decode($data, true);
     ?>
     <p></p>
     <table>
@@ -24,23 +24,23 @@
             </tr>
         </thead>
         <tbody>
-        <?php foreach ($arr as $cellier) : ?>
-            <tr>
-                <td data-column="Id Cellier" class="idCellier" style="display:none;"><?php echo $cellier['id'] ?></td>
-                <td data-column="Nom Cellier" class="nomCellier"><?php echo $cellier['nom_cellier'] ?></td>
-                <td data-column="Bout Cellier" class="boutCellier"><?php echo $cellier['totalBouteilles'] ?></td>
-                <td data-column="Moyenne Prix" class="boutCellier"><?php echo round($cellier['AvgPrix'], 2) ?></td>
-                <!-- echo number_format((float)$foo, 2, '.', '');  // Outputs -> 105.00 -->
-                <td data-column="Actions">
-                    <button class="btn"><i class="fas fa-pencil-alt" name="modifierButton" title="Après avoir modifié, appuyez sur la touche Entrée pour sauvegarder"></i></button>
-                    <?php
-                    //quand il n'y a qu'un seul cellier, on ne peut pas l'effacer 
-                    if(count($arr) !== 1) { ?>
-                        <button class="btn"><i class="fa fa-trash" aria-hidden="true" name="suprimmerButton" ></i></button>
-                    <?php } ?>
-                </td>
-            </tr>
-         <?php endforeach; ?>
+            <?php foreach ($arr as $cellier) : ?>
+                <tr>
+                    <td data-column="Id Cellier" class="idCellier" style="display:none;"><?php echo $cellier['id'] ?></td>
+                    <td data-column="Nom Cellier" class="nomCellier"><?php echo $cellier['nom_cellier'] ?></td>
+                    <td data-column="Bout Cellier" class="boutCellier"><?php echo $cellier['totalBouteilles'] ?></td>
+                    <td data-column="Moyenne Prix" class="boutCellier"><?php echo round($cellier['AvgPrix'], 2) ?></td>
+                    <!-- echo number_format((float)$foo, 2, '.', '');  // Outputs -> 105.00 -->
+                    <td data-column="Actions">
+                        <button class="btn"><i class="fas fa-pencil-alt" name="modifierButton" title="Après avoir modifié, appuyez sur la touche Entrée pour sauvegarder"></i></button>
+                        <?php
+                        //quand il n'y a qu'un seul cellier, on ne peut pas l'effacer 
+                        if (count($arr) !== 1) { ?>
+                            <button class="btn"><i class="fa fa-trash" aria-hidden="true" name="suprimmerButton"></i></button>
+                        <?php } ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
     </table>
     <div id="center_container">
