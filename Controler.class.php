@@ -563,6 +563,10 @@ class Controler
 		$admin = new Admin();
 		$data = $admin->getNombreNouveauUsagers();
 		$data = json_encode($data);
+		$stat = new Statistiques();
+		$celUsager=$stat->sqlNombreCellierParUsager();
+		$nbUsager=$stat->sqlNombreUsager();
+		$nbCellier=$stat->sqlNombreCellier();
 
 		include("vues/entete.php");
 		include("vues/statistiques_utilisateurs.php");
@@ -575,10 +579,6 @@ class Controler
 		
 
 		$stat = new Statistiques();
-        
-        $nbUsager=$stat->sqlNombreUsager();  
-        $nbCellier=$stat->sqlNombreCellier();
-        $celUsager=$stat->sqlNombreCellierParUsager();
         $btlCellier=$stat->sqlNombreBouteilleParCellier();
         $btlUsager=$stat->sqlNombreBouteilleParUsager();
     
