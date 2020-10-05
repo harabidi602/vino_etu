@@ -279,18 +279,32 @@ class Bouteille extends Modele
 		return $res;
 	}
 
-	public function getNombreBouteilles() {
+	public function getNombreBouteilles($dateFiltre) {
 		$requete = "SELECT date_changement AS dateChang, actions AS actionsBA, count(quantite) AS quantiteBA
-        FROM vino__bouteilles_stats
-		GROUP BY actions ASC";
-		
+		FROM vino__bouteilles_stats";
+
+		if($dateFiltre == 'jour') {
+			$requete.=" WHERE date_changement BETWEEN NOW() - INTERVAL 1 DAY AND NOW() GROUP BY actions ASC";
+		} else if ($dateFiltre == 'semaine') {
+			$requete.=" WHERE date_changement BETWEEN NOW() - INTERVAL 1 WEEK AND NOW() GROUP BY actions ASC";
+		} else if ($dateFiltre == 'mois') {
+			$requete.=" WHERE date_changement BETWEEN NOW() - INTERVAL 1 MONTH AND NOW() GROUP BY actions ASC";
+		} else if($dateFiltre == 'anneee') {
+			$requete.=" WHERE date_changement BETWEEN NOW() - INTERVAL 1 YEAR AND NOW() GROUP BY actions ASC";
+		} else {
+			$requete.=" GROUP BY actions ASC";
+		}
+	
         $res = $this->_db->query($requete);
         if ($res->num_rows) {
             while ($row = $res->fetch_assoc()) {
                 $rows[] = $row;
             }
-        }
-
-        return $rows;
-	}
+		}
+		if(isset($rows)) {
+			return $rows;
+		} else {
+			return []; 
+		}
+    }
 }

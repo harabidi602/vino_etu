@@ -702,4 +702,13 @@ window.addEventListener('load', function() {
           
          });
      });
+
+    //sélectionnez un intervalle de temps pour les bouteilles bus et ajoutées
+    let selectIntervalle = document.querySelectorAll(".intervalleT");
+    selectIntervalle.forEach(function(elem) {
+        
+        elem.addEventListener("change", function(e) {
+            window.location.href = BaseURL + "index.php?requete=getStatistiques&intervalle=" + elem.value; 
+        });
+    });
 });
