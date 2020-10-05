@@ -124,8 +124,8 @@ class Controler
 			break;
             case 'getStatistiques':
 				 $this->isAuth();
-				 $this->getStatistiques();
-			break;        
+				 $this->getStatistiques(isset($_GET['intervalle']) ? $_GET['intervalle'] : '');
+			break;
 			default:
 				$this->authentification();
 				break;
@@ -222,6 +222,7 @@ class Controler
 
 		$bte = new Bouteille();
 		$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, -1, $body->id_cellier);
+		$bte->aditionerStatsBouteille($body->id_bouteille, 1, 1);
 		echo json_encode($resultat);
 	}
 
@@ -231,6 +232,7 @@ class Controler
 
 		$bte = new Bouteille();
 		$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, 1, $body->id_cellier);
+		$bte->aditionerStatsBouteille($body->id_bouteille, 1, 2);
 		echo json_encode($resultat);
 	}
 
@@ -575,15 +577,18 @@ class Controler
     
     
     //Statistiques des nombre d'usager, nombre de cellier,  nombre de cellier par usager,  nombre de bouteille par cellier et par usager
-	private function getStatistiques(){
+	private function getStatistiques($intervalle){
 		
 
 		$stat = new Statistiques();
         $btlCellier=$stat->sqlNombreBouteilleParCellier();
-        $btlUsager=$stat->sqlNombreBouteilleParUsager();
-    
-        // var_dump($btlUsager);
+		$btlUsager=$stat->sqlNombreBouteilleParUsager();
 		
+		$bte = new Bouteille();
+		$dataBouteilles = $bte->getNombreBouteilles($intervalle);
+		$dataBouteilles = json_encode($dataBouteilles);
+
+    
         include("vues/entete.php");
 		include("vues/statistiques.php");
 		include("vues/pied.php");

@@ -655,4 +655,60 @@ window.addEventListener('load', function() {
     navBarToggle.addEventListener('click', function() {
         mainNav.classList.toggle('active');
     });
+
+     //sélection d'action effectuée (boire ou ajouter)
+     let selectAction = document.querySelectorAll('input[name="actionBouteille"]');
+     selectAction.forEach(function(elem) {
+         elem.addEventListener("change", function(e) {
+
+            var item = e.target.value;
+            let tableBouteilles = document.getElementById("tableBouteilles");
+            let trTableB = document.getElementsByClassName("bouteilleBuRow");
+            let trTableA = document.getElementsByClassName("bouteilleAjouteeRow");
+
+            if(item === "bouteilleT") {
+                for (let i = 0; i < trTableA.length; i++) {
+                    const element = trTableA[i];
+                    element.style.display = ""; 
+                }
+
+                for (let i = 0; i < trTableB.length; i++) {
+                    const element = trTableB[i];
+                    element.style.display = ""; 
+                }
+                                   
+            } else if(item === "bouteilleB") {
+                for (let i = 0; i < trTableA.length; i++) {
+                    const element = trTableA[i];
+                    element.style.display = "none"; 
+                }
+
+                for (let i = 0; i < trTableB.length; i++) {
+                    const element = trTableB[i];
+                    element.style.display = ""; 
+                }
+                             
+            } else if(item === "bouteilleA") {
+                for (let i = 0; i < trTableA.length; i++) {
+                    const element = trTableA[i];
+                    element.style.display = ""; 
+                }
+
+                for (let i = 0; i < trTableB.length; i++) {
+                    const element = trTableB[i];
+                    element.style.display = "none"; 
+                }
+            }
+          
+         });
+     });
+
+    //sélectionnez un intervalle de temps pour les bouteilles bus et ajoutées
+    let selectIntervalle = document.querySelectorAll(".intervalleT");
+    selectIntervalle.forEach(function(elem) {
+        
+        elem.addEventListener("change", function(e) {
+            window.location.href = BaseURL + "index.php?requete=getStatistiques&intervalle=" + elem.value; 
+        });
+    });
 });
