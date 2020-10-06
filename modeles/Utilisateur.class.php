@@ -60,7 +60,7 @@ class Utilisateur
     {
         unset($this->erreurs['nom']);
         $nom = trim($nom);
-        $regExp = '/^([a-zA-ZéèêëïôÉ]{2,25})$/';
+        $regExp = '/^([a-zA-ZàâéèêôùûçÀÂÉÈÔÙÛÇ0-9]{2,25})$/';
         if ($nom !== null && preg_match($regExp, $nom)) {
             $this->nom = ucwords(strtolower($nom));
         } else {
@@ -74,7 +74,7 @@ class Utilisateur
     {
         unset($this->erreurs['prenom']);
         $prenom = trim($prenom);
-        $regExp = '/^([a-zA-ZéèêëïôÉ]{2,25})$/';
+        $regExp = '/^([a-zA-ZàâéèêôùûçÀÂÉÈÔÙÛÇ0-9]{2,25})$/';
         if ($prenom !== null && preg_match($regExp, $prenom)) {
             $this->prenom = ucwords(strtolower($prenom));
         } else {

@@ -13,7 +13,7 @@ class Admin extends Modele
     // La fonction ajoute un utilisateur admin/usager
     public function sqlAjouterAdmin($nom, $prenom, $iden, $mdp, $activation, $type)
     {
-        $requete = "INSERT INTO vino__utilisateur (nom, prenom, identifiant, mdp, activation, id_type) VALUES ('$nom', '$prenom','$iden', md5('$mdp'),'$activation','$type')";
+        $requete = "INSERT INTO vino__utilisateur (nom, prenom, identifiant,date_inscription, mdp, activation, id_type) VALUES ('$nom', '$prenom','$iden',NOW(), md5('$mdp'),'$activation', '$type')";
 
         if ($this->_db->query($requete)) {
 
@@ -22,9 +22,9 @@ class Admin extends Modele
     }
 
     // La fonction modifie un utilisateur
-    public function sqlModificationUtilisateur($id, $nom, $prenom, $identifiant, $activation, $id_type)
+    public function sqlModificationUtilisateur($id, $nom, $prenom, $iden, $activation, $id_type)
     {
-        $requete = "UPDATE vino__utilisateur SET nom = '$nom', prenom = '$prenom', identifiant = '$identifiant', activation = '$activation', id_type = '$id_type' WHERE id='$id'";
+        $requete = "UPDATE vino__utilisateur SET nom = '$nom', prenom = '$prenom', identifiant = '$iden', activation = '$activation', id_type = '$id_type' WHERE id='$id'";
 
         if ($this->_db->query($requete)) {
 
@@ -47,25 +47,35 @@ class Admin extends Modele
         return $rows;
     }
 
-    // La fonction pour récupérer un utilisateur par son id
+    // La fonction récupérer la liste des utilisateurs par id
     public function getUtilisateurById($id)
     {
-        $requete = "SELECT v_c.id, nom, prenom, identifiant, activation, v_u_t.type FROM vino__utilisateur v_c JOIN vino__utilisateur_type v_u_t ON v_c.id_type = v_u_t.id WHERE v_c.id = " . $id;
+        $requete = "SELECT * FROM vino__utilisateur WHERE id= " . $id;
 
         $res = $this->_db->query($requete);
-        $row = $res->fetch_assoc();
-
-        return $row;
+        if ($res->num_rows) {
+            while ($row = $res->fetch_assoc()) {
+                $rows[] = $row;
+            }
+        }
+        return $rows;
     }
 
-    //Fontion pour supprimer le cellier
-    public function supprimerUtilisateur($id_utilisateur)
+    //récuperer le nombre de nouvels usagers (par mois)
+    public function getNombreNouveauUsagers()
     {
-        $requete = "DELETE FROM vino__utilisateur WHERE id = " . $id_utilisateur;
+        $requete = "SELECT MONTH(date_inscription) 
+        as MONTH ,YEAR(date_inscription) as year, count(id) as nombreUsers ,date_inscription
+        FROM vino__utilisateur GROUP BY MONTH(date_inscription) ,YEAR(date_inscription) 
+        ORDER BY date_inscription DESC";
 
-        if ($this->_db->query($requete)) {
-
-            return true;
+        $res = $this->_db->query($requete);
+        if ($res->num_rows) {
+            while ($row = $res->fetch_assoc()) {
+                $rows[] = $row;
+            }
         }
+
+        return $rows;
     }
 }
