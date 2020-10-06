@@ -12,11 +12,11 @@
 const BaseURL = document.baseURI;
 //const BaseURL = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
 //console.log(BaseURL);
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     console.log("load");
-    document.querySelectorAll(".btnBoire").forEach(function(element) {
+    document.querySelectorAll(".btnBoire").forEach(function (element) {
         //console.log(element);
-        element.addEventListener("click", function(evt) {
+        element.addEventListener("click", function (evt) {
             let id_bouteille = evt.target.parentElement.dataset.id_bouteille;
             let id_cellier = evt.target.parentElement.dataset.id_cellier;
             let requete = new Request(BaseURL + "index.php?requete=boireBouteilleCellier", { method: 'POST', body: '{"id_bouteille": ' + id_bouteille + ', "id_cellier": ' + id_cellier + ' }' });
@@ -56,9 +56,9 @@ window.addEventListener('load', function() {
 
     });
 
-    document.querySelectorAll(".btnAjouter").forEach(function(element) {
+    document.querySelectorAll(".btnAjouter").forEach(function (element) {
         //console.log(element);
-        element.addEventListener("click", function(evt) {
+        element.addEventListener("click", function (evt) {
             let id_bouteille = evt.target.parentElement.dataset.id_bouteille;
             let id_cellier = evt.target.parentElement.dataset.id_cellier;
             let requete = new Request(BaseURL + "index.php?requete=ajouterBouteilleCellier", { method: 'POST', body: '{"id_bouteille": ' + id_bouteille + ', "id_cellier": ' + id_cellier + ' }' });
@@ -101,7 +101,7 @@ window.addEventListener('load', function() {
     let liste = document.querySelector('.listeAutoComplete');
 
     if (inputNomBouteille) {
-        inputNomBouteille.addEventListener("keyup", function(evt) {
+        inputNomBouteille.addEventListener("keyup", function (evt) {
             console.log(evt);
             let nom = inputNomBouteille.value;
             liste.innerHTML = "";
@@ -116,8 +116,9 @@ window.addEventListener('load', function() {
                         }
                     })
                     .then(response => {
-                        console.log(response);
-                        response.forEach(function(element) {
+                        //console.log(response);
+                        response.forEach(function (element) {
+
                             liste.innerHTML += "<li data-id='" + element.id + "'>" + element.nom + "</li>";
                         })
                     }).catch(error => {
@@ -139,7 +140,7 @@ window.addEventListener('load', function() {
         };
 
         //choisir un nom d'une bouteile
-        liste.addEventListener("click", function(evt) {
+        liste.addEventListener("click", function (evt) {
             //console.dir(evt.target)
             if (evt.target.tagName == "LI") {
                 bouteille.nom.dataset.id = evt.target.dataset.id;
@@ -154,7 +155,7 @@ window.addEventListener('load', function() {
         let btnAjouter = document.querySelector("[name='ajouterBouteilleCellier']");
         document.getElementById('dateActuelle').valueAsDate = new Date();
         if (btnAjouter) {
-            btnAjouter.addEventListener("click", function(evt) {
+            btnAjouter.addEventListener("click", function (evt) {
 
                 let boite_alert = document.getElementById("center_container"),
                     fermer_boite = document.getElementById('close_center');
@@ -225,11 +226,14 @@ window.addEventListener('load', function() {
                                     boite_alert.style.display = "block";
                                     //Message lorsque la bouteille existe déjà dans le cellier 
                                     document.getElementById('messagePer').innerHTML = "Echec de l'ajout, Bouteille déjà dans le cellier.";
+                                  
                                     fermer_boite.addEventListener('click', function(e) {
+
                                         location.reload();
                                     });
                                 } else {
                                     boite_alert.style.display = "block";
+
                                     fermer_boite.addEventListener('click', function(e) {
                                         window.location = BaseURL + "index.php?requete=accueil";
                                     });
@@ -253,8 +257,8 @@ window.addEventListener('load', function() {
     };
     //selectionner un cellier
     let selectCellier = document.querySelectorAll(".tri_cellier");
-    selectCellier.forEach(function(elem) {
-        elem.addEventListener("change", function(e) {
+    selectCellier.forEach(function (elem) {
+        elem.addEventListener("change", function (e) {
             let choice = bouteille.cellier.selectedIndex; //selection cellier
             let idCellier = bouteille.cellier.options[choice].value; //valeur cellier choisi
             let paysChoisi = bouteille.pays.selectedIndex; //selection pays
@@ -302,7 +306,7 @@ window.addEventListener('load', function() {
     let URLSansR = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
 
     if (inputAjouterCellier) {
-        buttonAjouterCellier.addEventListener("click", function(evt) {
+        buttonAjouterCellier.addEventListener("click", function (evt) {
             let boite_alert = document.getElementById("center_container"),
                 fermer_boite = document.getElementById('close_center');
             boite_alert.style.display === "none";
@@ -330,6 +334,7 @@ window.addEventListener('load', function() {
                             if (response.status === 200) {
                                 //Message confirmant la création d'un cellier 
                                 document.getElementById('messagePer').innerHTML = "Cellier correctement créé";
+
                                 fermer_boite.addEventListener('click', function(e) {
                                     location.reload();
                                 });
@@ -369,7 +374,7 @@ window.addEventListener('load', function() {
             input.type = "text";
             input.value = valeurNomCellier;
 
-            input.addEventListener("keyup", function(event) {
+            input.addEventListener("keyup", function (event) {
                 if (event.keyCode === 13) {
 
                     event.preventDefault();
@@ -386,6 +391,7 @@ window.addEventListener('load', function() {
                         fetch(requete)
                             .then(response => {
                                 if (response.status === 200) {
+
                                     fermer_boite.addEventListener('click', function(e) {
                                         location.reload();
                                     });
@@ -424,6 +430,7 @@ window.addEventListener('load', function() {
         item.addEventListener('click', event => {
             if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
                 boite_alert.style.display = "block";
+
                 fermer_boite.addEventListener('click', function(e) {
                     location.reload();
                 });
@@ -434,6 +441,7 @@ window.addEventListener('load', function() {
                 }
                 //var choice = confirm('Êtes-vous sûr de vouloir supprimer ce cellier?');
                 if (supprimerBtnCellier) {
+
                     supprimerBtnCellier.addEventListener('click', function(e) {
                         children_confirm_suppression[0].style.display = "none";
                         supprimerBtnCellier.style.display = "none";
@@ -444,7 +452,7 @@ window.addEventListener('load', function() {
                         } else {
                             var row = event.target.parentElement.parentElement.parentElement;
                         }
-                        
+
                         var param = {
                             "id_cellier": parseInt(row.getElementsByClassName('idCellier')[0].innerHTML)
                         };
@@ -488,7 +496,7 @@ window.addEventListener('load', function() {
     //validation  modification d une bouteille
     let modifier_bouteille = document.querySelectorAll("[name='modifier_bouteille']")[0];
     if (modifier_bouteille) {
-        modifier_bouteille.addEventListener("click", function(e) {
+        modifier_bouteille.addEventListener("click", function (e) {
             let row = e.target.parentElement.parentElement;
             let isvalid = true;
             let bouteille = {
@@ -529,7 +537,7 @@ window.addEventListener('load', function() {
                 fetch(requete)
                     .then(response => {
                         if (response.status === 200) {
-                            fermer_boite.addEventListener('click', function(e) {
+                            fermer_boite.addEventListener('click', function (e) {
                                 window.location = BaseURL + "index.php?requete=accueil";
                             });
                             return response.json();
@@ -560,6 +568,7 @@ window.addEventListener('load', function() {
         item.addEventListener('click', event => {
             if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
                 boite_alert.style.display = "block";
+
                 fermer_boite.addEventListener('click', function(e) {
                     location.reload();
                 });
@@ -569,6 +578,7 @@ window.addEventListener('load', function() {
                     });
                 }
                 if (supprimerBtnBouteille) {
+
                     supprimerBtnBouteille.addEventListener('click', function(e) {
                         children_confirm_suppression[0].style.display = "none";
                         supprimerBtnBouteille.style.display = "none";
@@ -577,7 +587,7 @@ window.addEventListener('load', function() {
                             id_bouteille: event.target.parentElement.dataset.id_bouteille,
                             id_cellier: event.target.parentElement.dataset.id_cellier
                         };
-                        
+
                         let requete = new Request(URLSansR + "index.php?requete=retirerBouteille", { method: 'POST', body: JSON.stringify(param) });
                         fetch(requete)
                             .then(response => {
@@ -600,53 +610,62 @@ window.addEventListener('load', function() {
                             });
                     });
                 }
-
             } else {
                 boite_alert.style.display = "none";
             }
         });
     });
 
-
-    /************************************************************** */
+    /************************************************************* */
     /**-------------GESTION DES UTILISATEURS---------------------- */
     /************************************************************* */
-    let btnSupprUtil = document.getElementsByName("supprimerUtil");
     let btnModifUtil = document.getElementsByName("modifierUtil");
 
-    //suppression d'un utilisateur
-    btnSupprUtil.forEach(elem => {
-        elem.parentElement.addEventListener('click', function(e) {
+    //Récupération des informations à modifier d'un utilisateur
+    btnModifUtil.forEach(item => {
+        item.addEventListener('click', event => {
 
-            let id_util = e.target.parentElement.nextElementSibling.value;
-            let requete = new Request(BaseURL + "index.php?requete=supprimerUtilisateur", { method: 'DELETE', body: '{"id_util": ' + id_util + ' }' });
+            let row = event.target.parentElement.parentElement.parentElement;
+            let id_util = row.querySelectorAll('td')[5].innerHTML;
 
-            fetch(requete)
-                .then(response => {
-                    if (response.status === 200) {
-                        location.reload();
-                        alert('Suppression de l\'utilisateur est effectuée');
-                        return response.json();
-                    } else {
-                        //Refus de suppression de l'utilisateur parce qu'il fermer_boite a des celliers qui lui sont associés
-                        alert("L'utilsateur n'a pas pu être effacé. Vérifier la présence de celliers à son compte");
-                    }
-                })
-                .then(response => {
-                    console.debug(response);
-                }).catch(error => {
-                    console.error(error);
-                });
+            window.location = URLSansR + "index.php?requete=pageModificationUtilisateur&id=" + id_util;
         });
     });
 
-    //Modification d'un utilisateur
-    btnModifUtil.forEach(elem => {
-        elem.parentElement.addEventListener('click', function(e) {
-            console.log("modifier");
-            let id_util = e.target.parentElement.nextElementSibling.value;
-            console.log(id_util);
-        });
+    //Appliquer la modification de l'utilisateur
+    document.getElementById('modifier_utilisateur').addEventListener("click", event => {
+
+        let type = document.getElementById("type");
+        let choice1 = type.selectedIndex;
+        let valeur_cherchee_type = type.options[choice1].value;
+
+        let activation = document.getElementById("activation");
+        let choice2 = activation.selectedIndex;
+        let valeur_cherchee_activation = activation.options[choice2].value;
+
+        let param = {
+            "id": parseInt(document.getElementsByName('utilisateur_id')[0].value),
+            "nom": document.getElementsByName('nom')[0].value,
+            "prenom": document.getElementsByName('prenom')[0].value,
+            "identifiant": document.getElementsByName('identifiant')[0].value,
+            "activation": parseInt(valeur_cherchee_activation),
+            "id_type": parseInt(valeur_cherchee_type)
+        };
+
+        let requete = new Request(BaseURL + "index.php?requete=modificationUtilisateur", { method: 'PUT', body: JSON.stringify(param) });
+        fetch(requete)
+            .then(response => {
+                if (response.status === 200) {
+                    window.location = BaseURL + "index.php?requete=admin";
+                    return response.json();
+                } else {
+                    throw new Error('Erreur');
+                }
+            }).then(response => {
+                console.debug(response);
+            }).catch(error => {
+                console.error(error);
+            });
     });
     //menu de navigation
     let mainNav = document.getElementById('js-menu');

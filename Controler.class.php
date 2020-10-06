@@ -11,7 +11,6 @@
  * @license http://creativecommons.org/licenses/by-nc/3.0/deed.fr
  * 
  */
-
 class Controler
 {
 	/**
@@ -46,9 +45,9 @@ class Controler
 				$this->consulterQuantiteBouteilleCellier($_GET['id_bouteille'], $_GET['id_cellier']);
 				break;
 			case 'accueil':
-                $this->isAuth();
+				$this->isAuth();
 				$this->accueil($_SESSION['utilisateur_id']);
-				break;	
+				break;
 			case 'nouveauUtilisateur':
 				$this->nouveauUtilisateur();
 				break;
@@ -104,19 +103,26 @@ class Controler
 				$this->isAuth();
 				$this->nouveauAdminUtilisateur();
 				break;
+			case 'pageModificationUtilisateur':
+				$this->isAuth();
+				$this->getInfosUtilisateur($_GET['id']);
+				break;
 			case 'modificationUtilisateur':
 				$this->isAuth();
 				$body = json_decode(file_get_contents('php://input'));
-				$this->modificationUtilisateur($body->id);
+				$this->modificationUtilisateur($body->id, $body->nom, $body->prenom, $body->identifiant, $body->activation, $body->id_type);
 				break;
 			case 'admin':
 				$this->isAuth();
 				$this->admin();
 				break;
-			case 'supprimerUtilisateur':
+			case 'getNombreNouveauUsagers':
 				$this->isAuth();
-				$body = json_decode(file_get_contents('php://input'));
-				$this->supprimerUtilisateur($body->id_util);
+				$this->getNombreNouveauUsagers();
+				break;
+			case 'getStatistiques':
+				$this->isAuth();
+				$this->getStatistiques();
 				break;
 			case 'getNombreNouveauUsagers':
 				 $this->isAuth();
@@ -132,55 +138,45 @@ class Controler
 		}
 	}
 
-	private function accueil($id_utilisateur){
+	private function accueil($id_utilisateur)
+	{
 		$bte = new Bouteille();
-		
-		if(empty($_GET['idCellier']) && empty($_GET['paysOption'])  && empty($_GET['typeOption'])){ //tous les param sont vide
-            if($_SESSION['utilisateur_type'] == 2) {
-                $data = $bte->getListeBouteilleCellier($_GET['idCellier']='', $_GET['paysOption']='',$_GET['typeOption']='', $id_utilisateur);
-            } else {
+
+		if (empty($_GET['idCellier']) && empty($_GET['paysOption'])  && empty($_GET['typeOption'])) { //tous les param sont vide
+			if ($_SESSION['utilisateur_type'] == 2) {
+				$data = $bte->getListeBouteilleCellier($_GET['idCellier'] = '', $_GET['paysOption'] = '', $_GET['typeOption'] = '', $id_utilisateur);
+			} else {
 				$data = $bte->getListeBouteilleCellier();
-            }
-        }elseif(empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])){ //pays+type
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption'],$_GET['typeOption']);
-			
-		}elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])){//pays+cellier
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption'],$_GET['typeOption']='');
-			
-		}elseif(!empty($_GET['idCellier']) && empty($_GET['paysOption']) && empty($_GET['typeOption'])){//cellier
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']='',$_GET['typeOption']='');
+			}
+		} elseif (empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])) { //pays+type
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'] = '', $_GET['paysOption'], $_GET['typeOption']);
+		} elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])) { //pays+cellier
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'], $_GET['typeOption'] = '');
+		} elseif (!empty($_GET['idCellier']) && empty($_GET['paysOption']) && empty($_GET['typeOption'])) { //cellier
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'] = '', $_GET['typeOption'] = '');
+		} elseif (empty($_GET['idCellier']) && empty($_GET['paysOption']) && !empty($_GET['typeOption'])) { //type
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'] = '', $_GET['paysOption'] = '', $_GET['typeOption']);
+		} elseif (empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])) { //pays
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'] = '', $_GET['paysOption'], $_GET['typeOption'] = '');
+		} elseif (!empty($_GET['idCellier']) && empty($_GET['paysOption']) && !empty($_GET['typeOption'])) { //cellier+type
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'] = '', $_GET['typeOption']);
+		} elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])) { //pays+cellier+type
+			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'], $_GET['typeOption']);
+		}
 
-		}elseif (empty($_GET['idCellier']) && empty($_GET['paysOption']) && !empty($_GET['typeOption'])){//type
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption']='',$_GET['typeOption']);
-			
-		}
-		elseif (empty($_GET['idCellier']) && !empty($_GET['paysOption']) && empty($_GET['typeOption'])){//pays
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier']='',$_GET['paysOption'],$_GET['typeOption']='');
-			
-		}
-		elseif (!empty($_GET['idCellier']) && empty($_GET['paysOption']) && !empty($_GET['typeOption'])){//cellier+type
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption']='',$_GET['typeOption']);
-			
-		}
-		elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])){//pays+cellier+type
-
-			$data = $bte->getListeBouteilleCellier($_GET['idCellier'],$_GET['paysOption'],$_GET['typeOption']);
-			
-		}
-		if($_SESSION['utilisateur_type']==1){
+		if ($_SESSION['utilisateur_type'] == 1) {
 			$listeCelliers = $bte->lireCelliers();
 			$dataCellier = json_encode($listeCelliers);
-		}elseif($_SESSION['utilisateur_type']==2){
+		} elseif ($_SESSION['utilisateur_type'] == 2) {
+
 			$listeCelliers =  $bte->lireCelliers($_SESSION['utilisateur_id']);
 			$dataCellier = json_encode($listeCelliers);
 		}
 		include("vues/entete.php");
 		include("vues/cellier.php");
 		include("vues/pied.php");
-		
 	}
-
-
+  
 	private function listeBouteille()
 	{
 		$bte = new Bouteille();
@@ -242,38 +238,43 @@ class Controler
 		$resultat = $bte->getQuantiteById($id_bouteille, $id_cellier);
 		echo json_encode($resultat);
 	}
-    
-    // La fonction contrôle l'authentification 
-	private function authentification() {
+
+	// La fonction contrôle l'authentification 
+	private function authentification()
+	{
 		$auth = new Authentication();
-		
+
 		if (isset($_POST['envoi'])) {
 			$identifiant = trim($_POST['identifiant']);
-			$mot_de_passe = trim($_POST['mdp']); 
+			$mot_de_passe = trim($_POST['mdp']);
 			$bte = new Bouteille();
-			
+
 			if (!empty($auth->sqlIdentificationUtilisateur($identifiant, $mot_de_passe))) {
-				$rows=$auth->sqlVinoUtilisateur($identifiant);
-				$type=$rows['id_type'];  
-                $id = $rows['id']; 
-                $nom=$rows['nom'];  
-                $prenom = $rows['prenom']; 
+				$rows = $auth->sqlVinoUtilisateur($identifiant);
+				$type = $rows['id_type'];
+				$id = $rows['id'];
+				$nom = $rows['nom'];
+				$prenom = $rows['prenom'];
+				$activation = $rows['activation'];
 				$_SESSION['utilisateur_identifiant'] = $identifiant;
 				$_SESSION['utilisateur_id'] = $id;
-				$_SESSION['utilisateur_type'] = $type; 
-                $_SESSION['utilisateur_nom'] = $nom;
-				$_SESSION['utilisateur_prenom'] = $prenom; 
+				$_SESSION['utilisateur_type'] = $type;
+				$_SESSION['utilisateur_nom'] = $nom;
+				$_SESSION['utilisateur_prenom'] = $prenom;
 				$celliers = $bte->lireCelliers($id);
-				if ($type == 1){
-					$this->accueil($id);
-					exit;    
-				} 
-				elseif (empty($celliers)){
-					$this->ajouterNouvelleBouteilleCellier($id);
-					exit;
-				}elseif( $type == 2 && !empty($celliers)){
-					$this->accueil($id);
-					exit;
+				if ($activation == 1) {
+					if ($type == 1 || $type == 3) {
+						$this->accueil($id);
+						exit;
+					} elseif (empty($celliers)) {
+						$this->ajouterNouvelleBouteilleCellier($id);
+						exit;
+					} elseif ($type == 2 && !empty($celliers)) {
+						$this->accueil($id);
+						exit;
+					}
+				} else {
+					$erreur = "Accès bloqué.";
 				}
 			} else {
 				$erreur = "Identifiant ou mot de passe incorrect.";
@@ -305,8 +306,7 @@ class Controler
 					$message = "identifiant existe dans le système";
 					unset($_POST);
 				} elseif ($tiden != $iden) {
-
-					$auth->sqlAjouterUtilisateur($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, 2);
+					$auth->sqlAjouterUtilisateur($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, 1, 2);
 					$message = "Utilisateur ajouté";
 					unset($_POST);
 				} else {
@@ -338,9 +338,9 @@ class Controler
 	{
 		session_start();
 		unset($_SESSION['identifiant_utilisateur']);
-        unset($_SESSION['utilisateur_id']);
-        unset($_SESSION['utilisateur_type']);
-        session_unset();
+		unset($_SESSION['utilisateur_id']);
+		unset($_SESSION['utilisateur_type']);
+		session_unset();
 		session_destroy();
 		header('Location: index.php');
 	}
@@ -390,7 +390,6 @@ class Controler
 		include("vues/pied.php");
 	}
 
-	
 	// La fonction ajoute un utilisateur
 	private function nouveauAdminUtilisateur()
 	{
@@ -416,8 +415,7 @@ class Controler
 					$message = "L'utilisateur avec cet identifiant déjà existe dans le système";
 					unset($_POST);
 				} elseif ($tiden != $iden) {
-
-					$admin->sqlAjouterAdmin($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, $type);
+					$admin->sqlAjouterAdmin($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, 1, $type);
 					$message = "L'utilisateur bien ajouté";
 					unset($_POST);
 				} else {
@@ -434,33 +432,47 @@ class Controler
 		include("vues/adminUtilisateur.php");
 		include("vues/pied.php");
 	}
-	// La fonction modifie un utilisateur
-	private function modificationUtilisateur($id)
+  
+	// Récupération des informations à changer
+	private function getInfosUtilisateur($id_util)
 	{
 		$admin = new Admin();
+		$data = $admin->getUtilisateurById($id_util);
+		$data = json_encode($data);
 
-		if (count($_POST) !== 0) {
+		include("vues/entete.php");
+		include("vues/modifier_utilisateur.php");
+		include("vues/pied.php");
+	}
 
-			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel'], $_POST['telephone']);
-			$erreurs = $oUtilisateur->erreurs;
+	// La fonction modifie un utilisateur
+	private function modificationUtilisateur($id, $nom, $prenom, $identifiant, $activation, $id_type)
+	{
+		$admin = new Admin();
+		$data = $admin->sqlModificationUtilisateur($id, $nom, $prenom, $identifiant, $activation, $id_type);
 
-			if (count($erreurs) === 0) {
+		return $data;
+		
+		include("vues/entete.php");
+		include("vues/pied.php");
+	}
 
-				$type = trim($_POST['id_type']);
-
-				$admin->sqlModificationUtilisateur($id, $oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, $oUtilisateur->courriel, $oUtilisateur->telephone, $type);
-				$message = "L'utilisateur bien modifié";
-				unset($_POST);
-			} else {
-				$message = "L'utilisateur n'est pas modifié";
-				unset($_POST);
-			}
+	//Fonction pour récupérer la liste des celliers 
+	private function getListeCelliers($id_utilisateur)
+	{
+		$bte = new Bouteille();
+		$data = $bte->lireCelliers($id_utilisateur);
+		$data = json_encode($data);
+		if ($_SESSION['utilisateur_type'] == 1) {
+			$this->accueil($id_utilisateur);
+			exit;
 		} else {
-			$erreurs = [];
-			$oUtilisateur = new Utilisateur;
+			$data = $bte->lireCelliers($id_utilisateur);
+			$data = json_encode($data);
 		}
 
 		include("vues/entete.php");
+		include("vues/ajouter_cellier.php");
 		include("vues/pied.php");
 	}
 	//Fonction pour supprimer un cellier
@@ -494,7 +506,6 @@ class Controler
 
 	}
 
-//$resultat = $bte->lireCelliers($_GET['id_utilisateur']);
 	//Fonction pour ajouter un nouveau cellier 
 	private function ajouterNouveauCellier($id_utilisateur, $nom_cellier)
 	{
@@ -520,6 +531,7 @@ class Controler
 			http_response_code(417);
 		}
 	}
+  
 	//infos bouteille par id bouteille et id cellier
 	private function getInfosBouteille($id_bouteille, $id_cellier)
 	{
@@ -529,7 +541,7 @@ class Controler
 			$resultat = $bte->lireBouteille($id_bouteille, $id_cellier);
 			echo json_encode($resultat);
 		} else {
-			$data = $bte->lireBouteille($id_bouteille,$id_cellier);
+			$data = $bte->lireBouteille($id_bouteille, $id_cellier);
 			//$tousCelliers = $bte->lireCelliers();
 			//$dataCellier = json_encode($tousCelliers);
 			include("vues/entete.php");
@@ -537,6 +549,7 @@ class Controler
 			include("vues/pied.php");
 		}
 	}
+  
 	//modification d une bouteille
 	private function modifierBouteilleInfos($id_bouteille, $id_cellier, $date_achat, $garde_jusqua, $notes, $prix, $quantite, $millesime)
 	{
@@ -547,7 +560,8 @@ class Controler
 
 		return $data;
 	}
-	//supprimer une bouteille d un cellier
+  
+	//supprimer une bouteille d'un cellier
 	private function retirerBouteille($id_bouteille,$id_cellier){
 		//checker si l'utilisateur à le droit de modifier
 		$bte = new Bouteille();
@@ -559,37 +573,30 @@ class Controler
 	
 	//statistiques des usagers
 	// fonction qui renvoie le nombre de nouveaux usagers
-	private function getNombreNouveauUsagers(){
+	private function getNombreNouveauUsagers() {
 		
-
 		$admin = new Admin();
 		$data = $admin->getNombreNouveauUsagers();
 		$data = json_encode($data);
-		$stat = new Statistiques();
-		$celUsager=$stat->sqlNombreCellierParUsager();
-		$nbUsager=$stat->sqlNombreUsager();
-		$nbCellier=$stat->sqlNombreCellier();
 
 		include("vues/entete.php");
 		include("vues/statistiques_utilisateurs.php");
 		include("vues/pied.php");
 	}
-    
-    
-    //Statistiques des nombre d'usager, nombre de cellier,  nombre de cellier par usager,  nombre de bouteille par cellier et par usager
-	private function getStatistiques($intervalle){
-		
 
+	//Statistiques des nombre d'usager, nombre de cellier,  nombre de cellier par usager,  nombre de bouteille par cellier et par usager
+	private function getStatistiques()
+	{
 		$stat = new Statistiques();
-        $btlCellier=$stat->sqlNombreBouteilleParCellier();
-		$btlUsager=$stat->sqlNombreBouteilleParUsager();
-		
-		$bte = new Bouteille();
-		$dataBouteilles = $bte->getNombreBouteilles($intervalle);
-		$dataBouteilles = json_encode($dataBouteilles);
 
-    
-        include("vues/entete.php");
+		$nbUsager = $stat->sqlNombreUsager();
+		$nbCellier = $stat->sqlNombreCellier();
+		$celUsager = $stat->sqlNombreCellierParUsager();
+		$btlCellier = $stat->sqlNombreBouteilleParCellier();
+		$btlUsager = $stat->sqlNombreBouteilleParUsager();
+		// var_dump($btlUsager);
+
+		include("vues/entete.php");
 		include("vues/statistiques.php");
 		include("vues/pied.php");
 	}
