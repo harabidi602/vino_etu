@@ -5,11 +5,13 @@ $arrayId = [];
 $arrayC = [];
 $arrayP = [];
 $arrayType = [];
+$arrayUser = [];
 
 foreach ($arr as $key => $cellier) {
     array_push($arrayId, $cellier['nom_cellier']);
     array_push($arrayP, $cellier['pays']);
     array_push($arrayType, $cellier['type']);
+    array_push($arrayUser, $cellier['id_utilisateur']);
 }
 foreach ($arrayCelliers as $key => $tousCelliers) {
     array_push($arrayC, $tousCelliers['nom_cellier']);
@@ -28,11 +30,14 @@ if (isset($_GET['idCellier']) && !empty($_GET['idCellier'])) {
 } elseif (isset($_GET['typeOption']) && !empty($_GET['typeOption'])) {
     $t = trim($_GET['typeOption']);
 }
+
 ?>
 <section class="cellier">
+    <?php if ($_SESSION['utilisateur_type'] == 2) { ?>
+        <div><a class="ajouter_bouteille" href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></div>
+    <?php } ?>
     <nav>
         <ul>
-            <li><a href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></li>
             <li><label for="tri_cellier">Choisir un cellier</label>
                 <select id="cellier" name="tri_cellier" class="tri_cellier">
                     <option selected value="-1"> -- selectionner une option -- </option>
@@ -81,19 +86,31 @@ if (isset($_GET['idCellier']) && !empty($_GET['idCellier'])) {
                 <li class="millesime">Millesime : <?php echo $bouteille['millesime'] ?></li>
                 <li class="prix">Prix : <?php echo $bouteille['prix'] ?></li>
                 <li class="date_achat">Date d'achat : <?php echo $bouteille['date_achat'] ?></li>
-                <li><a href="<?php echo $bouteille['url_saq'] ?>">Voir SAQ</a></li>
+                <li><a href="<?php echo $bouteille['url_saq'] ?>" target="_blank">Voir SAQ</a></li>
             </ul>
-            <div class="options" data-id_bouteille="<?php echo $bouteille['id_bouteille'] ?>" data-id_cellier="<?php echo $bouteille['id_cellier'] ?>">
-                <?php if ($_SESSION['utilisateur_id']) { ?>
+            <?php if ($_SESSION['utilisateur_type'] == 2) { ?>
+                <div class="options" data-id_bouteille="<?php echo $bouteille['id_bouteille'] ?>" data-id_cellier="<?php echo $bouteille['id_cellier'] ?>">
                     <button class="btnModifierBouteille" id='modifierBouteille' name="modifierBouteille">Modifier</button>
                     <button class='btnAjouter'>Ajouter</button>
                     <button class='btnBoire'>Boire</button>
                     <button class="btnRetirerBouteille" id='retirerBouteille' name="retirerBouteille">Retirer</button>
-                <?php  } ?>
-            </div>
+                </div>
+            <?php  } else { ?>
+                <div></div>
+            <?php }
+            ?>
         </article>
     <?php
     }
     ?>
+    <div id="center_container">
+        <div id="center">
+            <div id="confirm_suppression">
+                <p id='choix_suppression_bouteille'>Vous voulez supprimer cette bouteille?</p>
+                <button id='confirmerSuppBouteille'>Oui</button>
+                <button id='annulerSuppressionBouteille'>Non</button>
+            </div>
+            <span id="close_center">X</span>
+        </div>
+    </div>
 </section>
-</div>

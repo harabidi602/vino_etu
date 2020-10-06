@@ -1,28 +1,29 @@
-<div class="authentification">
-    <div class="formA">
-        <div class="formAuthentification">
-            <div class="titre">
-                <img src="img/newUsager.png" alt="Image Authentification">
-                <h1>Créez votre compte</h1>
-            </div>
-            <form id="nutilisateur" action="" method="post">
-                <?php if (!empty($message)) : ?>
-                    <p><?php echo $message; ?></p>
-                <?php endif; ?>
-                <p><input class="inputForm" name="nom" placeholder="Nom" required> </p>
-                <p><?= isset($erreurs['nom']) ? $erreurs['nom'] : "" ?></p>
-                <p><input class="inputForm" name="prenom" placeholder="Prénom" required></p>
-                <p><?= isset($erreurs['prenom']) ? $erreurs['prenom'] : "" ?></p>
-                <p><input class="inputForm" name="identifiant" placeholder="Identifiant" required> </p>
-                <p><?= isset($erreurs['identifiant']) ? $erreurs['identifiant'] : "" ?></p>
-                <p><input class="inputForm" type="password" name="mdp" placeholder="Mot de passe" required></p>
-                <p><?= isset($erreurs['mdp']) ? $erreurs['mdp'] : "" ?></p>
+<div class="usager">
+    <h4>Créez un nouveau usager</h4>
+    <form id="nutilisateur" action="" method="post">
+        <?php if (!empty($message)) : ?>
+            <p class="success-msg">
+                <i class="fa fa-check"><?php echo $message; ?></i></p>
+        <?php endif; ?>
+        <p> <input name="date_inscription" type="hidden" id="dateActuelle">
+            <span>Nom</span><input class="inputForm" name="nom" required>
+            <span class="erreur"><?= isset($erreurs['nom']) ? $erreurs['nom'] : "" ?></span>
+        </p>
+        <p>
+            <span>Prénom</span><input class="inputForm" name="prenom" required>
+            <span class="erreur"> <?= isset($erreurs['prenom']) ? $erreurs['prenom'] : "" ?></span>
+        </p>
+        <p>
+            <span>Identifiant</span> <input class="inputForm" name="identifiant" required>
+            <span class="erreur"><?= isset($erreurs['identifiant']) ? $erreurs['identifiant'] : "" ?></span>
+        </p>
+        <p>
+            <span>Mot de passe</span> <input class="inputForm" type="password" name="mdp" required>
+            <span class="erreur"><?= isset($erreurs['mdp']) ? $erreurs['mdp'] : "" ?></span>
+        </p>
+        <p><button type="submit" class="creationButton" name="creer" id='creerUsager'>Créez</button></p>
 
-                <div class="contentForm">
-                    <button type="submit" class="creationButton" name="creer">Créez</button>
-                    <p class="mdp"> Si vous avez déjà un compte <a href="index.php"> Identifiez-vous </a></p>
-                </div>
-            </form>
-        </div>
-    </div>
+        <p>Si vous avez déjà un compte <a href="index.php"> Identifiez-vous </a>
+            <p>
+    </form>
 </div>

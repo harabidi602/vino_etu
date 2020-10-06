@@ -7,8 +7,9 @@ foreach ($arrInfosBouteille as $cle => $bouteille) {?>
         <input type='hidden' value="<?php echo $bouteille['id_cellier'] ?>" name="id_cellier">
             <p>
                 <span>Quantite</span>
-                <input type="text" name="quantite" value="<?php echo $bouteille['quantite']?>" class="quantite"/>
-                <span class="erreur" id="erreurQuan"></span></p>
+                <input name="quantite" value="<?php echo $bouteille['quantite']?>" class="quantite" min='1' type="number"/>
+                <span class="erreur" id="erreurQuan"></span>
+            </p>
             <p><span>Date d'achat</span><input type="date" name="date_achat" value="<?php echo $bouteille['date_achat'] ?>" class="date_achat" /></p>
             <p>
                 <span>Millesime</span>
@@ -40,5 +41,5 @@ foreach ($arrInfosBouteille as $cle => $bouteille) {?>
             <div>Modification effectuée avec succès</div>
             <span id="close_center">X</span>
         </div>
-    </div>
+</div>
 <?php }?>
