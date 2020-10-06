@@ -78,14 +78,6 @@ header {
 
 /*-----------------------------le menu principal----------------------*/
 
-.menu ul {
-    background-color: rgba(119, 4, 4, 100%);
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
 .menu-item ul li {
     padding: 0px;
     margin: 0px;
@@ -98,6 +90,7 @@ header {
 }
 
 .menu-item a {
+    /*  */
     color: #ffffff;
     text-decoration: none;
     text-transform: uppercase;
@@ -106,7 +99,7 @@ header {
     font-weight: 300;
     letter-spacing: 2px;
     display: inline-block;
-    /* width: 100%; */
+    width: 100%;
     text-align: center;
     padding: 0px;
     margin: 0px;
@@ -114,6 +107,62 @@ header {
 
 .menu-item a:hover {
     color: rgb(101, 138, 53);
+}
+
+.navbar {
+    background-color: rgba(119, 4, 4, 100%);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.welcome {
+    justify-content: center;
+    display: flex;
+    font-size: 10px;
+    color: white;
+    padding-top: 4px;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.nav-links,
+.logo {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.main-nav li {
+    text-align: center;
+    margin: 15px auto;
+}
+
+.logo {
+    display: inline-block;
+    font-size: 22px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.navbar-toggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 24px;
+}
+
+.main-nav {
+    display: none;
+    list-style-type: none;
+    margin: 0px;
+}
+
+.active {
+    display: block;
 }
 
 
@@ -126,12 +175,8 @@ header {
 /*---------------------------------Contenu des pages---------------------*/
 
 .col-2 {
-    margin-top: 60px;
     display: flex;
     justify-content: center;
-    /* justify-content: center; */
-    /* display: flex; */
-    /* flex-direction: column; */
     align-items: center;
 }
 
@@ -159,9 +204,10 @@ header {
     justify-content: center;
 }
 
-.cellier>nav>* {
-    padding: 10px;
-}
+
+/*.cellier>nav>* {
+     padding: 10px;
+}*/
 
 .cellier nav ul {
     list-style-type: none;
@@ -191,8 +237,20 @@ header {
     margin: 1em 0.5em;
 }
 
-.cellier .bouteille img {
-    height: auto;
+
+/*
+bouton ajouté bouteille
+*/
+
+.ajouter_bouteille,
+.nouveauAdminUtilisateur {
+    display: flex;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: #923636;
+    font-weight: bold;
+    line-height: 25px;
 }
 
 .bouteille {
@@ -296,6 +354,14 @@ header {
     margin: 5px auto;
 }
 
+
+/**/
+
+.ajouterBouteilleCellier:hover {
+    background-color: rgba(119, 4, 4, 100%);
+    color: white;
+}
+
 .options button {
     background-color: rgb(101, 138, 53);
     color: white;
@@ -320,9 +386,29 @@ header {
     flex-direction: row;
 }
 
+.nouveauUtil {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .nouvelleBouteille h4 {
     flex: 0 0 100%;
     text-align: center;
+}
+
+.nouveauUtil h4 {
+    flex: 0 0 100%;
+    text-align: center;
+}
+
+.nouveauUtil img {
+    padding-top: 15px;
+}
+
+.nouveauUtil a {
+    text-align: left !important;
 }
 
 .nouvelleBouteille .recherche_nom_bouteille {
@@ -331,6 +417,22 @@ header {
     flex-direction: column;
     padding: 0px;
     margin: 0px;
+}
+
+.gestionCel {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+}
+
+.gestionCel span {
+    color: red;
+}
+
+.contenuCel {
+    justify-content: center;
 }
 
 .liste {
@@ -444,6 +546,10 @@ header {
     border-radius: 4px;
 }
 
+.ajouterCellierButton:hover {
+    background-color: rgba(119, 4, 4, 100%);
+}
+
 .buttonModSup {
     background-color: white;
     color: black;
@@ -452,10 +558,6 @@ header {
 
 
 /*Contenu page Ajouter Cellier*/
-
-.ajouterCel {
-    text-align: center;
-}
 
 .imageNC {
     margin-top: 20px;
@@ -495,11 +597,32 @@ th {
 création d'un nouveau compte utilisateur
 */
 
-.inputForm {
-    height: 35px;
-    width: 200px;
-    margin-bottom: 5px;
+.usager {
+    padding: 10px;
+    border: 2px solid rgba(0, 0, 0, 10%);
+    width: 350px;
+    justify-content: center;
+    flex: 1 1 100px;
     text-align: center;
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.usager form p {
+    display: flex;
+    flex-direction: column;
+}
+
+.creationButton {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    padding: 3px 2px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+    margin: 5px auto;
 }
 
 
@@ -614,12 +737,83 @@ footer p {
         justify-content: center;
         width: 80%;
     }
+    .nouveauUtil {
+        justify-content: center;
+        width: 85%;
+    }
     .cellier nav ul {
         flex-direction: column;
     }
     .nouvelleBouteille h4 {
         font-size: small;
         text-align: center;
+    }
+    .nouvelleBouteille h4 {
+        font-size: small;
+        text-align: center;
+    }
+    .nouveauUtil h4 {
+        font-size: small;
+        text-align: center;
+    }
+    .gestionCel h4 {
+        font-size: small;
+    }
+    .gestionCel span {
+        font-size: small;
+    }
+    .nouveauUtil a {
+        font-size: small;
+        text-align: center;
+    }
+    .ajouterCel {
+        width: 100%;
+    }
+    .gestionCel {
+        width: 100%;
+    }
+}
+
+
+/* media queries menu principal*/
+
+@media all and (min-width: 440px) {
+    .navbar-toggle {
+        top: 0px;
+    }
+}
+
+@media all and (min-width: 736px) {
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 0;
+        align-items: center;
+        height: 100px;
+    }
+    span:nth-of-type(3) {
+        margin-right: auto;
+    }
+    .main-nav {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+    .main-nav li {
+        margin: 0;
+    }
+    .nav-links {
+        margin-left: 40px;
+    }
+    .logo {
+        margin-top: 0;
+    }
+    .navbar-toggle {
+        display: none;
+    }
+    .logo:hover,
+    .nav-links:hover {
+        color: rgba(255, 255, 255, 1);
     }
 }
 
@@ -640,7 +834,7 @@ footer p {
 }
 
 
-/* les boites de messages (alert)*/
+/* les boites de messages (alert+confirm)*/
 
 #center_container {
     display: none;
@@ -654,19 +848,43 @@ footer p {
     z-index: 20;
 }
 
-#center {
+#center_container_sup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    z-index: 20;
+}
+
+#center,
+#center_sup,
+#confirm_suppression {
     position: relative;
     width: 320px;
-    height: 160px;
     margin: 50px auto;
     text-align: center;
     border-radius: 10px;
     color: white;
     background-color: rgba(119, 4, 4, 100%);
+    height: 100px;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-#center>div {
-    line-height: 160px;
+#confirm_suppression>button {
+    background-color: rgb(101, 138, 53);
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    border-radius: 4px;
+    margin: 2px 2px;
 }
 
 #close_center {
@@ -677,4 +895,39 @@ footer p {
     background-color: black;
     border-radius: 20px;
     cursor: pointer;
+}
+
+#close_center_sup {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 3px 5px;
+    background-color: black;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+
+/*CSS SPAN*/
+
+.ajoutBouteille span {
+    color: red;
+}
+
+.formCellier span {
+    color: red;
+}
+
+#nomB {
+    color: #000;
+}
+
+.success-msg {
+    background-color: #DFF2BF;
+}
+
+
+/*Statistiques*/
+.filtreBouteilles {
+    text-align: left;
 }
