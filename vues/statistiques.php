@@ -35,7 +35,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-  
+
     <table align="center">
        <caption>Le nombre de bouteille par cellier</caption>
         <thead>
@@ -53,8 +53,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    
-       
+     
     <table align="center">
        <caption>Le nombre de bouteille par usager</caption>
         <thead>
@@ -72,14 +71,6 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    
-    
-    
-    
-    
-    
-    
-    
 </div>
 
 

@@ -12,6 +12,7 @@ foreach ($arr as $key => $cellier) {
     array_push($arrayP, $cellier['pays']);
     array_push($arrayType, $cellier['type']);
     array_push($arrayUser, $cellier['id_utilisateur']);
+
 }
 foreach ($arrayCelliers as $key => $tousCelliers) {
     array_push($arrayC, $tousCelliers['nom_cellier']);
@@ -109,6 +110,7 @@ if (isset($_GET['idCellier']) && !empty($_GET['idCellier'])) {
                 <p id='choix_suppression_bouteille'>Vous voulez supprimer cette bouteille?</p>
                 <button id='confirmerSuppBouteille'>Oui</button>
                 <button id='annulerSuppressionBouteille'>Non</button>
+
             </div>
             <span id="close_center">X</span>
         </div>

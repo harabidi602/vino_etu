@@ -124,6 +124,14 @@ class Controler
 				$this->isAuth();
 				$this->getStatistiques();
 				break;
+			case 'getNombreNouveauUsagers':
+				 $this->isAuth();
+				 $this->getNombreNouveauUsagers();
+			break;
+            case 'getStatistiques':
+				 $this->isAuth();
+				 $this->getStatistiques(isset($_GET['intervalle']) ? $_GET['intervalle'] : '');
+			break;
 			default:
 				$this->authentification();
 				break;
@@ -153,13 +161,14 @@ class Controler
 		} elseif (!empty($_GET['idCellier']) && empty($_GET['paysOption']) && !empty($_GET['typeOption'])) { //cellier+type
 			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'] = '', $_GET['typeOption']);
 		} elseif (!empty($_GET['idCellier']) && !empty($_GET['paysOption']) && !empty($_GET['typeOption'])) { //pays+cellier+type
-
 			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'], $_GET['typeOption']);
 		}
+
 		if ($_SESSION['utilisateur_type'] == 1) {
 			$listeCelliers = $bte->lireCelliers();
 			$dataCellier = json_encode($listeCelliers);
 		} elseif ($_SESSION['utilisateur_type'] == 2) {
+
 			$listeCelliers =  $bte->lireCelliers($_SESSION['utilisateur_id']);
 			$dataCellier = json_encode($listeCelliers);
 		}
@@ -167,8 +176,7 @@ class Controler
 		include("vues/cellier.php");
 		include("vues/pied.php");
 	}
-
-
+  
 	private function listeBouteille()
 	{
 		$bte = new Bouteille();
@@ -210,6 +218,7 @@ class Controler
 
 		$bte = new Bouteille();
 		$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, -1, $body->id_cellier);
+		$bte->aditionerStatsBouteille($body->id_bouteille, 1, 1);
 		echo json_encode($resultat);
 	}
 
@@ -219,6 +228,7 @@ class Controler
 
 		$bte = new Bouteille();
 		$resultat = $bte->modifierQuantiteBouteilleCellier($body->id_bouteille, 1, $body->id_cellier);
+		$bte->aditionerStatsBouteille($body->id_bouteille, 1, 2);
 		echo json_encode($resultat);
 	}
 
@@ -296,7 +306,6 @@ class Controler
 					$message = "identifiant existe dans le système";
 					unset($_POST);
 				} elseif ($tiden != $iden) {
-
 					$auth->sqlAjouterUtilisateur($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, 1, 2);
 					$message = "Utilisateur ajouté";
 					unset($_POST);
@@ -381,7 +390,6 @@ class Controler
 		include("vues/pied.php");
 	}
 
-
 	// La fonction ajoute un utilisateur
 	private function nouveauAdminUtilisateur()
 	{
@@ -407,7 +415,6 @@ class Controler
 					$message = "L'utilisateur avec cet identifiant déjà existe dans le système";
 					unset($_POST);
 				} elseif ($tiden != $iden) {
-
 					$admin->sqlAjouterAdmin($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, 1, $type);
 					$message = "L'utilisateur bien ajouté";
 					unset($_POST);
@@ -425,7 +432,7 @@ class Controler
 		include("vues/adminUtilisateur.php");
 		include("vues/pied.php");
 	}
-
+  
 	// Récupération des informations à changer
 	private function getInfosUtilisateur($id_util)
 	{
@@ -445,28 +452,7 @@ class Controler
 		$data = $admin->sqlModificationUtilisateur($id, $nom, $prenom, $identifiant, $activation, $id_type);
 
 		return $data;
-		/*
-		if (count($_POST) !== 0) {
-
-			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel'], $_POST['telephone']);
-			$erreurs = $oUtilisateur->erreurs;
-
-			if (count($erreurs) === 0) {
-
-				$type = trim($_POST['id_type']);
-
-				$admin->sqlModificationUtilisateur($id, $oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, $oUtilisateur->courriel, $oUtilisateur->telephone, $type);
-				$message = "L'utilisateur bien modifié";
-				unset($_POST);
-			} else {
-				$message = "L'utilisateur n'est pas modifié";
-				unset($_POST);
-			}
-		} else {
-			$erreurs = [];
-			$oUtilisateur = new Utilisateur;
-		}
-        */
+		
 		include("vues/entete.php");
 		include("vues/pied.php");
 	}
@@ -488,6 +474,36 @@ class Controler
 		include("vues/entete.php");
 		include("vues/ajouter_cellier.php");
 		include("vues/pied.php");
+	}
+	//Fonction pour supprimer un cellier
+	private function supprimerUtilisateur($id_util)
+	{
+		$admin = new Admin();
+
+		if ($id_util != $_SESSION['utilisateur_id']) {
+			$data = $admin->supprimerUtilisateur($id_util);
+			if (!$data) {
+				http_response_code(417);
+			}
+		}
+	}
+	//Fonction pour récupérer la liste des celliers 
+    private function getListeCelliers($id_utilisateur) {
+		$bte = new Bouteille();
+		$data = $bte->lireCelliers($id_utilisateur);
+		$data = json_encode($data);
+		if ($_SESSION['utilisateur_type'] == 1){
+			$this->accueil($id_utilisateur);
+			exit;    
+		} else{
+			$data = $bte->lireCelliers($id_utilisateur);
+			$data = json_encode($data);
+		}
+		
+		include("vues/entete.php");
+		include("vues/ajouter_cellier.php");
+		include("vues/pied.php");
+
 	}
 
 	//Fonction pour ajouter un nouveau cellier 
@@ -515,7 +531,7 @@ class Controler
 			http_response_code(417);
 		}
 	}
-
+  
 	//infos bouteille par id bouteille et id cellier
 	private function getInfosBouteille($id_bouteille, $id_cellier)
 	{
@@ -533,7 +549,7 @@ class Controler
 			include("vues/pied.php");
 		}
 	}
-
+  
 	//modification d une bouteille
 	private function modifierBouteilleInfos($id_bouteille, $id_cellier, $date_achat, $garde_jusqua, $notes, $prix, $quantite, $millesime)
 	{
@@ -544,10 +560,9 @@ class Controler
 
 		return $data;
 	}
-
-	//supprimer une bouteille d un cellier
-	private function retirerBouteille($id_bouteille, $id_cellier)
-	{
+  
+	//supprimer une bouteille d'un cellier
+	private function retirerBouteille($id_bouteille,$id_cellier){
 		//checker si l'utilisateur à le droit de modifier
 		$bte = new Bouteille();
 		$dataRetirerBouteille = $bte->retirerBouteille($id_bouteille, $id_cellier);
@@ -555,11 +570,11 @@ class Controler
 			http_response_code(417);
 		}
 	}
-
+	
 	//statistiques des usagers
 	// fonction qui renvoie le nombre de nouveaux usagers
-	private function getNombreNouveauUsagers()
-	{
+	private function getNombreNouveauUsagers() {
+		
 		$admin = new Admin();
 		$data = $admin->getNombreNouveauUsagers();
 		$data = json_encode($data);
@@ -579,7 +594,6 @@ class Controler
 		$celUsager = $stat->sqlNombreCellierParUsager();
 		$btlCellier = $stat->sqlNombreBouteilleParCellier();
 		$btlUsager = $stat->sqlNombreBouteilleParUsager();
-
 		// var_dump($btlUsager);
 
 		include("vues/entete.php");

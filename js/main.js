@@ -116,8 +116,9 @@ window.addEventListener('load', function () {
                         }
                     })
                     .then(response => {
-                        console.log(response);
+                        //console.log(response);
                         response.forEach(function (element) {
+
                             liste.innerHTML += "<li data-id='" + element.id + "'>" + element.nom + "</li>";
                         })
                     }).catch(error => {
@@ -225,12 +226,15 @@ window.addEventListener('load', function () {
                                     boite_alert.style.display = "block";
                                     //Message lorsque la bouteille existe déjà dans le cellier 
                                     document.getElementById('messagePer').innerHTML = "Echec de l'ajout, Bouteille déjà dans le cellier.";
-                                    fermer_boite.addEventListener('click', function (e) {
+                                  
+                                    fermer_boite.addEventListener('click', function(e) {
+
                                         location.reload();
                                     });
                                 } else {
                                     boite_alert.style.display = "block";
-                                    fermer_boite.addEventListener('click', function (e) {
+
+                                    fermer_boite.addEventListener('click', function(e) {
                                         window.location = BaseURL + "index.php?requete=accueil";
                                     });
                                 }
@@ -330,7 +334,8 @@ window.addEventListener('load', function () {
                             if (response.status === 200) {
                                 //Message confirmant la création d'un cellier 
                                 document.getElementById('messagePer').innerHTML = "Cellier correctement créé";
-                                fermer_boite.addEventListener('click', function (e) {
+
+                                fermer_boite.addEventListener('click', function(e) {
                                     location.reload();
                                 });
                                 return response.json();
@@ -355,7 +360,7 @@ window.addEventListener('load', function () {
                 fermer_boite = document.getElementById('close_center');
             boite_alert.style.display === "none";
 
-            if (event.target.tagName == "BUTTON") {
+            if(event.target.tagName == "BUTTON") {
                 var row = event.target.parentElement.parentElement;
             } else {
                 var row = event.target.parentElement.parentElement.parentElement;
@@ -386,7 +391,8 @@ window.addEventListener('load', function () {
                         fetch(requete)
                             .then(response => {
                                 if (response.status === 200) {
-                                    fermer_boite.addEventListener('click', function (e) {
+
+                                    fermer_boite.addEventListener('click', function(e) {
                                         location.reload();
                                     });
                                     return response.json();
@@ -424,22 +430,24 @@ window.addEventListener('load', function () {
         item.addEventListener('click', event => {
             if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
                 boite_alert.style.display = "block";
-                fermer_boite.addEventListener('click', function (e) {
+
+                fermer_boite.addEventListener('click', function(e) {
                     location.reload();
                 });
                 if (annulerSuppressionCellier) {
-                    annulerSuppressionCellier.addEventListener('click', function (e) {
+                    annulerSuppressionCellier.addEventListener('click', function(e) {
                         location.reload();
                     });
                 }
                 //var choice = confirm('Êtes-vous sûr de vouloir supprimer ce cellier?');
                 if (supprimerBtnCellier) {
-                    supprimerBtnCellier.addEventListener('click', function (e) {
+
+                    supprimerBtnCellier.addEventListener('click', function(e) {
                         children_confirm_suppression[0].style.display = "none";
                         supprimerBtnCellier.style.display = "none";
                         annulerSuppressionCellier.style.display = "none";
 
-                        if (event.target.tagName == "BUTTON") {
+                        if(event.target.tagName == "BUTTON") {
                             var row = event.target.parentElement.parentElement;
                         } else {
                             var row = event.target.parentElement.parentElement.parentElement;
@@ -560,16 +568,18 @@ window.addEventListener('load', function () {
         item.addEventListener('click', event => {
             if (boite_alert.style.display === "none" || boite_alert.style.display === '') {
                 boite_alert.style.display = "block";
-                fermer_boite.addEventListener('click', function (e) {
+
+                fermer_boite.addEventListener('click', function(e) {
                     location.reload();
                 });
                 if (annulerSuppressionBouteille) {
-                    annulerSuppressionBouteille.addEventListener('click', function (e) {
+                    annulerSuppressionBouteille.addEventListener('click', function(e) {
                         window.location = BaseURL + "index.php?requete=accueil";
                     });
                 }
                 if (supprimerBtnBouteille) {
-                    supprimerBtnBouteille.addEventListener('click', function (e) {
+
+                    supprimerBtnBouteille.addEventListener('click', function(e) {
                         children_confirm_suppression[0].style.display = "none";
                         supprimerBtnBouteille.style.display = "none";
                         annulerSuppressionBouteille.style.display = "none";
@@ -656,5 +666,68 @@ window.addEventListener('load', function () {
             }).catch(error => {
                 console.error(error);
             });
+    });
+    //menu de navigation
+    let mainNav = document.getElementById('js-menu');
+    let navBarToggle = document.getElementById('js-navbar-toggle');
+
+    navBarToggle.addEventListener('click', function() {
+        mainNav.classList.toggle('active');
+    });
+
+     //sélection d'action effectuée (boire ou ajouter)
+     let selectAction = document.querySelectorAll('input[name="actionBouteille"]');
+     selectAction.forEach(function(elem) {
+         elem.addEventListener("change", function(e) {
+
+            var item = e.target.value;
+            let tableBouteilles = document.getElementById("tableBouteilles");
+            let trTableB = document.getElementsByClassName("bouteilleBuRow");
+            let trTableA = document.getElementsByClassName("bouteilleAjouteeRow");
+
+            if(item === "bouteilleT") {
+                for (let i = 0; i < trTableA.length; i++) {
+                    const element = trTableA[i];
+                    element.style.display = ""; 
+                }
+
+                for (let i = 0; i < trTableB.length; i++) {
+                    const element = trTableB[i];
+                    element.style.display = ""; 
+                }
+                                   
+            } else if(item === "bouteilleB") {
+                for (let i = 0; i < trTableA.length; i++) {
+                    const element = trTableA[i];
+                    element.style.display = "none"; 
+                }
+
+                for (let i = 0; i < trTableB.length; i++) {
+                    const element = trTableB[i];
+                    element.style.display = ""; 
+                }
+                             
+            } else if(item === "bouteilleA") {
+                for (let i = 0; i < trTableA.length; i++) {
+                    const element = trTableA[i];
+                    element.style.display = ""; 
+                }
+
+                for (let i = 0; i < trTableB.length; i++) {
+                    const element = trTableB[i];
+                    element.style.display = "none"; 
+                }
+            }
+          
+         });
+     });
+
+    //sélectionnez un intervalle de temps pour les bouteilles bus et ajoutées
+    let selectIntervalle = document.querySelectorAll(".intervalleT");
+    selectIntervalle.forEach(function(elem) {
+        
+        elem.addEventListener("change", function(e) {
+            window.location.href = BaseURL + "index.php?requete=getStatistiques&intervalle=" + elem.value; 
+        });
     });
 });
