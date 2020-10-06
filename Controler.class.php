@@ -120,10 +120,6 @@ class Controler
 				$this->isAuth();
 				$this->getNombreNouveauUsagers();
 				break;
-			case 'getStatistiques':
-				$this->isAuth();
-				$this->getStatistiques();
-				break;
 			case 'getNombreNouveauUsagers':
 				 $this->isAuth();
 				 $this->getNombreNouveauUsagers();
@@ -164,7 +160,7 @@ class Controler
 			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'], $_GET['typeOption']);
 		}
 
-		if ($_SESSION['utilisateur_type'] == 1) {
+		if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) {
 			$listeCelliers = $bte->lireCelliers();
 			$dataCellier = json_encode($listeCelliers);
 		} elseif ($_SESSION['utilisateur_type'] == 2) {
@@ -439,6 +435,7 @@ class Controler
 		$admin = new Admin();
 		$data = $admin->getUtilisateurById($id_util);
 		$data = json_encode($data);
+		var_dump($data); 
 
 		include("vues/entete.php");
 		include("vues/modifier_utilisateur.php");
@@ -457,24 +454,6 @@ class Controler
 		include("vues/pied.php");
 	}
 
-	//Fonction pour récupérer la liste des celliers 
-	private function getListeCelliers($id_utilisateur)
-	{
-		$bte = new Bouteille();
-		$data = $bte->lireCelliers($id_utilisateur);
-		$data = json_encode($data);
-		if ($_SESSION['utilisateur_type'] == 1) {
-			$this->accueil($id_utilisateur);
-			exit;
-		} else {
-			$data = $bte->lireCelliers($id_utilisateur);
-			$data = json_encode($data);
-		}
-
-		include("vues/entete.php");
-		include("vues/ajouter_cellier.php");
-		include("vues/pied.php");
-	}
 	//Fonction pour supprimer un cellier
 	private function supprimerUtilisateur($id_util)
 	{
@@ -574,10 +553,13 @@ class Controler
 	//statistiques des usagers
 	// fonction qui renvoie le nombre de nouveaux usagers
 	private function getNombreNouveauUsagers() {
-		
 		$admin = new Admin();
 		$data = $admin->getNombreNouveauUsagers();
 		$data = json_encode($data);
+		$stat = new Statistiques();
+		$celUsager=$stat->sqlNombreCellierParUsager();
+		$nbUsager=$stat->sqlNombreUsager();
+		$nbCellier=$stat->sqlNombreCellier();
 
 		include("vues/entete.php");
 		include("vues/statistiques_utilisateurs.php");
@@ -585,18 +567,19 @@ class Controler
 	}
 
 	//Statistiques des nombre d'usager, nombre de cellier,  nombre de cellier par usager,  nombre de bouteille par cellier et par usager
-	private function getStatistiques()
+	private function getStatistiques($intervalle)
 	{
+		
 		$stat = new Statistiques();
+        $btlCellier=$stat->sqlNombreBouteilleParCellier();
+		$btlUsager=$stat->sqlNombreBouteilleParUsager();
+		
+		$bte = new Bouteille();
+		$dataBouteilles = $bte->getNombreBouteilles($intervalle);
+		$dataBouteilles = json_encode($dataBouteilles);
 
-		$nbUsager = $stat->sqlNombreUsager();
-		$nbCellier = $stat->sqlNombreCellier();
-		$celUsager = $stat->sqlNombreCellierParUsager();
-		$btlCellier = $stat->sqlNombreBouteilleParCellier();
-		$btlUsager = $stat->sqlNombreBouteilleParUsager();
-		// var_dump($btlUsager);
-
-		include("vues/entete.php");
+    
+        include("vues/entete.php");
 		include("vues/statistiques.php");
 		include("vues/pied.php");
 	}
