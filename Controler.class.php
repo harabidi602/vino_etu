@@ -11,7 +11,6 @@
  * @license http://creativecommons.org/licenses/by-nc/3.0/deed.fr
  * 
  */
-
 class Controler
 {
 	/**
@@ -89,6 +88,11 @@ class Controler
 					$body->millesime
 				);
 				break;
+			case 'retirerBouteille':
+				$this->isAuth();
+				$body = json_decode(file_get_contents('php://input'));
+				$this->retirerBouteille($body->id_bouteille, $body->id_cellier);
+				break;
 			case 'reinitialiserMdp':
 				$this->reinitialiserMdp();
 				break;
@@ -112,10 +116,13 @@ class Controler
 				$this->isAuth();
 				$this->admin();
 				break;
-			case 'supprimerUtilisateur':
+			case 'getNombreNouveauUsagers':
 				$this->isAuth();
-				$body = json_decode(file_get_contents('php://input'));
-				$this->supprimerUtilisateur($body->id_util);
+				$this->getNombreNouveauUsagers();
+				break;
+			case 'getStatistiques':
+				$this->isAuth();
+				$this->getStatistiques();
 				break;
 			default:
 				$this->authentification();
@@ -149,11 +156,11 @@ class Controler
 
 			$data = $bte->getListeBouteilleCellier($_GET['idCellier'], $_GET['paysOption'], $_GET['typeOption']);
 		}
-		if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) {
-			$listeCelliers = $bte->lireCelliers($_SESSION['utilisateur_id'] = NULL);
+		if ($_SESSION['utilisateur_type'] == 1) {
+			$listeCelliers = $bte->lireCelliers();
 			$dataCellier = json_encode($listeCelliers);
 		} elseif ($_SESSION['utilisateur_type'] == 2) {
-			$listeCelliers = $bte->lireCelliers($_SESSION['utilisateur_id']);
+			$listeCelliers =  $bte->lireCelliers($_SESSION['utilisateur_id']);
 			$dataCellier = json_encode($listeCelliers);
 		}
 		include("vues/entete.php");
@@ -230,19 +237,30 @@ class Controler
 		if (isset($_POST['envoi'])) {
 			$identifiant = trim($_POST['identifiant']);
 			$mot_de_passe = trim($_POST['mdp']);
+			$bte = new Bouteille();
+
 			if (!empty($auth->sqlIdentificationUtilisateur($identifiant, $mot_de_passe))) {
 				$rows = $auth->sqlVinoUtilisateur($identifiant);
 				$type = $rows['id_type'];
+				$id = $rows['id'];
+				$nom = $rows['nom'];
+				$prenom = $rows['prenom'];
 				$activation = $rows['activation'];
 				$_SESSION['utilisateur_identifiant'] = $identifiant;
-				$_SESSION['utilisateur_id'] = $rows['id'];
+				$_SESSION['utilisateur_id'] = $id;
 				$_SESSION['utilisateur_type'] = $type;
+				$_SESSION['utilisateur_nom'] = $nom;
+				$_SESSION['utilisateur_prenom'] = $prenom;
+				$celliers = $bte->lireCelliers($id);
 				if ($activation == 1) {
 					if ($type == 1 || $type == 3) {
-						$this->accueil($_SESSION['utilisateur_id']);
+						$this->accueil($id);
 						exit;
-					} elseif ($type == 2) {
-						$this->ajouterNouvelleBouteilleCellier($_SESSION['utilisateur_id']);
+					} elseif (empty($celliers)) {
+						$this->ajouterNouvelleBouteilleCellier($id);
+						exit;
+					} elseif ($type == 2 && !empty($celliers)) {
+						$this->accueil($id);
 						exit;
 					}
 				} else {
@@ -275,7 +293,7 @@ class Controler
 				$tiden = $rows['identifiant'];
 
 				if ($tiden == $iden) {
-					$message = "L'utilisateur avec cet identifiant déjà existe dans le système";
+					$message = "identifiant existe dans le système";
 					unset($_POST);
 				} elseif ($tiden != $iden) {
 
@@ -311,6 +329,9 @@ class Controler
 	{
 		session_start();
 		unset($_SESSION['identifiant_utilisateur']);
+		unset($_SESSION['utilisateur_id']);
+		unset($_SESSION['utilisateur_type']);
+		session_unset();
 		session_destroy();
 		header('Location: index.php');
 	}
@@ -320,17 +341,14 @@ class Controler
 	{
 		$auth = new Authentication();
 
-		if (isset($_POST['reinitialise']) && isset($_POST['identifiant']) && isset($_POST['courriel'])) {
+		if (isset($_POST['reinitialise']) && isset($_POST['identifiant'])) {
 
 			$iden = trim($_POST['identifiant']);
-			$courriel = trim($_POST['courriel']);
 
 			$rows = $auth->sqlVinoUtilisateur($iden);
 			$tiden = $rows['identifiant'];
-			$tcourriel = $rows['courriel'];
 
-
-			if ($tiden == $iden && $tcourriel == $courriel) {
+			if ($tiden == $iden) {
 				$longueur = 8;
 				$caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 				$mdp = substr(str_shuffle($caracteres), 0, $longueur);
@@ -351,57 +369,6 @@ class Controler
 		include("vues/reinitialiserMdp.php");
 		include("vues/pied.php");
 	}
-
-	//Fonction pour récupérer la liste des celliers 
-	private function getListeCelliers($id_utilisateur)
-	{
-		$bte = new Bouteille();
-		$data = $bte->lireCelliers($id_utilisateur);
-		$data = json_encode($data);
-		if ($_SESSION['utilisateur_type'] == 1) {
-			$this->accueil($id_utilisateur);
-			exit;
-		} else {
-			$data = $bte->lireCelliers($id_utilisateur);
-			$data = json_encode($data);
-		}
-
-		include("vues/entete.php");
-		include("vues/ajouter_cellier.php");
-		include("vues/pied.php");
-		/*if(!empty($_GET['id'])){
-			include("vues/cellier.php");
-		}*/
-	}
-
-	//$resultat = $bte->lireCelliers($_GET['id_utilisateur']);
-	//Fonction pour ajouter un nouveau cellier 
-	private function ajouterNouveauCellier($id_utilisateur, $nom_cellier)
-	{
-		$bte = new Bouteille();
-		$data = $bte->ajouterCellier($id_utilisateur, $nom_cellier);
-		return $data;
-	}
-
-	//Fonction pour modifier un cellier 
-	private function modifierCellier($nom_cellier, $id_cellier)
-	{
-		$bte = new Bouteille();
-		$data = $bte->modifierCellier($nom_cellier, $id_cellier);
-		return $data;
-	}
-
-	//Fonction pour supprimer un cellier
-	private function supprimerCellier($id_cellier)
-	{
-		$bte = new Bouteille();
-		$data = $bte->supprimerCellier($id_cellier);
-		if (!$data) {
-			http_response_code(417);
-		}
-	}
-
-
 	// La fonction redirige l'utilisateur vers la page gestion d'administration    
 	private function admin()
 	{
@@ -414,6 +381,7 @@ class Controler
 		include("vues/pied.php");
 	}
 
+
 	// La fonction ajoute un utilisateur
 	private function nouveauAdminUtilisateur()
 	{
@@ -421,7 +389,6 @@ class Controler
 		$util =  new Authentication();
 
 		if (count($_POST) !== 0) {
-
 			if ($_POST['type'] == 'administrateur') {
 
 				$type = 1;
@@ -440,6 +407,7 @@ class Controler
 					$message = "L'utilisateur avec cet identifiant déjà existe dans le système";
 					unset($_POST);
 				} elseif ($tiden != $iden) {
+
 					$admin->sqlAjouterAdmin($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, 1, $type);
 					$message = "L'utilisateur bien ajouté";
 					unset($_POST);
@@ -480,7 +448,7 @@ class Controler
 		/*
 		if (count($_POST) !== 0) {
 
-			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant']);
+			$oUtilisateur = new Utilisateur($_POST['nom'], $_POST['prenom'], $_POST['identifiant'], $_POST['mdp'], $_POST['courriel'], $_POST['telephone']);
 			$erreurs = $oUtilisateur->erreurs;
 
 			if (count($erreurs) === 0) {
@@ -498,11 +466,57 @@ class Controler
 			$erreurs = [];
 			$oUtilisateur = new Utilisateur;
 		}
-*/
+        */
 		include("vues/entete.php");
 		include("vues/pied.php");
 	}
 
+	//Fonction pour récupérer la liste des celliers 
+	private function getListeCelliers($id_utilisateur)
+	{
+		$bte = new Bouteille();
+		$data = $bte->lireCelliers($id_utilisateur);
+		$data = json_encode($data);
+		if ($_SESSION['utilisateur_type'] == 1) {
+			$this->accueil($id_utilisateur);
+			exit;
+		} else {
+			$data = $bte->lireCelliers($id_utilisateur);
+			$data = json_encode($data);
+		}
+
+		include("vues/entete.php");
+		include("vues/ajouter_cellier.php");
+		include("vues/pied.php");
+	}
+
+	//Fonction pour ajouter un nouveau cellier 
+	private function ajouterNouveauCellier($id_utilisateur, $nom_cellier)
+	{
+		$bte = new Bouteille();
+		$data = $bte->ajouterCellier($id_utilisateur, $nom_cellier);
+		return $data;
+	}
+
+	//Fonction pour modifier un cellier 
+	private function modifierCellier($nom_cellier, $id_cellier)
+	{
+		$bte = new Bouteille();
+		$data = $bte->modifierCellier($nom_cellier, $id_cellier);
+		return $data;
+	}
+
+	//Fonction pour supprimer un cellier
+	private function supprimerCellier($id_cellier)
+	{
+		$bte = new Bouteille();
+		$data = $bte->supprimerCellier($id_cellier);
+		if (!$data) {
+			http_response_code(417);
+		}
+	}
+
+	//infos bouteille par id bouteille et id cellier
 	private function getInfosBouteille($id_bouteille, $id_cellier)
 	{
 		$bte = new Bouteille();
@@ -520,6 +534,7 @@ class Controler
 		}
 	}
 
+	//modification d une bouteille
 	private function modifierBouteilleInfos($id_bouteille, $id_cellier, $date_achat, $garde_jusqua, $notes, $prix, $quantite, $millesime)
 	{
 		//checker si l'utilisateur à le droit de modifier
@@ -530,16 +545,45 @@ class Controler
 		return $data;
 	}
 
-	//Fonction pour supprimer un cellier
-	private function supprimerUtilisateur($id_util)
+	//supprimer une bouteille d un cellier
+	private function retirerBouteille($id_bouteille, $id_cellier)
+	{
+		//checker si l'utilisateur à le droit de modifier
+		$bte = new Bouteille();
+		$dataRetirerBouteille = $bte->retirerBouteille($id_bouteille, $id_cellier);
+		if (!$dataRetirerBouteille) {
+			http_response_code(417);
+		}
+	}
+
+	//statistiques des usagers
+	// fonction qui renvoie le nombre de nouveaux usagers
+	private function getNombreNouveauUsagers()
 	{
 		$admin = new Admin();
+		$data = $admin->getNombreNouveauUsagers();
+		$data = json_encode($data);
 
-		if ($id_util != $_SESSION['utilisateur_id']) {
-			$data = $admin->supprimerUtilisateur($id_util);
-			if (!$data) {
-				http_response_code(417);
-			}
-		}
+		include("vues/entete.php");
+		include("vues/statistiques_utilisateurs.php");
+		include("vues/pied.php");
+	}
+
+	//Statistiques des nombre d'usager, nombre de cellier,  nombre de cellier par usager,  nombre de bouteille par cellier et par usager
+	private function getStatistiques()
+	{
+		$stat = new Statistiques();
+
+		$nbUsager = $stat->sqlNombreUsager();
+		$nbCellier = $stat->sqlNombreCellier();
+		$celUsager = $stat->sqlNombreCellierParUsager();
+		$btlCellier = $stat->sqlNombreBouteilleParCellier();
+		$btlUsager = $stat->sqlNombreBouteilleParUsager();
+
+		// var_dump($btlUsager);
+
+		include("vues/entete.php");
+		include("vues/statistiques.php");
+		include("vues/pied.php");
 	}
 }
