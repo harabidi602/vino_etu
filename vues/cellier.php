@@ -19,22 +19,30 @@ foreach($arrayCelliers as $key =>$tousCelliers){
 $arrayP = array_unique($arrayP) ;
 $arrayT = array_unique($arrayType);
 $arrayC = array_unique($arrayC);
+//type
+/*
+if(isset($_POST['tri_critere']) && $_POST['tri_critere']>0){
+		//echo 'tri_critere:'.$_POST['tri_critere'];
+		$id = trim($_POST['tri_critere']);
+		
+	}
 
+
+*/
 $id = null;
 $p = null;
 $t=null;
-if ( isset( $_GET['idCellier'] ) && !empty( $_GET['idCellier'] ) ){
+/*
+if ( isset( $_GET['idCellier'] ) &&  !empty($_GET['idCellier']) && empty($_GET['paysOption']) && empty($_GET['typeOption']))  {//id_cellier
    $id = trim($_GET['idCellier']);
 }
-elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
+if ( isset( $_GET['paysOption'] ) && !empty($_GET['paysOption']) && empty($_GET['idCellier']) && empty($_GET['typeOption'])){//pays
     $p = trim($_GET['paysOption']);
  }
- elseif ( isset( $_GET['typeOption'] ) && !empty( $_GET['typeOption'] ) ){
+ if ( isset( $_GET['typeOption'] ) && !empty($_GET['typeOption']) && empty($_GET['idCellier']) && empty($_GET['paysOption'])){//type
     $t = trim($_GET['typeOption']);
  }
-
- 
- 
+*/
 ?>
 <section class="cellier">
 <?php if($_SESSION['utilisateur_type']==2){?>		
@@ -45,20 +53,21 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
             <li><label for="tri_cellier">Choisir un cellier</label>
             <select id="cellier" name="tri_cellier" class="tri_cellier"> 
             <option  selected value="-1"> -- selectionner une option -- </option>
-				<?php foreach ($arrayCelliers as $row) : ?>
-						<option value="<?php echo $row['id']; ?>"
-						<?php echo $id === $row['id'] ? "selected" : "" ?>><?php echo $row['nom_cellier']; ?></option> 
+				<?php foreach ($arrayCelliers as $row) : ?>   
+                <option value="<?php echo $row['id'];?>" 
+            <?php if(isset($_GET['idCellier']) && $_GET['idCellier'] ==  $row['id']) echo"selected" ?> ><?php echo $row['nom_cellier']; ?></option>  
                 <?php endforeach ?>
                 </select>
              </li>
             <li>
              <label for="pays">Choisir un pays</label>
               <select name="pays" id="pays" class="tri_cellier">
-                <option   selected value="-1"> -- selectionner une option -- </option>
+                <option selected value="-1"> -- selectionner une option -- </option>
                   <?php 
                     foreach ($arrayP as $pays) { 
                   ?> 
-                  <option value="<?php echo $pays;?>"<?php echo $p === $pays ? "selected" : "" ?>><?php echo $pays; ?></option>
+                  <option value="<?php echo $pays;?>" 
+                     <?php if(isset($_GET['paysOption']) && $_GET['paysOption'] == $pays) echo"selected" ?> ><?php echo $pays; ?></option> 
                 <?php } ?>
               </select>
              </li>
@@ -68,8 +77,8 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
                   <?php 
                   foreach ($arrayT as $type) { 
                       ?>
-                  <option value="<?php echo $type; ?>"<?php echo $t === $type ? "selected" : "" ?>><?php echo $type; ?></option>
-
+                  <option value="<?php echo $type;?>" 
+                     <?php if(isset($_GET['typeOption']) && $_GET['typeOption'] == $type) echo"selected" ?> ><?php echo $type; ?></option>  
                   <?php } ?>
                 </select>
              </li>
@@ -77,10 +86,18 @@ elseif ( isset( $_GET['paysOption'] ) && !empty( $_GET['paysOption'] ) ){
     </nav>
     <?php
     foreach ($arr as $cle => $bouteille) {
+
+        
     ?>
         <article class="bouteille" data-quantite="">
             <div class="img">
+            <?php if($bouteille['image'] ==null){ 
+                $bouteille['image'] =='..\img\bouteille.png';?>
+                <img src="img/bouteille.png">
+               <?php }else{ ?>
                 <img src="https:<?php echo $bouteille['image'] ?>">
+            <?php }?>
+                
             </div>
             <ul class="infoBouteille">
                 <li class="id_cellier">Numéro du cellier : <?php echo $bouteille['id_cellier'] ?></li>
