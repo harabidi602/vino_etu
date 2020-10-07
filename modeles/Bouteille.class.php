@@ -133,7 +133,7 @@ class Bouteille extends Modele
 		}
 		
 	}
-	public function ajoutBouteilleNonListee($nom, $image,$pays,$description,$prix_saq,$format,$id_type,$id_utilisateur){
+	public function ajoutBouteilleNonListee($nom, $url_img,$pays,$description,$prix_saq,$format,$id_type,$id_utilisateur){
 		//$id_utilisateur = $_SESSION['utilisateur_id'];
 
 		$requete = "INSERT INTO vino__bouteille(nom,url_img,pays,description,prix_saq,format,id_type,id_user) 
@@ -146,7 +146,7 @@ class Bouteille extends Modele
 								"" . $id_type . "," .
 								"" . $id_utilisateur . ")";
 				$nom = $nom ?: null;						
-				$url_img = $image ?: null;	
+				$url_img = $url_img ?: null;	
 				$url_img = $_FILES['img']['name'];
 				$pays = $pays ?:null;	
 				$description = $description ?:null;

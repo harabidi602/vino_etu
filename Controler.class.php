@@ -462,8 +462,7 @@ class Controler
 		$admin = new Admin();
 		$data = $admin->getUtilisateurById($id_util);
 		$data = json_encode($data);
-		var_dump($data); 
-
+		//var_dump($data); 
 		include("vues/entete.php");
 		include("vues/modifier_utilisateur.php");
 		include("vues/pied.php");
@@ -482,7 +481,7 @@ class Controler
 	}
 
 	//Fonction pour supprimer un cellier
-	private function supprimerUtilisateur($id_util)
+	/*private function supprimerUtilisateur($id_util)
 	{
 		$admin = new Admin();
 
@@ -492,7 +491,7 @@ class Controler
 				http_response_code(417);
 			}
 		}
-	}
+	}*/
 	//Fonction pour récupérer la liste des celliers 
     private function getListeCelliers($id_utilisateur) {
 		$bte = new Bouteille();

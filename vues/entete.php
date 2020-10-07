@@ -31,40 +31,39 @@
 				<span class="welcome">Bienvenue <?php echo $_SESSION['utilisateur_prenom']; ?> <?php echo $_SESSION['utilisateur_nom']; ?></span>
 				
 				<ul class="main-nav" id="js-menu">
-					<li><a href="?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
-					<li class="menu-item">
-						<a href="?requete=accueil">Accueil</a>
-					</li>
-					<?php if ($_SESSION['utilisateur_type'] == 2){ ?>
-						<li class="menu-item">
-							<a href="?requete=getListeCelliers">Gestion des celliers</a>
-						</li>
-					<?php } ?>
-					<?php if ($_SESSION['utilisateur_type'] == 1){ ?>
-						<li class="menu-item">
-							<a href="index.php?requete=admin">Gestion d'administration</a></li>
-						</li>
-					<?php }?>
-					<?php if ($_SESSION['utilisateur_type'] == 1){ ?>
-						<li class="menu-item"><a href="#" class="deroulant">Statistiques</a>
-							<ul class="sous">
-								<li><a href="index.php?requete=getNombreNouveauUsagers">Utilisateurs</a></li>
-								<li><a href="index.php?requete=getStatistiques">Bouteilles</a></li>
-							</ul>
-						</li>
-					<?php }?>
-					<li class="menu-item">
-						<a href="#">Votre compte</a>
-					</li>
-					<li  class="menu-item">
-						<a href="index.php?requete=quitter">
-							<abbr title="Se deconnecter">
-								<img src="img/logout-24.png" alt="Déconnexion">
-							</abbr>
-						</a>
-						
-					</li>
-				</ul>
+			<li><a href="?requete=accueil"><img src="img/logo.png" alt="logo"></a></li>
+			<li class="menu-item">
+				<a href="?requete=accueil">Accueil</a>
+			</li>
+			<?php if ($_SESSION['utilisateur_type'] == 2) { ?>
+				<li class="menu-item">
+					<a href="?requete=getListeCelliers">Gestion des celliers</a>
+				</li>
+			<?php } ?>
+			<?php if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) { ?>
+				<li class="menu-item">
+					<a href="index.php?requete=admin">Gestion d'administration</a></li>
+				</li>
+			<?php } ?>
+			<?php if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) { ?>
+				<li class="menu-item"><a href="#" class="deroulant">Statistiques</a>
+					<ul class="sous">
+						<li><a href="index.php?requete=getNombreNouveauUsagers">Utilisateurs</a></li>
+						<li><a href="index.php?requete=getStatistiques">Bouteilles</a></li>
+					</ul>
+				</li>
+			<?php } ?>
+			<li class="menu-item">
+				<a href="#">Votre compte</a>
+			</li>
+			<li class="menu-item">
+				<a href="index.php?requete=quitter">
+					<abbr title="Se deconnecter">
+						<img src="img/logout-24.png" alt="Déconnexion">
+					</abbr>
+				</a>
+			</li>
+		</ul>
     	</nav>
 	<div class="col-2">
 		<main class="content">
