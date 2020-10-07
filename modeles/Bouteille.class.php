@@ -126,10 +126,36 @@ class Bouteille extends Modele
 			"'" . $data->millesime . "')";
 
 		$res = $this->_db->query($requete);
+		if(empty($res)){
+			exit;
+		}else{
+			return $res;
+		}
+		
+	}
+	public function ajoutBouteilleNonListee($nom, $url_img,$pays,$description,$prix_saq,$format,$id_type,$id_utilisateur){
+		//$id_utilisateur = $_SESSION['utilisateur_id'];
 
+		$requete = "INSERT INTO vino__bouteille(nom,url_img,pays,description,prix_saq,format,id_type,id_user) 
+						VALUES (" . "'" . $nom . "'," .
+								"'" . $url_img . "'," .
+								"'" . $pays . "'," .
+								"'" . $description . "'," .
+								"" . $prix_saq . "," .
+								"'" . $format . "'," .
+								"" . $id_type . "," .
+								"" . $id_utilisateur . ")";
+				$nom = $nom ?: null;						
+				$url_img = $url_img ?: null;	
+				$url_img = $_FILES['img']['name'];
+				$pays = $pays ?:null;	
+				$description = $description ?:null;
+				$format = $format ?:null;	
+				
+		
+			$res = $this->_db->query($requete);
 		return $res;
 	}
-
 	/**
 	 * Cette méthode change la quantité d'une bouteille en particulier dans le cellier
 	 * 
@@ -262,6 +288,17 @@ class Bouteille extends Modele
 		return $res;
 	}
 
+	public function getListeTypeVin(){
+		$requete = "SELECT * FROM vino__bouteille_type ";
+		$res = $this->_db->query($requete);
+		if ($res->num_rows) {
+			while ($row = $res->fetch_assoc()) {
+				$rows[] = $row;
+			}
+		}
+
+		return $rows;
+	}
 	public function getNombreBouteilles($dateFiltre) {
 		$requete = "SELECT date_changement AS dateChang, actions AS actionsBA, count(quantite) AS quantiteBA
 		FROM vino__bouteilles_stats";

@@ -1,9 +1,10 @@
+<section class="stat">
 <?php
     //Transformer le résultat de Json en array 
     $arr = json_decode($data, true);?>
-<div class="usager">
-    <h4>Le nombre des nv usagers par mois</h4>
+<div>
     <table>
+    <caption>Le nombre des nv usagers par mois</caption>
         <thead>
             <tr>
                 <th>Mois</th>
@@ -20,7 +21,9 @@
             <?php endforeach; ?>
         </tbody>
     </table>   
-    <table align="center">
+</div>
+<div>
+    <table>
        <caption>Les nombres d'usager et de cellier</caption>
         <thead>
             <tr>
@@ -37,7 +40,9 @@
             <?php endforeach; ?>      
         </tbody>
     </table> 
-    <table align="center">
+</div>
+<div>
+    <table >
        <caption>Le nombre de cellier par usager</caption>
         <thead>
             <tr>
@@ -55,6 +60,6 @@
         </tbody>
     </table> 
  </div>
- 
+</section> 
 
     

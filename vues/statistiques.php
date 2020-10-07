@@ -65,7 +65,9 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <table align="center">
+</div>
+<div>
+    <table>
        <caption>Le nombre de bouteille par usager</caption>
         <thead>
             <tr>

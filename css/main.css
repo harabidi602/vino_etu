@@ -1,6 +1,6 @@
 /********
- * Votre CSS
- ********/
+* Votre CSS
+********/
 
 * {
     box-sizing: border-box;
@@ -89,8 +89,29 @@ header {
     padding-top: 20px;
 }
 
+
+/*sous menu*/
+
+.sous {
+    list-style-type: none;
+}
+
+.menu-item:nth-of-type(4) {
+    display: block;
+}
+
+.menu-item li:nth-of-type(4) {}
+
+.sous ul:hover {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    background-color: rgba(119, 4, 4, 100%);
+    color: #FFFFFF;
+    list-style-type: none;
+}
+
 .menu-item a {
-    /*  */
     color: #ffffff;
     text-decoration: none;
     text-transform: uppercase;
@@ -115,6 +136,7 @@ header {
     padding-bottom: 10px;
     display: flex;
     flex-direction: column;
+    list-style-type: none;
 }
 
 .welcome {
@@ -182,6 +204,7 @@ header {
 
 .content {
     display: flex;
+    flex-direction: column;
     margin: 0 auto;
 }
 
@@ -206,7 +229,7 @@ header {
 
 
 /*.cellier>nav>* {
-     padding: 10px;
+padding: 10px;
 }*/
 
 .cellier nav ul {
@@ -380,7 +403,8 @@ bouton ajouté bouteille
     width: 50%;
 }
 
-.nouvelleBouteille {
+.nouvelleBouteille,
+.nouvelleBouteilleNonlistee {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -393,7 +417,8 @@ bouton ajouté bouteille
     justify-content: center;
 }
 
-.nouvelleBouteille h4 {
+.nouvelleBouteille h4,
+.nouvelleBouteilleNonlistee h4 {
     flex: 0 0 100%;
     text-align: center;
 }
@@ -594,7 +619,7 @@ th {
 
 
 /* 
-création d'un nouveau compte utilisateur
+    création d'un nouveau compte utilisateur
 */
 
 .usager {
@@ -688,6 +713,7 @@ footer p {
         position: relative;
         padding-left: 50%;
     }
+    /**/
     td:before {
         position: absolute;
         top: 6px;
@@ -836,7 +862,8 @@ footer p {
 
 /* les boites de messages (alert+confirm)*/
 
-#center_container {
+#center_container,
+#center_container2 {
     display: none;
     position: fixed;
     top: 0;
@@ -861,6 +888,7 @@ footer p {
 }
 
 #center,
+#center2,
 #center_sup,
 #confirm_suppression {
     position: relative;
@@ -887,7 +915,8 @@ footer p {
     margin: 2px 2px;
 }
 
-#close_center {
+#close_center,
+#close_center2 {
     position: absolute;
     top: -10px;
     right: -10px;
@@ -926,8 +955,29 @@ footer p {
     background-color: #DFF2BF;
 }
 
+.choixAjoutBouteille {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
 
-/*Statistiques*/
-.filtreBouteilles {
-    text-align: left;
+.choixAjoutBouteille label {
+    text-align: center;
+}
+
+.nouvelleBouteilleNonlistee>h4 {}
+
+.stat {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+.stat>div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex: 0 0 100%;
+    margin: 1em 0.5em;
 }
