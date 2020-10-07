@@ -530,13 +530,9 @@ window.addEventListener('load', function() {
     
     let URLBouteilles = BaseURL + "?requete=ajouterNouvelleBouteilleCellier";
     let ULRBouteilles2 = BaseURL + "index.php?requete=ajouterNouvelleBouteilleCellier";
-    console.log('Algo');
     let pageActuelle = window.location.href; 
-    console.log(pageActuelle);
-    console.log(URLBouteilles);
-
+    
     if(URLBouteilles == pageActuelle || ULRBouteilles2 == pageActuelle) {
-        console.log('Pagina de agregar');
         //choisir le type d'ajout d'une bouteille
         var elements = document.querySelectorAll('[data-show-more]');
         let choixTypeAjoutBouteille = document.querySelector("nouvelleBouteille"),
