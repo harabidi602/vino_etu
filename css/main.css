@@ -977,14 +977,7 @@ footer p {
 .stat>div {
     display: flex;
     flex-direction: row;
-    /*  */
     flex-wrap: wrap;
     flex: 0 0 100%;
     margin: 1em 0.5em;
 }
-
-
-/* align-items: center; */
-
-
-/* text-align: center;*/

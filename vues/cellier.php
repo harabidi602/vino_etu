@@ -1,53 +1,34 @@
 <?php
-$arr = json_decode(json_encode($data),true);
+$arr = json_decode(json_encode($data), true);
 $arrayCelliers = json_decode($dataCellier, true);
-$arrayId =[];
-$arrayC=[];
-$arrayP=[];
-$arrayType =[]; 
-$arrayUser =[];
+$arrayId = [];
+$arrayC = [];
+$arrayP = [];
+$arrayType = [];
+$arrayUser = [];
 
-foreach($arr as $key => $cellier) {
+foreach ($arr as $key => $cellier) {
     array_push($arrayId, $cellier['nom_cellier']);
     array_push($arrayP, $cellier['pays']);
     array_push($arrayType, $cellier['type']);
-    array_push($arrayUser,$cellier['id_utilisateur']);
+    array_push($arrayUser, $cellier['id_utilisateur']);
+
 }
-foreach($arrayCelliers as $key =>$tousCelliers){
+foreach ($arrayCelliers as $key => $tousCelliers) {
     array_push($arrayC, $tousCelliers['nom_cellier']);
 }
-$arrayP = array_unique($arrayP) ;
+$arrayP = array_unique($arrayP);
 $arrayT = array_unique($arrayType);
 $arrayC = array_unique($arrayC);
-//type
-/*
-if(isset($_POST['tri_critere']) && $_POST['tri_critere']>0){
-		//echo 'tri_critere:'.$_POST['tri_critere'];
-		$id = trim($_POST['tri_critere']);
-		
-	}
 
-
-*/
 $id = null;
 $p = null;
 $t=null;
-/*
-if ( isset( $_GET['idCellier'] ) &&  !empty($_GET['idCellier']) && empty($_GET['paysOption']) && empty($_GET['typeOption']))  {//id_cellier
-   $id = trim($_GET['idCellier']);
-}
-if ( isset( $_GET['paysOption'] ) && !empty($_GET['paysOption']) && empty($_GET['idCellier']) && empty($_GET['typeOption'])){//pays
-    $p = trim($_GET['paysOption']);
- }
- if ( isset( $_GET['typeOption'] ) && !empty($_GET['typeOption']) && empty($_GET['idCellier']) && empty($_GET['paysOption'])){//type
-    $t = trim($_GET['typeOption']);
- }
-*/
 ?>
 <section class="cellier">
-<?php if($_SESSION['utilisateur_type']==2){?>		
-            <div><a class="ajouter_bouteille" href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></div>
-        <?php }?>
+    <?php if ($_SESSION['utilisateur_type'] == 2) { ?>
+        <div><a class="ajouter_bouteille" href="?requete=ajouterNouvelleBouteilleCellier">Ajouter une bouteille au cellier</a></div>
+    <?php } ?>
     <nav>
         <ul>
             <li><label for="tri_cellier">Choisir un cellier</label>
@@ -58,7 +39,7 @@ if ( isset( $_GET['paysOption'] ) && !empty($_GET['paysOption']) && empty($_GET[
             <?php if(isset($_GET['idCellier']) && $_GET['idCellier'] ==  $row['id']) echo"selected" ?> ><?php echo $row['nom_cellier']; ?></option>  
                 <?php endforeach ?>
                 </select>
-             </li>
+            </li>
             <li>
              <label for="pays">Choisir un pays</label>
               <select name="pays" id="pays" class="tri_cellier">
@@ -81,14 +62,11 @@ if ( isset( $_GET['paysOption'] ) && !empty($_GET['paysOption']) && empty($_GET[
                      <?php if(isset($_GET['typeOption']) && $_GET['typeOption'] == $type) echo"selected" ?> ><?php echo $type; ?></option>  
                   <?php } ?>
                 </select>
-             </li>
-		</ul>
+            </li>
+        </ul>
     </nav>
     <?php
-    foreach ($arr as $cle => $bouteille) {
-
-        
-    ?>
+    foreach ($arr as $cle => $bouteille) {?>
         <article class="bouteille" data-quantite="">
             <div class="img">
             <?php if($bouteille['image'] ==null){ 
@@ -110,18 +88,17 @@ if ( isset( $_GET['paysOption'] ) && !empty($_GET['paysOption']) && empty($_GET[
                 <li class="date_achat">Date d'achat : <?php echo $bouteille['date_achat'] ?></li>
                 <li><a href="<?php echo $bouteille['url_saq'] ?>" target="_blank">Voir SAQ</a></li>
             </ul>
-            <?php if($_SESSION['utilisateur_type']==2){?>
-            <div class="options" data-id_bouteille="<?php echo $bouteille['id_bouteille'] ?>" data-id_cellier="<?php echo $bouteille['id_cellier'] ?>">
-                <button class="btnModifierBouteille" id='modifierBouteille' name="modifierBouteille">Modifier</button>
-                <button class='btnAjouter'>Ajouter</button>
-                <button class='btnBoire'>Boire</button>
-                <button class="btnRetirerBouteille" id='retirerBouteille' name="retirerBouteille">Retirer</button>
-            </div>
-            <?php  }
-            else{ ?>
+            <?php if ($_SESSION['utilisateur_type'] == 2) { ?>
+                <div class="options" data-id_bouteille="<?php echo $bouteille['id_bouteille'] ?>" data-id_cellier="<?php echo $bouteille['id_cellier'] ?>">
+                    <button class="btnModifierBouteille" id='modifierBouteille' name="modifierBouteille">Modifier</button>
+                    <button class='btnAjouter'>Ajouter</button>
+                    <button class='btnBoire'>Boire</button>
+                    <button class="btnRetirerBouteille" id='retirerBouteille' name="retirerBouteille">Retirer</button>
+                </div>
+            <?php  } else { ?>
                 <div></div>
-           <?php }
-                ?>
+            <?php }
+            ?>
         </article>
     <?php
     }
@@ -129,9 +106,9 @@ if ( isset( $_GET['paysOption'] ) && !empty($_GET['paysOption']) && empty($_GET[
     <div id="center_container">
         <div id="center">
             <div id="confirm_suppression">
-                <p id ='choix_suppression_bouteille'>Vous voulez supprimer cette bouteille?</p>
-                        <button  id='confirmerSuppBouteille'>Oui</button>
-                        <button  id='annulerSuppressionBouteille'>Non</button>
+                <p id='choix_suppression_bouteille'>Vous voulez supprimer cette bouteille?</p>
+                <button id='confirmerSuppBouteille'>Oui</button>
+                <button id='annulerSuppressionBouteille'>Non</button>
             </div>
             <span id="close_center">X</span>
         </div>

@@ -29,7 +29,7 @@ class Bouteille extends Modele
 		return $rows;
 	}
 
-	public function getListeBouteilleCellier($id_cellier='',$pays='',$type ='',$id_utilisateur=''/*,$quantite ='',$millesime=''*/)
+	public function getListeBouteilleCellier($id_cellier = '', $pays = '', $type = '', $id_utilisateur = '')
 	{
 
 		$rows = array();
@@ -42,42 +42,32 @@ class Bouteille extends Modele
         INNER JOIN vino__cellier v_c ON v_c.id = v_c_b.id_cellier 
         INNER JOIN vino__bouteille v_b ON v_b.id = v_c_b.id_bouteille 
 		INNER JOIN vino__bouteille_type v_b_t ON v_b_t.id = v_b.id_type
-		INNER JOIN vino__utilisateur v_u ON v_u.id = v_c.id_utilisateur
-		
-		
-		';
-		if(!empty($id_cellier)){ 
-		$requete.=" WHERE v_c_b.id_cellier ='".$id_cellier."'";
+		INNER JOIN vino__utilisateur v_u ON v_u.id = v_c.id_utilisateur';
+
+		if (!empty($id_cellier)) {
+			$requete .= " WHERE v_c_b.id_cellier ='" . $id_cellier . "'";
 		}
-		if(!empty($type)){ 
-			$requete.=" AND v_b_t.type ='".$type."'";
+		if (!empty($type)) {
+			$requete .= " AND v_b_t.type ='" . $type . "'";
 		}
-		if(!empty($quantite)){ 
-			
-			$requete.=" AND v_c_b.quantite ='".$quantite."'";
-			
+		if (!empty($pays)) {
+			$requete .= " AND v_b.pays ='" . $pays . "'";
 		}
-		if(!empty($pays)){ 
-			$requete.=" AND v_b.pays ='".$pays."'";
+		if (!empty($id_utilisateur)) {
+			$requete .= " AND v_c.id_utilisateur ='" . $id_utilisateur . "'";
 		}
-		if(!empty($millesime)){ 
-			$requete.=" AND v_b.millesime ='".$millesime."'";
-		}
-		if(!empty($id_utilisateur)){
-			$requete.=" AND v_c.id_utilisateur ='".$id_utilisateur."'";
-		}
-			if (($res = $this->_db->query($requete)) ==	 true) {
-				if ($res->num_rows) {
-					while ($row = $res->fetch_assoc()) {
-						$row['nom'] = trim(utf8_encode($row['nom']));
-						$rows[] = $row;
-					}
+		if (($res = $this->_db->query($requete)) ==	 true) {
+			if ($res->num_rows) {
+				while ($row = $res->fetch_assoc()) {
+					$row['nom'] = trim(utf8_encode($row['nom']));
+					$rows[] = $row;
 				}
-			} else {
-				throw new Exception("Erreur de requête sur la base de donnée", 1);
-				//$this->_db->error;
 			}
-			return $rows;
+		} else {
+			throw new Exception("Erreur de requête sur la base de donnée", 1);
+			//$this->_db->error;
+		}
+		return $rows;
 	}
 	/**
 	 * Cette méthode permet de retourner les résultats de recherche pour la fonction d'autocomplete de l'ajout des bouteilles dans le cellier
@@ -92,7 +82,6 @@ class Bouteille extends Modele
 
 	public function autocomplete($nom, $nb_resultat = 10)
 	{
-
 		$rows = array();
 		$nom = $this->_db->real_escape_string($nom);
 		$nom = preg_replace("/\*/", "%", $nom);
@@ -111,11 +100,8 @@ class Bouteille extends Modele
 			throw new Exception("Erreur de requête sur la base de données", 1);
 		}
 
-
-		//var_dump($rows);
 		return $rows;
 	}
-
 
 	/**
 	 * Cette méthode ajoute une ou des bouteilles au cellier
@@ -184,6 +170,15 @@ class Bouteille extends Modele
 		$requete = "UPDATE vino__cellier_bouteille SET quantite = GREATEST(quantite + " . $nombre . ", 0) WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = " . $id_cellier;
 		//echo $requete;
 		$res = $this->_db->query($requete);
+		
+		return $res;
+	}
+
+	public function aditionerStatsBouteille($id_bouteille, $nombre, $action)
+	{
+		$requete = "INSERT INTO `vino__bouteilles_stats`(`id_bouteille`, `date_changement`, `actions`, `quantite`) VALUES (" . $id_bouteille . ",NOW()," . $action . "," . $nombre . ")";
+		//echo $requete;
+		$res = $this->_db->query($requete);
 
 		return $res;
 	}
@@ -197,11 +192,8 @@ class Bouteille extends Modele
 		return $row;
 	}
 
-
 	/**
 	 * Cette méthode récupère la liste des ids des celliers par utilisateurs
-	 *  
-	 * 
 	 */
 	public function lireCelliers($id_utilisateur = '')
 	{
@@ -216,10 +208,10 @@ class Bouteille extends Modele
 			$requete = 'SELECT `id`, `id_utilisateur`, `nom_cellier`, IFNULL(SUM(quantite),0) AS totalBouteilles, IFNULL(AVG(prix),0) AS AvgPrix  FROM `vino__cellier` 
 						LEFT JOIN vino__cellier_bouteille
 						ON vino__cellier.id = vino__cellier_bouteille.id_cellier 
-						WHERE id_utilisateur = ' . $id_utilisateur . 
-						' GROUP BY id';
+						WHERE id_utilisateur = ' . $id_utilisateur .
+				' GROUP BY id';
 		}
-		
+
 		if (($res = $this->_db->query($requete)) ==	 true) {
 			if ($res->num_rows) {
 				while ($row = $res->fetch_assoc()) {
@@ -229,7 +221,6 @@ class Bouteille extends Modele
 			}
 		} else {
 			throw new Exception("Erreur de requête sur la base de donnée", 1);
-			//$this->_db->error;
 		}
 		return $rows;
 	}
@@ -258,6 +249,7 @@ class Bouteille extends Modele
 		$res = $this->_db->query($requete);
 		return $res;
 	}
+
 	//recuperer les infos de la bouteille avant de la modifier
 	public function lireBouteille($id_bouteille, $id_cellier)
 	{
@@ -272,10 +264,10 @@ class Bouteille extends Modele
 
 		return $rows;
 	}
-	//modifier une bouteille
-	public function modifierBouteille($id_bouteille, $id_cellier, $date_achat='', $garde_jusqua='', $notes='', $prix='', $quantite='', $millesime='')
-	{
 
+	//modifier une bouteille
+	public function modifierBouteille($id_bouteille, $id_cellier, $date_achat = '', $garde_jusqua = '', $notes = '', $prix = '', $quantite = '', $millesime = '')
+	{
 		$requete = "UPDATE vino__cellier_bouteille 
 		SET date_achat ='" . $date_achat . "',
 		garde_jusqua='" . $garde_jusqua . "',
@@ -288,9 +280,10 @@ class Bouteille extends Modele
 		return $res;
 	}
 
-	public function retirerBouteille($id_bouteille,$id_cellier){
-		$requete ="DELETE FROM vino__cellier_bouteille 
-		WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = ".$id_cellier;
+	public function retirerBouteille($id_bouteille, $id_cellier)
+	{
+		$requete = "DELETE FROM vino__cellier_bouteille 
+		WHERE id_bouteille = " . $id_bouteille . " AND id_cellier = " . $id_cellier;
 		$res = $this->_db->query($requete);
 		return $res;
 	}
@@ -306,4 +299,32 @@ class Bouteille extends Modele
 
 		return $rows;
 	}
+	public function getNombreBouteilles($dateFiltre) {
+		$requete = "SELECT date_changement AS dateChang, actions AS actionsBA, count(quantite) AS quantiteBA
+		FROM vino__bouteilles_stats";
+
+		if($dateFiltre == 'jour') {
+			$requete.=" WHERE date_changement BETWEEN NOW() - INTERVAL 1 DAY AND NOW() GROUP BY actions ASC";
+		} else if ($dateFiltre == 'semaine') {
+			$requete.=" WHERE date_changement BETWEEN NOW() - INTERVAL 1 WEEK AND NOW() GROUP BY actions ASC";
+		} else if ($dateFiltre == 'mois') {
+			$requete.=" WHERE date_changement BETWEEN NOW() - INTERVAL 1 MONTH AND NOW() GROUP BY actions ASC";
+		} else if($dateFiltre == 'anneee') {
+			$requete.=" WHERE date_changement BETWEEN NOW() - INTERVAL 1 YEAR AND NOW() GROUP BY actions ASC";
+		} else {
+			$requete.=" GROUP BY actions ASC";
+		}
+	
+        $res = $this->_db->query($requete);
+        if ($res->num_rows) {
+            while ($row = $res->fetch_assoc()) {
+                $rows[] = $row;
+            }
+		}
+		if(isset($rows)) {
+			return $rows;
+		} else {
+			return []; 
+		}
+    }
 }

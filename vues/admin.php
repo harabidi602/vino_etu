@@ -1,4 +1,3 @@
-
 <div class="nouveauUtil" vertical layout>
     <div class="conteneurImg">
         <img src="img/newUsager.png" alt="">
@@ -15,25 +14,22 @@
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Identifiant</th>
-                <th>Courriel</th>
-                <th>Téléphone</th>
-                <th>Type</th>
+                <th>Type du compte</th>
+                <th>Activation</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($arr as $item) :  ?>
                 <tr>
-                    <td data-column="Nom"><span><?php echo $item['nom']; ?></span></td>
-                    <td data-column="Prénom"><span><?php echo $item['prenom']; ?></span></td>
-                    <td data-column="Identifiant"><span><?php echo $item['identifiant']; ?></span></td>
-                    <td data-column="Courriel"><span><?php echo $item['courriel']; ?></span></td>
-                    <td data-column="Téléphone"><span><?php echo $item['telephone']; ?></span></td>
-                    <td data-column="Type"><span><?php echo $item['type']; ?></span></td>
+                    <td data-column="Nom"><?php echo $item['nom']; ?></td>
+                    <td data-column="Prénom"><?php echo $item['prenom']; ?></td>
+                    <td data-column="Identifiant"><?php echo $item['identifiant']; ?></td>
+                    <td data-column="Type"><?php echo $item['type']; ?></td>
+                    <td data-column="activation"><?php echo $item['activation']; ?></td>
+                    <td data-column="id" style="display:none;"><?php echo $item['id']; ?></td>
                     <td data-column="Actions">
-                      <!--  <button class="btn"><i class="fa fa-wrench" aria-hidden="true" name="modifierUtil"></i></button>-->
-                        <button class="btn"><i class="fa fa-trash" aria-hidden="true" name="supprimerUtil"></i></button>
-                        <input type="hidden" class="nomCellier" value="<?php echo $item['id']; ?>">
+                        <button class="btn"><i class="fa fa-pencil-alt" aria-hidden="true" name="modifierUtil"></i></button>
                     </td>
                 </tr>
             <?php endforeach; ?>
