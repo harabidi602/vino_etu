@@ -33,10 +33,18 @@ class Controler
 				$this->isAuth();
 				$this->ajouterNouvelleBouteilleCellier($_SESSION['utilisateur_id']);
 				break;
+			case 'ajouterBouteilleNonListee';
+				$this->isAuth();
+				$this->ajouterBouteilleNonListee($_SESSION['utilisateur_id']);
+				break;
 			case 'ajouterBouteilleCellier':
 				$this->isAuth();
 				$this->ajouterBouteilleCellier();
 				break;
+			/*case 'getListeTypeVin':
+				$this->isAuth();
+				$this->getListeTypeVin();
+			break;*/
 			case 'boireBouteilleCellier':
 				$this->isAuth();
 				$this->boireBouteilleCellier();
@@ -210,11 +218,30 @@ class Controler
 			$data = $this->listeBouteille();
 			$listeCelliers = $bte->lireCelliers($id_utilisateur);
 			$dataCellier = json_encode($listeCelliers);
+			$z = $bte->getListeTypeVin();
 			include("vues/entete.php");
 			include("vues/ajouter.php");
 			include("vues/pied.php");
 		}
 	}
+	
+	
+	private function ajouterBouteilleNonListee($id_utilisateur){
+		$bte = new Bouteille();
+		$body = json_decode(file_get_contents('php://input'));
+		$data2 = $bte->ajoutBouteilleNonListee($body->nom,
+												$body->url_img,
+												$body->pays,
+												$body->description,
+												$body->prix_saq,
+												$body->format,
+												$body->id_type,
+												$id_utilisateur);
+		//echo json_encode($data2,true);
+		echo json_decode($data2,true);
+		
+	}
+
 
 	private function boireBouteilleCellier()
 	{
