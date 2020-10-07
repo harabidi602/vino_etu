@@ -82,6 +82,53 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+     <table align="center">
+       <caption>La valeur tous des bouteilles</caption>
+        <thead>
+            <tr>
+                <th>Valeur de bouteille</th>
+            </tr>
+        </thead>
+        <tbody>
+           <?php foreach ($btlVal as $val): ?>
+             <td data-column="btlvaleur"><?php echo $val;?></td>
+            <?php endforeach; ?>     
+        </tbody>
+    </table> 
+     <table align="center">
+       <caption>La valeur des bouteilles par cellier</caption>
+        <thead>
+            <tr>
+                <th>Nom cellier</th>
+                <th>Valeur de bouteille</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($btlCellierVal as $btlCelVal) : ?>
+                <tr>
+                    <td data-column="btlnom"><span><?php echo $btlCelVal['nom']; ?></span></td>
+                    <td data-column="btlnombre"><span><?php echo $btlCelVal['valeur']; ?></span></td>   
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <table align="center">
+       <caption>La valeur des bouteilles par usager</caption>
+        <thead>
+            <tr>
+                <th>Usager</th>
+                <th>Valeur de bouteille</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($btlUsagerVal as $btlUsVal) : ?>
+                <tr>
+                    <td data-column="btlnom"><span><?php echo $btlUsVal['usager']; ?></span></td>
+                    <td data-column="btlnombre"><span><?php echo $btlUsVal['valeur']; ?></span></td>   
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 </div>
 
 
