@@ -1,5 +1,6 @@
-   <div class="nouveauUtil" vertical layout>
-    <table align="center">
+<section class="stat">
+    <div>
+    <table>
        <caption>Le nombre de bouteille par cellier</caption>
         <thead>
             <tr>
@@ -16,7 +17,9 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <table align="center">
+</div>
+<div>
+    <table>
        <caption>Le nombre de bouteille par usager</caption>
         <thead>
             <tr>
@@ -33,15 +36,6 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    
-    
-    
-    
-    
-    
-    
-    
 </div>
-
-
+</section>
 
