@@ -573,7 +573,11 @@ class Controler
 		$stat = new Statistiques();
         $btlCellier=$stat->sqlNombreBouteilleParCellier();
 		$btlUsager=$stat->sqlNombreBouteilleParUsager();
-		
+        $btlCellierVal=$stat->sqlValeurBouteilleParCellier();
+		$btlUsagerVal=$stat->sqlValeurBouteilleParUsager();
+        $btlVal=$stat->sqlValeurTotal();
+        
+        
 		$bte = new Bouteille();
 		$dataBouteilles = $bte->getNombreBouteilles($intervalle);
 		$dataBouteilles = json_encode($dataBouteilles);
