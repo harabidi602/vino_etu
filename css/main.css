@@ -162,7 +162,6 @@ header {
 
 .navbar li:nth-child(4):hover ul {
     left: auto;
-    /*background-color: rgba(119, 4, 4, 100%);*/
     padding: 10px;
     width: 20%;
     display: block !important;
