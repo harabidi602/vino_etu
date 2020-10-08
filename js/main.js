@@ -783,6 +783,8 @@ window.addEventListener('load', function() {
             }
         });
     }
+    /*-----------gestion de l'importation d'une bouteille----------*/
+
 
     /************************************************************* */
     /**-------------GESTION DES UTILISATEURS---------------------- */
