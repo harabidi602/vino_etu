@@ -24,11 +24,11 @@
 </div>
 <div>
     <table>
-       <h4>Les nombres d'usager et de cellier</h4>
+       <h4>Les nombres d'usagers et de celliers</h4>
         <thead>
             <tr>
-                <th>Nombre d'usager</th>
-                <th>Nombre de cellier</th>
+                <th>Nombre d'usagers</th>
+                <th>Nombre de celliers</th>
             </tr>
         </thead>
         <tbody>
@@ -47,7 +47,7 @@
         <thead>
             <tr>
                 <th>Usager</th>
-                <th>Nombre de cellier</th>
+                <th>Nombre de celliers</th>
             </tr>
         </thead>
         <tbody>
