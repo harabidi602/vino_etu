@@ -75,7 +75,7 @@ $t=null;
                <?php }else{ ?>
                 <img src="https:<?php echo $bouteille['image'] ?>">
             <?php }?>
-                
+            
             </div>
             <ul class="infoBouteille">
                 <li class="id_cellier">Numéro du cellier : <?php echo $bouteille['id_cellier'] ?></li>

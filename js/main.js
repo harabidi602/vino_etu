@@ -527,12 +527,15 @@ window.addEventListener('load', function() {
         });
     });
 
-    
+
     let URLBouteilles = BaseURL + "?requete=ajouterNouvelleBouteilleCellier";
     let ULRBouteilles2 = BaseURL + "index.php?requete=ajouterNouvelleBouteilleCellier";
-    let pageActuelle = window.location.href; 
-    
-    if(URLBouteilles == pageActuelle || ULRBouteilles2 == pageActuelle) {
+    console.log('Algo');
+    let pageActuelle = window.location.href;
+    console.log(pageActuelle);
+    console.log(URLBouteilles);
+
+    if (URLBouteilles == pageActuelle || ULRBouteilles2 == pageActuelle) {
         //choisir le type d'ajout d'une bouteille
         var elements = document.querySelectorAll('[data-show-more]');
         let choixTypeAjoutBouteille = document.querySelector("nouvelleBouteille"),
@@ -725,6 +728,11 @@ window.addEventListener('load', function() {
                     let idType = bouteille.id_type.options[choiceType].value;
                     // let typeOption = bouteille.type.options[typeChoisi].value;
                     let isvalid = true;
+                    if (!bouteille.pays.value) {
+                        let erreurPays = document.getElementById('erreurPays');
+                        erreurPays.innerHTML = "Vous devez saisir un pays";
+                        isvalid = false;
+                    }
                     if (!Number.isInteger(+bouteille.prix_saq.value)) {
                         let erreurPrix = document.getElementById('erreurPrix');
                         erreurPrix.innerHTML = 'Prix non valide, la valeur doit être un nombre entier';
@@ -753,7 +761,7 @@ window.addEventListener('load', function() {
                                     if (response.status === 200) {
                                         boite_alert2.style.display = "block";
                                         //Message lorsque la bouteille existe déjà dans le cellier 
-                                        document.getElementById('messagePer2').innerHTML = "ajout succes.";
+                                        document.getElementById('messagePer2').innerHTML = "Ajout effectué avec succés.";
                                         fermer_boite2.addEventListener('click', function(e) {
                                             location.reload();
                                         });
@@ -775,58 +783,92 @@ window.addEventListener('load', function() {
             }
         });
     }
+    /*-----------gestion de l'importation d'une bouteille----------*/
 
-        
 
-        
-        /************************************************************* */
-        /**-------------GESTION DES UTILISATEURS---------------------- */
-        /************************************************************* */
-        let btnModifUtil = document.getElementsByName("modifierUtil");
+    /************************************************************* */
+    /**-------------GESTION DES UTILISATEURS---------------------- */
+    /************************************************************* */
+    let btnModifUtil = document.getElementsByName("modifierUtil");
 
-        //Récupération des informations à modifier d'un utilisateur
-        btnModifUtil.forEach(item => {
-            item.addEventListener('click', event => {
+    //Récupération des informations à modifier d'un utilisateur
+    btnModifUtil.forEach(item => {
+        item.addEventListener('click', event => {
 
-                let row = event.target.parentElement.parentElement.parentElement;
-                let id_util = row.querySelectorAll('td')[5].innerHTML;
+            let row = event.target.parentElement.parentElement.parentElement;
+            let id_util = row.querySelectorAll('td')[5].innerHTML;
 
-                window.location = BaseURL + "index.php?requete=pageModificationUtilisateur&id=" + id_util;
+            window.location = BaseURL + "index.php?requete=pageModificationUtilisateur&id=" + id_util;
+        });
+    });
+
+    //Appliquer la modification de l'utilisateur
+    document.getElementById('modifier_utilisateur').addEventListener("click", event => {
+        let type = document.getElementById("type");
+        let choice1 = type.selectedIndex;
+        let valeur_cherchee_type = type.options[choice1].value;
+
+        let activation = document.getElementById("activation");
+        let choice2 = activation.selectedIndex;
+        let valeur_cherchee_activation = activation.options[choice2].value;
+
+        let param = {
+            "id": parseInt(document.getElementsByName('utilisateur_id')[0].value),
+            "nom": document.getElementsByName('nom')[0].value,
+            "prenom": document.getElementsByName('prenom')[0].value,
+            "identifiant": document.getElementsByName('identifiant')[0].value,
+            "activation": parseInt(valeur_cherchee_activation),
+            "id_type": parseInt(valeur_cherchee_type)
+        };
+        console.log('param ', param);
+        let requete = new Request(BaseURL + "index.php?requete=modificationUtilisateur", { method: 'PUT', body: JSON.stringify(param) });
+        fetch(requete)
+            .then(response => {
+                if (response.status === 200) {
+                    window.location = BaseURL + "index.php?requete=admin";
+                    return response.json();
+                } else {
+                    throw new Error('Erreur');
+                }
+            }).then(response => {
+                console.debug(response);
+            }).catch(error => {
+                console.error(error);
             });
-        });
+    });
 
-        //Appliquer la modification de l'utilisateur
-        document.getElementById('modifier_utilisateur').addEventListener("click", event => {
-            let type = document.getElementById("type");
-            let choice1 = type.selectedIndex;
-            let valeur_cherchee_type = type.options[choice1].value;
+    //Appliquer la modification de l'utilisateur
+    document.getElementById('modifier_utilisateur').addEventListener("click", event => {
+        let type = document.getElementById("type");
+        let choice1 = type.selectedIndex;
+        let valeur_cherchee_type = type.options[choice1].value;
 
-            let activation = document.getElementById("activation");
-            let choice2 = activation.selectedIndex;
-            let valeur_cherchee_activation = activation.options[choice2].value;
+        let activation = document.getElementById("activation");
+        let choice2 = activation.selectedIndex;
+        let valeur_cherchee_activation = activation.options[choice2].value;
 
-            let param = {
-                "id": parseInt(document.getElementsByName('utilisateur_id')[0].value),
-                "nom": document.getElementsByName('nom')[0].value,
-                "prenom": document.getElementsByName('prenom')[0].value,
-                "identifiant": document.getElementsByName('identifiant')[0].value,
-                "activation": parseInt(valeur_cherchee_activation),
-                "id_type": parseInt(valeur_cherchee_type)
-            };
-            console.log('param ', param);
-            let requete = new Request(BaseURL + "index.php?requete=modificationUtilisateur", { method: 'PUT', body: JSON.stringify(param) });
-            fetch(requete)
-                .then(response => {
-                    if (response.status === 200) {
-                        window.location = BaseURL + "index.php?requete=admin";
-                        return response.json();
-                    } else {
-                        throw new Error('Erreur');
-                    }
-                }).then(response => {
-                    console.debug(response);
-                }).catch(error => {
-                    console.error(error);
-                });
-        });
+        let param = {
+            "id": parseInt(document.getElementsByName('utilisateur_id')[0].value),
+            "nom": document.getElementsByName('nom')[0].value,
+            "prenom": document.getElementsByName('prenom')[0].value,
+            "identifiant": document.getElementsByName('identifiant')[0].value,
+            "activation": parseInt(valeur_cherchee_activation),
+            "id_type": parseInt(valeur_cherchee_type)
+        };
+        console.log('param ', param);
+        let requete = new Request(BaseURL + "index.php?requete=modificationUtilisateur", { method: 'PUT', body: JSON.stringify(param) });
+        fetch(requete)
+            .then(response => {
+                if (response.status === 200) {
+                    window.location = BaseURL + "index.php?requete=admin";
+                    return response.json();
+                } else {
+                    throw new Error('Erreur');
+                }
+            }).then(response => {
+                console.debug(response);
+            }).catch(error => {
+                console.error(error);
+            });
+    });
 });
