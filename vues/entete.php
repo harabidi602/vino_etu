@@ -36,7 +36,7 @@
 				</li>
 			<?php } ?>
 			<?php if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) { ?>
-				<li class="menu-item"><a href="#" class="deroulant"><i class="fas fa-chevron-down"></i>Statistiques</a>
+				<li class="menu-item"><a href="index.php?requete=accueil" class="deroulant"><i class="fas fa-chevron-down"></i>Statistiques</a>
 					<ul class="sous">
 						<li><a href="index.php?requete=getNombreNouveauUsagers">Utilisateurs</a></li>
 						<li><a href="index.php?requete=getStatistiques">Bouteilles</a></li>
