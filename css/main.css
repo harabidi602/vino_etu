@@ -96,9 +96,11 @@ header {
     list-style-type: none;
 }
 
+
+/*
 .menu-item:nth-of-type(4) {
     display: block;
-}
+}*/
 
 .menu-item li:nth-of-type(4) {}
 
@@ -160,6 +162,48 @@ header {
     text-align: center;
     margin: 15px auto;
 }
+
+
+/*
+.main-nav li ul {
+    position: static;
+    // on cache les sous menus complètement sur la gauche
+    left: -999em;
+    text-align: left;
+    z-index: 1000;
+}*/
+
+.navbar>ul>li ul {
+    display: none;
+    position: absolute;
+}
+
+
+/*
+.menu-item:nth-child(4) li:hover a {
+    display: block !important;
+    background-color: blue;
+}
+*/
+
+.navbar li:nth-child(4):hover ul {
+    left: auto;
+    /*background-color: rgba(119, 4, 4, 100%);*/
+    padding: 10px;
+    width: 20%;
+    display: block !important;
+    color: rgb(101, 138, 53);
+}
+
+.sous li {
+    background-color: rgba(119, 4, 4, 100%);
+}
+
+
+/* // Au survol des li du menu on replace les sous menus 
+li:nth-child(2):hover a { background-color: blue; }
+
+*/
 
 .logo {
     display: inline-block;
@@ -366,7 +410,8 @@ bouton ajouté bouteille
     text-align: left;
 }
 
-.ajouterBouteilleCellier {
+.ajouterBouteilleCellier,
+.ajouterBouteilleNonListee {
     background-color: rgb(101, 138, 53);
     color: white;
     padding: 3px 2px;
@@ -377,10 +422,8 @@ bouton ajouté bouteille
     margin: 5px auto;
 }
 
-
-/**/
-
-.ajouterBouteilleCellier:hover {
+.ajouterBouteilleCellier:hover,
+.ajouterBouteilleNonListee:hover {
     background-color: rgba(119, 4, 4, 100%);
     color: white;
 }
@@ -745,6 +788,7 @@ footer p {
         align-items: center;
         display: flex;
         flex-direction: column;
+        padding: 0px;
     }
 }
 
@@ -759,9 +803,15 @@ footer p {
     body {
         width: 100%;
     }
-    .nouvelleBouteille {
+    .nouvelleBouteille,
+    .nouvelleBouteilleNonlistee {
         justify-content: center;
         width: 80%;
+        margin: 0 auto;
+    }
+    .nouvelleBouteilleNonlistee .ajoutBouteille p {
+        width: 100%;
+        padding: 1px;
     }
     .nouveauUtil {
         justify-content: center;
@@ -798,6 +848,15 @@ footer p {
     .gestionCel {
         width: 100%;
     }
+    .navbar>ul>li ul {
+        position: relative;
+    }
+    .navbar li:nth-child(4):hover ul {
+        left: 0;
+        right: 0;
+        position: relative;
+        margin: 0 auto;
+    }
 }
 
 
@@ -806,6 +865,13 @@ footer p {
 @media all and (min-width: 440px) {
     .navbar-toggle {
         top: 0px;
+    }
+    .nouvelleBouteilleNonlistee {
+        /*  display: flex;
+        flex-direction: column;
+        margin: auto;
+        border: 1px solid green;
+        padding: 10px;*/
     }
 }
 
