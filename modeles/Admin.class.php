@@ -88,4 +88,20 @@ class Admin extends Modele
         }
         return $rows;
     }
+    // La fonction modifie un utilisateur
+    public function sqlModificationUtilisateurConnecte($id, $nom, $prenom, $iden ,$mdp)
+    {
+        $requete = "UPDATE vino__utilisateur SET nom = '$nom', prenom = '$prenom', mdp = md5('$mdp'), identifiant = '$iden' WHERE id='$id'";
+
+        if ($this->_db->query($requete)) {
+
+            return true;
+        }
+    }
+    public function getInfosUtilisateurConnectee($id){
+        $requete = "SELECT * FROM vino__utilisateur WHERE id = " . $id;
+		$res = $this->_db->query($requete);
+		$row = $res->fetch_assoc();
+		return $row;
+    }
 }
