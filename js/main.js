@@ -836,4 +836,39 @@ window.addEventListener('load', function() {
                 console.error(error);
             });
     });
+
+    //Appliquer la modification de l'utilisateur
+    document.getElementById('modifier_utilisateur').addEventListener("click", event => {
+        let type = document.getElementById("type");
+        let choice1 = type.selectedIndex;
+        let valeur_cherchee_type = type.options[choice1].value;
+
+        let activation = document.getElementById("activation");
+        let choice2 = activation.selectedIndex;
+        let valeur_cherchee_activation = activation.options[choice2].value;
+
+        let param = {
+            "id": parseInt(document.getElementsByName('utilisateur_id')[0].value),
+            "nom": document.getElementsByName('nom')[0].value,
+            "prenom": document.getElementsByName('prenom')[0].value,
+            "identifiant": document.getElementsByName('identifiant')[0].value,
+            "activation": parseInt(valeur_cherchee_activation),
+            "id_type": parseInt(valeur_cherchee_type)
+        };
+        console.log('param ', param);
+        let requete = new Request(BaseURL + "index.php?requete=modificationUtilisateur", { method: 'PUT', body: JSON.stringify(param) });
+        fetch(requete)
+            .then(response => {
+                if (response.status === 200) {
+                    window.location = BaseURL + "index.php?requete=admin";
+                    return response.json();
+                } else {
+                    throw new Error('Erreur');
+                }
+            }).then(response => {
+                console.debug(response);
+            }).catch(error => {
+                console.error(error);
+            });
+    });
 });
