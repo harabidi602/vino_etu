@@ -163,28 +163,10 @@ header {
     margin: 15px auto;
 }
 
-
-/*
-.main-nav li ul {
-    position: static;
-    // on cache les sous menus complètement sur la gauche
-    left: -999em;
-    text-align: left;
-    z-index: 1000;
-}*/
-
 .navbar>ul>li ul {
     display: none;
     position: absolute;
 }
-
-
-/*
-.menu-item:nth-child(4) li:hover a {
-    display: block !important;
-    background-color: blue;
-}
-*/
 
 .navbar li:nth-child(4):hover ul {
     left: auto;
@@ -198,12 +180,6 @@ header {
 .sous li {
     background-color: rgba(119, 4, 4, 100%);
 }
-
-
-/* // Au survol des li du menu on replace les sous menus 
-li:nth-child(2):hover a { background-color: blue; }
-
-*/
 
 .logo {
     display: inline-block;
@@ -270,11 +246,6 @@ li:nth-child(2):hover a { background-color: blue; }
     padding: 5px;
     justify-content: center;
 }
-
-
-/*.cellier>nav>* {
-padding: 10px;
-}*/
 
 .cellier nav ul {
     list-style-type: none;
@@ -519,10 +490,8 @@ bouton ajouté bouteille
     line-height: 40px;
     padding: 0 20px;
     border-bottom: 1px solid #ccc;
-    /*background: #666;*/
     cursor: pointer;
     transition: color 200ms ease-in-out;
-    /*background-color: #003777;*/
     background-color: #e85e30;
     color: #FFFFFF;
 }
@@ -866,13 +835,6 @@ footer p {
     .navbar-toggle {
         top: 0px;
     }
-    .nouvelleBouteilleNonlistee {
-        /*  display: flex;
-        flex-direction: column;
-        margin: auto;
-        border: 1px solid green;
-        padding: 10px;*/
-    }
 }
 
 @media all and (min-width: 736px) {
@@ -1031,8 +993,6 @@ footer p {
 .choixAjoutBouteille label {
     text-align: center;
 }
-
-.nouvelleBouteilleNonlistee>h4 {}
 
 .stat {
     display: flex;
