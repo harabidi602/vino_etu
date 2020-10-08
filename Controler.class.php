@@ -136,6 +136,15 @@ class Controler
 				 $this->isAuth();
 				 $this->getStatistiques(isset($_GET['intervalle']) ? $_GET['intervalle'] : '');
 			break;
+			case 'getInfosUtilisateurConnectee' :
+				$this->isAuth();
+				$this->getInfosUtilisateurConnectee($_SESSION['utilisateur_id']);
+			break;
+			case 'sqlModificationUtilisateurConnecte':
+				$this->isAuth();
+				$body = json_decode(file_get_contents('php://input'));
+				$this->sqlModificationUtilisateurConnecte($body->id, $body->nom, $body->prenom, $body->identifiant, $body->mdp);
+				break;
 			default:
 				$this->authentification();
 				break;
@@ -613,4 +622,23 @@ class Controler
 		include("vues/statistiques.php");
 		include("vues/pied.php");
 	}
+	private function getInfosUtilisateurConnectee($id)
+	{
+		$admin = new Admin();
+		$data = $admin->getInfosUtilisateurConnectee($id);
+		$data = json_encode($data);
+		//var_dump($data); 
+		include("vues/entete.php");
+		include("vues/consultationModifUtilisateur.php");
+		include("vues/pied.php");
+	}
+	private function sqlModificationUtilisateurConnecte($id,$nom,$prenom,$identifiant,$mdp){
+		$admin = new Admin();
+		$dataUser = $admin->sqlModificationUtilisateurConnecte($id, $nom, $prenom, $identifiant, $mdp);
+		return $dataUser;
+		include("vues/entete.php");
+		include("vues/consultationModifUtilisateur.php");
+		include("vues/pied.php");
+	}
+
 }
