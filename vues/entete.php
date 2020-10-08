@@ -13,16 +13,6 @@
 	<!--<script src="./js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>-->
 	<script src="js/main.js"></script>
 </head>
-
-		<link rel="stylesheet" href="./css/normalize.css" type="text/css" media="screen">
-		<link rel="stylesheet" href="./css/base_h5bp.css" type="text/css" media="screen">
-		<link rel="stylesheet" href="./css/main.css" type="text/css" media="screen">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css" />
-		<base href="<?php echo BASEURL; ?>">
-		<!--<script src="./js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>-->
-		<script src="./js/plugins.js"></script>
-		<script src="./js/main.js"></script>
-	</head>
 	<body>
 		<nav class="navbar">
 				<span class="navbar-toggle" id="js-navbar-toggle">
@@ -54,7 +44,7 @@
 				</li>
 			<?php } ?>
 			<li class="menu-item">
-				<a href="#">Votre compte</a>
+				<a href="index.php?requete=getInfosUtilisateurConnectee">Votre compte</a>
 			</li>
 			<li class="menu-item">
 				<a href="index.php?requete=quitter">
