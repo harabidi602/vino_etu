@@ -96,14 +96,6 @@ header {
     list-style-type: none;
 }
 
-
-/*
-.menu-item:nth-of-type(4) {
-    display: block;
-}*/
-
-.menu-item li:nth-of-type(4) {}
-
 .sous ul:hover {
     display: flex;
     flex-direction: column;
