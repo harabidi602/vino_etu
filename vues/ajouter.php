@@ -53,7 +53,7 @@
             <div class="ajoutBouteille">
                 <p>Nom <input type="text" name="nom_bouteille_non_listee"></p><span id="erreurNom"></span>
                 <p><input name="image" type="hidden" value="img/bouteille.png"></p>
-                <p>Pays <input name="pays" type="text"></p><span id="erreurPays"></span>
+                <p>Pays <input name="pays" type="text" required></p><span id="erreurPays"></span>
                 <p>Description <input name="description" type="text" id="description"></p><span id="erreurDescription"></span>
                 <p>Prix <input name="prix_saq" type="number" id='prix_saq'></p><span id="erreurPrix"></span>
                 <p>Format <input name="format" type="text" id='format'></p><span id="erreurFormat"></span>
