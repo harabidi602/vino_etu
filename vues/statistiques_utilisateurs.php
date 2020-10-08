@@ -1,10 +1,10 @@
-<section class="stat">
+ <section class="usager"  vertical layout>
 <?php
     //Transformer le résultat de Json en array 
     $arr = json_decode($data, true);?>
 <div>
     <table>
-    <caption>Le nombre des nv usagers par mois</caption>
+        <h4>Le nombre des nv usagers par mois</h4>
         <thead>
             <tr>
                 <th>Mois</th>
@@ -15,8 +15,8 @@
             <?php foreach ($arr as $item) :  ?>
                 <tr>
                     <?php $month_name = date('F', mktime(0, 0, 0, $item['MONTH']));?>
-                    <td data-column="mois"><span><?php  echo $month_name.' '.$item['year']; ?></span></td>
-                    <td data-column="nbre_nv_usagers"><span><?php echo $item['nombreUsers']; ?></span></td>
+                    <td data-column="Mois"><span><?php  echo $month_name.' '.$item['year']; ?></span></td>
+                    <td data-column="Nombre"><span><?php echo $item['nombreUsers']; ?></span></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -24,7 +24,7 @@
 </div>
 <div>
     <table>
-       <caption>Les nombres d'usager et de cellier</caption>
+       <h4>Les nombres d'usager et de cellier</h4>
         <thead>
             <tr>
                 <th>Nombre d'usager</th>
@@ -33,17 +33,17 @@
         </thead>
         <tbody>
            <?php foreach ($nbUsager as $nb): ?>
-             <td data-column="nusager"><?php echo $nb;?></td>
+             <td data-column="Nombre d'usagers"><?php echo $nb;?></td>
             <?php endforeach; ?>
              <?php foreach ($nbCellier as $nb): ?>
-             <td data-column="nusager"><?php echo $nb;?></td>
+             <td data-column="Nombre de celliers"><?php echo $nb;?></td>
             <?php endforeach; ?>      
         </tbody>
     </table> 
 </div>
 <div>
     <table >
-       <caption>Le nombre de cellier par usager</caption>
+       <h4>Le nombre de cellier par usager</h4>
         <thead>
             <tr>
                 <th>Usager</th>
@@ -53,8 +53,8 @@
         <tbody>
             <?php foreach ($celUsager as $cU) : ?>
                 <tr>
-                    <td data-column="usager"><span><?php echo $cU['usager']; ?></span></td>
-                    <td data-column="cellnombre"><span><?php echo $cU['nombre']; ?></span></td>   
+                    <td data-column="Usager"><span><?php echo $cU['usager']; ?></span></td>
+                    <td data-column="Nombre de celliers"><span><?php echo $cU['nombre']; ?></span></td>   
                 </tr>
             <?php endforeach; ?>
         </tbody>
