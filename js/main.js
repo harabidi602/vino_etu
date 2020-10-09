@@ -178,7 +178,18 @@ window.addEventListener('load', function() {
                         .then(response => {
                             if (response.status === 200) {
                                 //Message confirmant la création d'un cellier 
-                                document.getElementById('messagePer').innerHTML = "Cellier correctement créé";
+                                let msgAjouterCellier = document.getElementById('messagePer');
+                                msgAjouterCellier.innerHTML = "Cellier correctement crée";
+                                let btnAjouterBouteille = document.createElement("BUTTON");
+                                btnAjouterBouteille.style.width = '200px';
+                                btnAjouterBouteille.id ='ajouterBouteilleNU';
+                                btnAjouterBouteille.innerHTML = "Ajouter Bouteille";
+                                let container = document.getElementById('center_container');
+                                msgAjouterCellier.appendChild(btnAjouterBouteille); 
+
+                                ajouterBouteilleNU.addEventListener('click', function() {
+                                    window.location = BaseURL + "index.php?requete=ajouterNouvelleBouteilleCellier";
+                                })
 
                                 fermer_boite.addEventListener('click', function(e) {
                                     location.reload();

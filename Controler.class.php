@@ -331,7 +331,7 @@ class Controler
 						$this->accueil($id);
 						exit;
 					} elseif (empty($celliers)) {
-						$this->ajouterNouvelleBouteilleCellier($id);
+						$this->getListeCelliers($id);
 						exit;
 					} elseif ($type == 2 && !empty($celliers)) {
 						$this->accueil($id);
@@ -367,14 +367,14 @@ class Controler
 				$tiden = $rows['identifiant'];
 
 				if ($tiden == $iden) {
-					$succes = 0;
+					$message = "identifiant existe dans le système";
 					unset($_POST);
 				} elseif ($tiden != $iden) {
 					$auth->sqlAjouterUtilisateur($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, 1, 2);
-                    $succes = 1;
+					$message = "Utilisateur ajouté";
 					unset($_POST);
 				} else {
-					$succes = 0;
+					$message = "Utilisateur n'est pas ajouté";
 					unset($_POST);
 				}
 			}
