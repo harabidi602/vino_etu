@@ -1,24 +1,23 @@
 <div class="usager">
     <h4>Créez un nouveau usager</h4>
     <form id="nutilisateur" action="" method="post">
-        <?php if (!empty($message)) : ?>
-            <p class="success-msg">
-                <i class="fa fa-check"><?php echo $message; ?></i></p>
-        <?php endif; ?>
+        <?php if (!empty($succes)) : ?>
+        <?php header('Location: index.php'); ?>
+        <?php endif;?>
         <p> <input name="date_inscription" type="hidden" id="dateActuelle">
-            <span>Nom</span><input class="inputForm" name="nom" required>
+            <span>Nom</span><input class="inputForm" name="nom" placeholder="Entre 2 et 25 caractères alphabétiques M ou m" required>
             <span class="erreur"><?= isset($erreurs['nom']) ? $erreurs['nom'] : "" ?></span>
         </p>
         <p>
-            <span>Prénom</span><input class="inputForm" name="prenom" required>
+            <span>Prénom</span><input class="inputForm" name="prenom" placeholder="Entre 2 et 25 caractères alphabétiques M ou m" required>
             <span class="erreur"> <?= isset($erreurs['prenom']) ? $erreurs['prenom'] : "" ?></span>
         </p>
         <p>
-            <span>Identifiant</span> <input class="inputForm" name="identifiant" required>
+            <span>Identifiant</span> <input class="inputForm" name="identifiant" placeholder="Entre 3 et 16 caractères alphabétiques M ou m" required>
             <span class="erreur"><?= isset($erreurs['identifiant']) ? $erreurs['identifiant'] : "" ?></span>
         </p>
         <p>
-            <span>Mot de passe</span> <input class="inputForm" type="password" name="mdp" required>
+            <span>Mot de passe</span> <input class="inputForm" type="password" name="mdp" placeholder="8 caractères ou plus M ou m" required>
             <span class="erreur"><?= isset($erreurs['mdp']) ? $erreurs['mdp'] : "" ?></span>
         </p>
         <p><button type="submit" class="creationButton" name="creer" id='creerUsager'>Créez</button></p>
