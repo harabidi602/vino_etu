@@ -91,7 +91,7 @@ class Utilisateur
     {
         unset($this->erreurs['identifiant']);
         $identifiant = trim($identifiant);
-        $regExp = '/^[a-z][a-z0-9_-]{3,16}$/';
+        $regExp = '/^[a-zA-Z][a-zA-Z0-9_-]{3,16}$/';
         if ($identifiant !== null && preg_match($regExp, $identifiant)) {
             $this->identifiant = $identifiant;
         } else {
