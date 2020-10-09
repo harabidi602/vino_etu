@@ -35,15 +35,16 @@ class SAQ extends Modele
 	 * @param int $nombre
 	 * @param int $debut
 	 */
-	public function getProduits($nombre = 24, $page = 1)
+	public function getProduits($nombre = 24, $debut = 1)
 	{
 		$s = curl_init();
-		$url = "https://www.saq.com/fr/produits/vin/vin-rouge?p=1&product_list_limit=24&product_list_order=name_asc";
-		//curl_setopt($s, CURLOPT_URL, "http://www.saq.com/webapp/wcs/stores/servlet/SearchDisplay?searchType=&orderBy=&categoryIdentifier=06&showOnly=product&langId=-2&beginIndex=".$debut."&tri=&metaData=YWRpX2YxOjA8TVRAU1A%2BYWRpX2Y5OjE%3D&pageSize=". $nombre ."&catalogId=50000&searchTerm=*&sensTri=&pageView=&facet=&categoryId=39919&storeId=20002");
+		//$url = "https://www.saq.com/fr/produits/vin/vin-rouge?p=1&product_list_limit=24&product_list_order=name_asc";
+		//curl_setopt($s, CURLOPT_URL, "http://www.saq.com/webapp/wcs/stores/servlet/SearchDisplay?searchType=&orderBy=&categoryIdentifier=06&showOnly=product&langId=-2&beginIndex=" . $debut . "&tri=&metaData=YWRpX2YxOjA8TVRAU1A%2BYWRpX2Y5OjE%3D&pageSize=" . $nombre . "&catalogId=50000&searchTerm=*&sensTri=&pageView=&facet=&categoryId=39919&storeId=20002");
 		//curl_setopt($s, CURLOPT_URL, "https://www.saq.com/webapp/wcs/stores/servlet/SearchDisplay?categoryIdentifier=06&showOnly=product&langId=-2&beginIndex=" . $debut . "&pageSize=" . $nombre . "&catalogId=50000&searchTerm=*&categoryId=39919&storeId=20002");
-		curl_setopt($s, CURLOPT_URL, $url);
+		//curl_setopt($s, CURLOPT_URL, $url);
+		curl_setopt($s, CURLOPT_URL, "https://www.saq.com/fr/produits/vin?p=" . $debut . "&product_list_limit=" . $nombre . "");
 		curl_setopt($s, CURLOPT_RETURNTRANSFER, true);
-		//curl_setopt($s, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($s, CURLOPT_FOLLOWLOCATION, 1);
 
 		self::$_webpage = curl_exec($s);
 		self::$_status = curl_getinfo($s, CURLINFO_HTTP_CODE);
@@ -55,30 +56,53 @@ class SAQ extends Modele
 		@$doc->loadHTML(self::$_webpage);
 		$elements = $doc->getElementsByTagName("li");
 		$i = 0;
+?>
+		<table>
+			<thead>
+				<tr>
+					<th>Nom de la Bouteille</th>
+					<th>Format</th>
+					<th>Type</th>
+					<th>Pays</th>
+					<th>Prix</th>
+					<th>Nouveauté</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				foreach ($elements as $key => $noeud) {
+					if (strpos($noeud->getAttribute('class'), "product-item") !== false) {
+						//echo $this->get_inner_html($noeud);
+						$info = self::recupereInfo($noeud);
+						//echo "<p>" . $info->nom;
+						$retour = $this->ajouteProduit($info);
+				?>
+						<tr>
+							<td data-column="Nom de la bouteille"><?php echo $info->nom; ?></td>
+							<td data-column="Format"><?php echo $info->desc->format; ?></td>
+							<td data-column="Type"><?php echo $info->desc->type; ?></td>
+							<td data-column="Pays"><?php echo $info->desc->pays; ?></td>
+							<td data-column="Prix"><?php echo $info->prix; ?></td>
+							<td data-column="Nouveaute"><?php echo $retour->raison; ?></td>
+						</tr>
+				<?php
 
-		foreach ($elements as $key => $noeud) {
-			//var_dump($noeud -> getAttribute('class')) ;
-			//if ("resultats_product" == str$noeud -> getAttribute('class')) {
-			if (strpos($noeud->getAttribute('class'), "product-item") !== false) {
-
-				//echo $this->get_inner_html($noeud);
-				$info = self::recupereInfo($noeud);
-				echo "<p>" . $info->nom;
-
-				$retour = $this->ajouteProduit($info);
-				echo "<br>Code de retour : " . $retour->raison . "<br>";
-				if ($retour->succes == false) {
-					echo "<pre>";
-					//var_dump($info);
-					echo "</pre>";
-					echo "<br>";
-				} else {
-					$i++;
+						//echo "<br>Code de retour : " . $retour->raison . "<br>";
+						if ($retour->succes == false) {
+							//echo "<pre>";
+							//var_dump($info);
+							//echo "</pre>";
+							//echo "<br>";
+						} else {
+							$i++;
+						}
+						//echo "</p>";
+					}
 				}
-				echo "</p>";
-			}
-		}
-
+				?>
+			</tbody>
+		</table>
+<?php
 		return $i;
 	}
 
@@ -89,7 +113,6 @@ class SAQ extends Modele
 		foreach ($children as $child) {
 			$innerHTML .= $child->ownerDocument->saveXML($child);
 		}
-
 		return $innerHTML;
 	}
 
@@ -100,23 +123,21 @@ class SAQ extends Modele
 
 	private function recupereInfo($noeud)
 	{
-
 		$info = new stdClass();
 		$items = $noeud->getElementsByTagName("img");
 		foreach ($items as $item) {
 			if ($item->getAttribute('class') == 'product-image-photo') {
 				$info->img = $item->getAttribute('src');
-				//var_dump($info->img);
 			}
-		} //TODO : Nettoyer le lien
+		}
 
 		$info->img = substr($info->img, 6); // Enlever le https au début du lien
-		var_dump($info->img);
+		//var_dump($info->img);
 
 		$a_titre = $noeud->getElementsByTagName("a")->item(0);
 		$info->url = $a_titre->getAttribute('href');
 
-		$info->nom = self::nettoyerEspace(trim($a_titre->textContent));	//TODO : Retirer le format de la bouteille du titre.
+		$info->nom = self::nettoyerEspace(trim($a_titre->textContent));
 
 		// Type, format et pays
 		$aElements = $noeud->getElementsByTagName("strong");
@@ -132,7 +153,6 @@ class SAQ extends Modele
 					$info->desc->format = trim($aDesc[1]);
 					$info->desc->pays = trim($aDesc[2]);
 				}
-
 				$info->desc->texte = trim($info->desc->texte);
 			}
 		}
@@ -152,11 +172,9 @@ class SAQ extends Modele
 			if ($node->getAttribute('class') == 'price') {
 				//var_dump($node);
 				$info->prix = trim($node->textContent);
-				
 			}
 		}
 		//var_dump($info);
-
 		return $info;
 	}
 
@@ -167,13 +185,12 @@ class SAQ extends Modele
 		$retour->succes = false;
 		$retour->raison = '';
 
-
 		//$price = substr(($bte -> prix), 0,5);
 		$price = substr(($bte->prix), 0, 5);
 		//str_replace(',', '.', $price);
 		$t = str_replace(',', '.', $price);
 		$a = (float) $t;
-		
+
 		$rows = $this->_db->query("select id from vino__bouteille_type where type = '" . $bte->desc->type . "'");
 
 		if ($rows->num_rows == 1) {

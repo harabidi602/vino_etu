@@ -1,27 +1,30 @@
-<!DOCTYPE HTML>
-<html>
-	
-	<head>
-		<meta charset="UTF-8" />	
-	</head>
-	<body>
 <?php
-	require("dataconf.php");
-	require("config.php");
-	$page = 1;
-	$nombreProduit = 24; //48 ou 96	
-	
-	$saq = new SAQ();
-	for($i=0; $i<1;$i++)	//permet d'importer séquentiellement plusieurs pages.
-	{
-		echo "<h2>page ". ($page+$i)."</h2>";
-		$nombre = $saq->getProduits($nombreProduit,$page+$i);
-		echo "importation : ". $nombre. "<br>";
-	}
-	
-	
-	
 
+if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) {
+
+	if (isset($_POST['page'])) {
+		$page = $_POST['page'];
+	} else {
+		$page = 1;
+	}
+
+	if (isset($_POST['nombre'])) {
+		$nombreProduit = $_POST['nombre']; //24, 48 ou 96	 
+	} else {
+		$nombreProduit = 24;
+	}
+
+	$saq = new SAQ();
 ?>
-</body>
-</html>
+	<div class="bouteillesImportees" vertical layout>
+		<h3>Bouteilles importées à partir du Site SAQ</h3>
+		<?php for ($i = 0; $i < $page; $i++){//permet d'importer séquentiellement plusieurs pages.?>
+			<h4>Importation des bouteilles de la page <?php echo ($i + 1); ?></h4>
+			<?php $nombre = $saq->getProduits($nombreProduit, $i);?>
+			<p>Bouteilles importées: <?php echo $nombre; ?></p>
+		<?php } ?>
+	</div>
+<?php
+} else {
+	header('Location: index.php');
+}

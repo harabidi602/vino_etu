@@ -160,6 +160,7 @@ header {
     position: absolute;
 }
 
+.navbar li:nth-child(3):hover ul,
 .navbar li:nth-child(4):hover ul {
     left: auto;
     padding: 10px;
@@ -372,6 +373,7 @@ bouton ajouté bouteille
     text-align: left;
 }
 
+.importerBouteilleSAQ,
 .ajouterBouteilleCellier,
 .ajouterBouteilleNonListee {
     background-color: rgb(101, 138, 53);
@@ -384,6 +386,7 @@ bouton ajouté bouteille
     margin: 5px auto;
 }
 
+.importerBouteilleSAQ:hover,
 .ajouterBouteilleCellier:hover,
 .ajouterBouteilleNonListee:hover {
     background-color: rgba(119, 4, 4, 100%);
@@ -408,11 +411,18 @@ bouton ajouté bouteille
     width: 50%;
 }
 
+.bouteillesImportees,
 .nouvelleBouteille,
 .nouvelleBouteilleNonlistee {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+}
+
+.bouteillesImportees h3,
+.bouteillesImportees h4 {
+    flex: 0 0 100%;
+    text-align: center;
 }
 
 .nouveauUtil {
@@ -811,6 +821,7 @@ footer p {
     .navbar>ul>li ul {
         position: relative;
     }
+    .navbar li:nth-child(3):hover ul,
     .navbar li:nth-child(4):hover ul {
         left: 0;
         right: 0;
@@ -998,3 +1009,8 @@ footer p {
     flex: 0 0 100%;
     margin: 1em 0.5em;
 }
+
+.bouteillesImportees {
+    margin-bottom: 30px;
+}
+
