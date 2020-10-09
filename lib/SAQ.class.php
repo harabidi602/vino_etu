@@ -78,12 +78,12 @@ class SAQ extends Modele
 						$retour = $this->ajouteProduit($info);
 				?>
 						<tr>
-							<td><?php echo $info->nom; ?></td>
-							<td><?php echo $info->desc->format; ?></td>
-							<td><?php echo $info->desc->type; ?></td>
-							<td><?php echo $info->desc->pays; ?></td>
-							<td><?php echo $info->prix; ?></td>
-							<td><?php echo $retour->raison; ?></td>
+							<td data-column="Nom de la bouteille"><?php echo $info->nom; ?></td>
+							<td data-column="Format"><?php echo $info->desc->format; ?></td>
+							<td data-column="Type"><?php echo $info->desc->type; ?></td>
+							<td data-column="Pays"><?php echo $info->desc->pays; ?></td>
+							<td data-column="Prix"><?php echo $info->prix; ?></td>
+							<td data-column="Nouveaute"><?php echo $retour->raison; ?></td>
 						</tr>
 				<?php
 
