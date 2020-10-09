@@ -367,14 +367,14 @@ class Controler
 				$tiden = $rows['identifiant'];
 
 				if ($tiden == $iden) {
-					$message = "identifiant existe dans le système";
+					$succes = 0;
 					unset($_POST);
 				} elseif ($tiden != $iden) {
 					$auth->sqlAjouterUtilisateur($oUtilisateur->nom, $oUtilisateur->prenom, $oUtilisateur->identifiant, $oUtilisateur->mdp, 1, 2);
-					$message = "Utilisateur ajouté";
+                    $succes = 1;
 					unset($_POST);
 				} else {
-					$message = "Utilisateur n'est pas ajouté";
+					$succes = 0;
 					unset($_POST);
 				}
 			}
