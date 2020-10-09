@@ -120,22 +120,54 @@ class Controler
 				$body = json_decode(file_get_contents('php://input'));
 				$this->modificationUtilisateur($body->id, $body->nom, $body->prenom, $body->identifiant, $body->activation, $body->id_type);
 				break;
-			case 'admin':
-				$this->isAuth();
-				$this->admin();
-				break;
-			case 'getNombreNouveauUsagers':
-				$this->isAuth();
-				$this->getNombreNouveauUsagers();
-				break;
-			case 'getNombreNouveauUsagers':
-				 $this->isAuth();
-				 $this->getNombreNouveauUsagers();
-			break;
-            case 'getStatistiques':
-				 $this->isAuth();
-				 $this->getStatistiques(isset($_GET['intervalle']) ? $_GET['intervalle'] : '');
-			break;
+				case 'admin':
+					$this->isAuth();
+					if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) {
+						$this->admin();
+					} else {
+						header('Location: index.php');
+					}
+					break;
+				case 'importationMenu':
+					$this->isAuth();
+					if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) {
+						$this->importationMenu();
+					} else {
+						header('Location: index.php');
+					}
+					break;
+				case 'importationBouteille':
+					$this->isAuth();
+					if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) {
+						$this->importationBouteille(isset($_POST['nombre']) ? $_POST['nombre'] : '', isset($_POST['page']) ? $_POST['page'] : '');
+					} else {
+						header('Location: index.php');
+					}
+					break;
+				case 'getNombreNouveauUsagers':
+					$this->isAuth();
+					if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) {
+						$this->getNombreNouveauUsagers();
+					} else {
+						header('Location: index.php');
+					}
+					break;
+				case 'getNombreNouveauUsagers':
+					$this->isAuth();
+					if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) {
+						$this->getNombreNouveauUsagers();
+					} else {
+						header('Location: index.php');
+					}
+					break;
+				case 'getStatistiques':
+					$this->isAuth();
+					if ($_SESSION['utilisateur_type'] == 1 || $_SESSION['utilisateur_type'] == 3) {
+						$this->getStatistiques(isset($_GET['intervalle']) ? $_GET['intervalle'] : '');
+					} else {
+						header('Location: index.php');
+					}
+					break;
 			case 'getInfosUtilisateurConnectee' :
 				$this->isAuth();
 				$this->getInfosUtilisateurConnectee($_SESSION['utilisateur_id']);
@@ -489,18 +521,6 @@ class Controler
 		include("vues/pied.php");
 	}
 
-	//Fonction pour supprimer un cellier
-	/*private function supprimerUtilisateur($id_util)
-	{
-		$admin = new Admin();
-
-		if ($id_util != $_SESSION['utilisateur_id']) {
-			$data = $admin->supprimerUtilisateur($id_util);
-			if (!$data) {
-				http_response_code(417);
-			}
-		}
-	}*/
 	//Fonction pour récupérer la liste des celliers 
     private function getListeCelliers($id_utilisateur) {
 		$bte = new Bouteille();
@@ -640,5 +660,21 @@ class Controler
 		include("vues/consultationModifUtilisateur.php");
 		include("vues/pied.php");
 	}
+	//Menu pour saisir les informations qui concernent l'importation 
+	private function importationMenu()
+	{
+		include("vues/entete.php");
+		include("vues/importation_menu.php");
+		include("vues/pied.php");
+	}
+
+	//Remplir et afficher les bouteilles importées 
+	private function importationBouteille($nombre, $page)
+	{
+		include("vues/entete.php");
+		include("updateSAQ.php");
+		include("vues/pied.php");
+	}
+
 
 }
